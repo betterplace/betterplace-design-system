@@ -1,0 +1,50 @@
+{
+  "name": "betterplace-design-system",
+  "author": "betterplace <developers@betterplace.org>",
+  "license": "Apache-2.0",
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/betterplace-design-system.umd.js",
+  "module": "./dist/betterplace-design-system.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/betterplace-design-system.es.js",
+      "require": "./dist/betterplace-design-system.umd.js"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@storybook/addon-actions": "^6.4.21",
+    "@storybook/addon-essentials": "^6.4.21",
+    "@storybook/addon-interactions": "^6.4.21",
+    "@storybook/addon-links": "^6.4.21",
+    "@storybook/builder-vite": "^0.1.28",
+    "@storybook/react": "^6.4.21",
+    "@storybook/testing-library": "^0.0.9",
+    "@types/react": "^17.0.33",
+    "@types/react-dom": "^17.0.10",
+    "@vitejs/plugin-react": "^1.0.7",
+    "babel-loader": "^8.2.4",
+    "typescript": "^4.5.4",
+    "vite": "^2.9.0",
+    "vite-plugin-dts": "^1.0.5"
+  }
+}
