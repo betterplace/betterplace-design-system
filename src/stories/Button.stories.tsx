@@ -11,6 +11,13 @@ export default {
   argTypes: {
     backgroundColor: { control: 'color' },
   },
+  parameters: {
+    design: {
+      type: 'figspec',
+      accessToken: process.env.STORYBOOK_FIGMA_ACCESS_TOKEN,
+      url: 'https://www.figma.com/file/PJ7OUutWRrSHW6qgaPNW1l/Design-System-betterplace-GENERAL?node-id=361%3A1874',
+    }
+  }
 } as ComponentMeta<typeof Button>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
