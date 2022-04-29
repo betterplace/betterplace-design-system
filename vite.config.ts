@@ -13,19 +13,19 @@ export default defineConfig({
   ],
   build: {
     lib: {
-      entry: path.resolve(__dirname, "src/lib/index.ts"),
-      name: "BetterplaceDesignSystem",
-      formats: ["es", "umd"],
-      fileName: format => `betterplace-design-system.${format}.js`,
+      entry: path.resolve(__dirname, 'src/lib/index.ts'),
+      name: 'BetterplaceDesignSystem',
+      formats: ['es', 'umd'],
+      fileName: (format) => `betterplace-design-system.${format}.js`,
     },
     rollupOptions: {
-      external: ["react", "react-dom"],
+      external: ['react', 'react-dom'],
       output: {
         globals: {
-          react: "React",
-          "react-dom": "ReactDOM",
+          'react': 'React',
+          'react-dom': 'ReactDOM',
         },
       },
     },
   },
-});
+})

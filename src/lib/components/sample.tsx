@@ -1,4 +1,5 @@
-import React from "react";
+import React from 'react'
 
-type SampleProps = { foo: string };
-export const Sample = ({ foo }: SampleProps) => <div>{foo}</div>;
+type SampleProps = { foo: string }
+export const Sample = ({ foo }: SampleProps) => <div>{foo}qweqweqweqweqweqw</div>
+// whatever
