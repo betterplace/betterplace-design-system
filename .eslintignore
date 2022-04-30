@@ -9,3 +9,5 @@ tailwind.config.js
 app/javascript/gql/generated.ts
 app/javascript/shared/i18n.ts
 config/**/*.js
+vite.config.ts
+node_modules

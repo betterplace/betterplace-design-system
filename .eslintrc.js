@@ -1,12 +1,5 @@
 module.exports = {
-  globals: {
-    I18n: 'readonly',
-    google: 'readonly',
-    global: 'readonly',
-    YT: 'readonly',
-    betterplaceOverlayConfig: 'readonly',
-    dataLayer: 'readonly',
-  },
+  globals: {},
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: './tsconfig.json',
@@ -25,6 +18,7 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     'plugin:prettier/recommended',
+    'plugin:mdx/recommended',
   ],
   settings: {
     react: {
