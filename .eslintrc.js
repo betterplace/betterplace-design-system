@@ -3,12 +3,12 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: './tsconfig.json',
+    extraFileExtensions: ['.md', '.mdx'],
   },
   root: true,
   plugins: ['@typescript-eslint', 'react', 'prettier'],
   env: {
     browser: true,
-
     node: true,
     es6: true,
   },
@@ -18,7 +18,13 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     'plugin:prettier/recommended',
-    'plugin:mdx/recommended',
+  ],
+  overrides: [
+    {
+      files: ['src/**/*.mdx', 'src/**/*.md'],
+      extends: ['eslint:recommended', 'plugin:mdx/recommended', 'plugin:prettier/recommended'],
+      parser: 'eslint-mdx',
+    },
   ],
   settings: {
     react: {
