@@ -60,6 +60,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.5.0",
+    "figma-api": "^1.10.1",
     "husky": ">=6",
     "lint-staged": ">=10",
     "storybook-addon-designs": "^6.2.1",
