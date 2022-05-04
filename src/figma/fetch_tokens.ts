@@ -1,1 +1,0 @@
-import Figma from './client'

@@ -24,7 +24,8 @@
     "preview": "vite preview",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "fetch_tokens": "ts-node -r dotenv/config --project ./tsconfig.node.json -O '{\"module\": \"commonjs\"}' figma/index.ts PJ7OUutWRrSHW6qgaPNW1l "
   },
   "dependencies": {
     "react": "^17.0.2",
@@ -51,6 +52,7 @@
     "@typescript-eslint/parser": "^5.20.0",
     "@vitejs/plugin-react": "^1.0.7",
     "babel-loader": "^8.2.4",
+    "dotenv": "^16.0.0",
     "eslint": "^8.13.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-mdx": "^1.17.0",
@@ -68,6 +70,7 @@
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^25.0.0",
     "stylelint-prettier": "^2.0.0",
+    "ts-node": "^10.7.0",
     "typescript": "^4.5.4",
     "vite": "^2.9.0",
     "vite-plugin-dts": "^1.0.5",
