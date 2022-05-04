@@ -2,7 +2,7 @@ import Figma from './client'
 import { Node, StylesMap, TypeStyle } from 'figma-api'
 import { rgbToHex, slugify } from './helpers'
 type DataType = string | TypeStyle
-type Output = Record<string, { type: string; description: string; value: DataType }>
+type Output = Record<string, { type: string; name: string; description: string; value: DataType }>
 type ExtractorFn = (node: Node) => [string, string, DataType] | undefined
 const getColorData: ExtractorFn = (node) => {
   if (!('styles' in node)) return
@@ -51,11 +51,11 @@ export default async function fetchTokens(fileId: string) {
         const style = styles[nodeId]
         if (!style || !style.name) return
         const description = style.description
-        const tokenName = slugify(style.name)
+        const name = slugify(style.name)
         if (!tokens[type]) {
           tokens[type] = {}
         }
-        tokens[type][tokenName] = { type, value, description }
+        tokens[type][nodeId] = { type, name, value, description }
       })
       if (!('children' in child) || !child.children?.length) return
       walk(child.children)

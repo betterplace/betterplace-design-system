@@ -9,7 +9,7 @@ export function rgbToHex(r: number, g: number, b: number) {
 
 export function slugify(str: string) {
   return str
-    .toLowerCase()
-    .replace(/[\W_]+/g, '-')
-    .replace(/-+/g, '-')
+  // .toLowerCase()
+  // .replace(/[\W_]+/g, '-')
+  // .replace(/-+/g, '-')
 }
