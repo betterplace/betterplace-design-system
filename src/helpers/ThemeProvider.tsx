@@ -1,13 +1,23 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { Tokens } from '../../tokens'
 
-export const AVAILABLE_THEMES = {
-  org: 'betterplace.org',
-  at: 'betterplace.at',
-  me: 'betterplace.me',
-}
+export const AVAILABLE_THEMES = [
+  {
+    key: 'org',
+    title: 'betterplace.org',
+  },
+  {
+    key: 'at',
+    title: 'betterplace.at',
+  },
+  {
+    key: 'me',
+    title: 'betterplace.me',
+  },
+] as const
 
-type Theme = keyof typeof AVAILABLE_THEMES
+const keys = AVAILABLE_THEMES.map((theme) => theme.key)
+type Theme = typeof keys[number]
 
 type ThemeProviderProps = {
   theme: Theme
@@ -15,6 +25,8 @@ type ThemeProviderProps = {
 }
 
 export const ThemeProvider = (props: ThemeProviderProps) => {
+  const [themeStyles, setThemeStyles] = useState('')
+
   const tokens = {
     globals: Tokens.globals,
     [props.theme]: Tokens[props.theme],
@@ -24,9 +36,14 @@ export const ThemeProvider = (props: ThemeProviderProps) => {
 
   const ThemeContext = React.createContext(props.theme)
 
+  import(`../../src/lib/theme/theme-${props.theme}.css`).then((styles) => {
+    setThemeStyles(styles.default)
+  })
+
   return (
     <ThemeContext.Provider value={props.theme}>
-      <div className={'theme-' + props.theme}>{props.children}</div>
+      <style id="theme">{themeStyles}</style>
+      {props.children}
     </ThemeContext.Provider>
   )
 }

@@ -11,17 +11,20 @@ export const parameters = {
   },
 }
 
-const themeKeys = Object.keys(AVAILABLE_THEMES)
-
 export const globalTypes = {
   theme: {
     name: 'Theme',
     description: 'Switch theme for preview',
-    defaultValue: themeKeys[0],
+    defaultValue: AVAILABLE_THEMES[0].key,
     toolbar: {
-      items: themeKeys.map((key) => {
-        return { value: key, title: AVAILABLE_THEMES[key] }
+      items: AVAILABLE_THEMES.map((theme) => {
+        return {
+          value: theme.key,
+          title: theme.title,
+          right: theme.key,
+        }
       }),
+      dynamicTitle: true, // https://github.com/storybookjs/storybook/issues/17790
       showName: true,
     },
   },
