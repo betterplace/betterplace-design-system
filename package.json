@@ -71,6 +71,7 @@
     "typescript": "^4.5.4",
     "vite": "^2.9.0",
     "vite-plugin-dts": "^1.0.5",
+    "vite-plugin-dynamic-import": "^0.9.3",
     "vite-plugin-eslint": "^1.6.0"
   },
   "lint-staged": {

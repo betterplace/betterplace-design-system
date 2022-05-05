@@ -3088,6 +3088,11 @@ acorn-walk@^7.2.0:
   resolved "https://registry.yarnpkg.com/acorn-walk/-/acorn-walk-7.2.0.tgz#0de889a601203909b0fbe07b8938dc21d2e967bc"
   integrity sha512-OPdCF6GsMIP+Az+aWfAAOEt2/+iVDKE7oy6lJ098aoe59oAmK76qV6Gw60SbZ8jHuG2wH058GF4pLFbYamYrVA==
 
+acorn-walk@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/acorn-walk/-/acorn-walk-8.2.0.tgz#741210f2e2426454508853a2f44d0ab83b7f69c1"
+  integrity sha512-k+iyHEuPgSw6SbuDpGQM+06HQUa04DZ3o+F6CSzXMvvI5KMvnaEqXe+YVe555R9nn6GPt404fos4wcgpw12SDA==
+
 acorn@^6.4.1:
   version "6.4.2"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-6.4.2.tgz#35866fd710528e92de10cf06016498e47e39e1e6"
@@ -11303,6 +11308,14 @@ vite-plugin-dts@^1.0.5:
     fs-extra "^10.0.1"
     ts-morph "^14.0.0"
 
+vite-plugin-dynamic-import@^0.9.3:
+  version "0.9.3"
+  resolved "https://registry.yarnpkg.com/vite-plugin-dynamic-import/-/vite-plugin-dynamic-import-0.9.3.tgz#72e9801ca19476a5ec62b2b1665aede5d9821e4e"
+  integrity sha512-hIyHfiPkIKPq9gNBKCE++jZd0ICYmfWC5IgEspaM2TCFHQtjkqgkTSqjLtYWZeKM8c2u7nt5BReYIljQMHQdFA==
+  dependencies:
+    fast-glob "^3.2.11"
+    vite-plugin-utils "^0.1.0"
+
 vite-plugin-eslint@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/vite-plugin-eslint/-/vite-plugin-eslint-1.6.0.tgz#6fc7e258c81893ecbc21e82d192e33c146be7c30"
@@ -11320,6 +11333,14 @@ vite-plugin-mdx@^3.5.6:
     esbuild "0.13.8"
     resolve "^1.20.0"
     unified "^9.2.1"
+
+vite-plugin-utils@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/vite-plugin-utils/-/vite-plugin-utils-0.1.0.tgz#3813082dad7c534cb53cc63b660b3150d2d048b1"
+  integrity sha512-zmW5venCPEZ5hRDmwhHdxHAcmTXYBF0MobZQQBGz92VkdHR9Mm3hf7dioPnA7ahHs32HdjI1Bpxisg5IhH4bvg==
+  dependencies:
+    acorn-walk "^8.2.0"
+    fast-glob "^3.2.11"
 
 vite@^2.9.0:
   version "2.9.6"
