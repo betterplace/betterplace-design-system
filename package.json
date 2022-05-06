@@ -25,7 +25,8 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "prepare": "husky install",
-    "fetch_tokens": "ts-node -r dotenv/config --project ./tsconfig.node.json -O '{\"module\": \"commonjs\"}' figma/index.ts PJ7OUutWRrSHW6qgaPNW1l "
+    "figma::tokens": "ts-node -r dotenv/config --project ./tsconfig.node.json -O '{\"module\": \"commonjs\"}' figma/fetch_tokens.ts PJ7OUutWRrSHW6qgaPNW1l",
+    "figma::components": "ts-node -r dotenv/config --project ./tsconfig.node.json -O '{\"module\": \"commonjs\"}' figma/fetch_components.ts PJ7OUutWRrSHW6qgaPNW1l"
   },
   "dependencies": {
     "react": "^17.0.2",
