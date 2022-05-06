@@ -1,5 +1,14 @@
 {
-  "colors": {
-    "colorPrimary": "colorGreen100"
+  "org": {
+    "color": {
+      "primary": {
+        "value": "{global.Primary.Green 500.value}",
+        "type": "color"
+      },
+      "secondary": {
+        "value": "{global.Tertiary.Teal 500.value}",
+        "type": "color"
+      }
+    }
   }
 }

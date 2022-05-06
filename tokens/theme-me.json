@@ -1,5 +1,14 @@
 {
-  "colors": {
-    "colorPrimary": "colorRed100"
+  "me": {
+    "color": {
+      "primary": {
+        "value": "{global.Primary.me.Orange 500.value}",
+        "type": "color"
+      },
+      "secondary": {
+        "value": "{global.Secondary.me.Blue 500.value}",
+        "type": "color"
+      }
+    }
   }
 }

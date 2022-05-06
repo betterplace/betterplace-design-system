@@ -25,6 +25,7 @@
     "preview": "vite preview",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
+    "build-tokens": "style-dictionary build --config sd.config.js",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -64,6 +65,7 @@
     "husky": ">=6",
     "lint-staged": ">=10",
     "storybook-addon-designs": "^6.2.1",
+    "style-dictionary": "^3.7.0",
     "stylelint": "^14.8.1",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^25.0.0",

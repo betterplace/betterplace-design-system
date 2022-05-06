@@ -22,5 +22,5 @@ const Template: ComponentStory<typeof ColorSwatch> = (args) => <ColorSwatch {...
 
 export const MainColors = Template.bind({})
 MainColors.args = {
-  colors: ['primary', 'secondary'],
+  colors: ['betterplace-color-primary', 'betterplace-color-secondary'],
 }

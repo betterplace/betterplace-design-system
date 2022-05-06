@@ -1,7 +1,548 @@
 {
-  "colors": {
-    "colorRed100": "#ff0000",
-    "colorGreen100": "#00ff00",
-    "colorGreen300": "#00aa00"
+  "global": {
+    "Primary": {
+      "Green 100": {
+        "value": "#f5fccc",
+        "type": "color",
+        "description": "Background Success-Messages, Secondary-button hover"
+      },
+      "Green 500": {
+        "value": "#9ecb0a",
+        "type": "color",
+        "description": "Buttons, Brand Color, bg color section"
+      },
+      "Green 600": {
+        "value": "#85ac1c",
+        "type": "color",
+        "description": "Hover"
+      },
+      "Green 800": {
+        "value": "#357c00",
+        "type": "color",
+        "description": "Links, Secondary-button outline "
+      },
+      "me": {
+        "Orange 100": {
+          "value": "#ffe3c2",
+          "type": "color",
+          "description": "Background color"
+        },
+        "Orange 500": {
+          "value": "#ff854d",
+          "type": "color",
+          "description": "Primary Color "
+        },
+        "Orange 600": {
+          "value": "#db6038",
+          "type": "color",
+          "description": "Primary butto hover"
+        },
+        "Orange 800": {
+          "value": "#6f1f06",
+          "type": "color",
+          "description": "Button label hover"
+        }
+      }
+    },
+    "newbrand": {
+      "Dark 1": {
+        "value": "#306049",
+        "type": "color"
+      },
+      "Dark 2": {
+        "value": "#16603c",
+        "type": "color"
+      },
+      "Dark 3": {
+        "value": "#006534",
+        "type": "color"
+      },
+      "Dark 4": {
+        "value": "#017d41",
+        "type": "color"
+      },
+      "Dark 5": {
+        "value": "#218756",
+        "type": "color"
+      },
+      "Dark 6": {
+        "value": "#3e8261",
+        "type": "color"
+      },
+      "Ruby 1": {
+        "value": "#05bb63",
+        "type": "color"
+      },
+      "Ruby 2": {
+        "value": "#21bf73",
+        "type": "color"
+      },
+      "Ruby 3": {
+        "value": "#1dc976",
+        "type": "color"
+      },
+      "Ruby 4": {
+        "value": "#00e476",
+        "type": "color"
+      },
+      "Ruby 5": {
+        "value": "#23e487",
+        "type": "color"
+      },
+      "Ruby 6": {
+        "value": "#17ff8f",
+        "type": "color"
+      },
+      "Pastell 1": {
+        "value": "#47ba82",
+        "type": "color"
+      },
+      "Pastell 2": {
+        "value": "#54d898",
+        "type": "color"
+      },
+      "Pastell 3": {
+        "value": "#67e1a6",
+        "type": "color"
+      },
+      "Pastell 4": {
+        "value": "#7debb6",
+        "type": "color"
+      },
+      "Pastell 5": {
+        "value": "#7bffbf",
+        "type": "color"
+      },
+      "Pastell 6": {
+        "value": "#a4ffd3",
+        "type": "color"
+      },
+      "activecolor": {
+        "value": "#43a4ba",
+        "type": "color"
+      },
+      "01": {
+        "0": {
+          "2 opacity": {
+            "value": "#30604933",
+            "type": "color"
+          }
+        }
+      }
+    },
+    "Shades": {
+      "White": {
+        "value": "#ffffff",
+        "type": "color"
+      },
+      "Black": {
+        "value": "#000000",
+        "type": "color"
+      }
+    },
+    "Gray": {
+      "100": {
+        "value": "#f8f8f8",
+        "type": "color",
+        "description": "Admin box"
+      },
+      "200": {
+        "value": "#eeeeee",
+        "type": "color",
+        "description": "Background"
+      },
+      "300": {
+        "value": "#cccccc",
+        "type": "color",
+        "description": "Outline"
+      },
+      "700": {
+        "value": "#636363",
+        "type": "color"
+      },
+      "900": {
+        "value": "#292929",
+        "type": "color",
+        "description": "Textcolor"
+      }
+    },
+    "Secondary": {
+      "Purple 600": {
+        "value": "#6d2c64",
+        "type": "color"
+      },
+      "me": {
+        "Blue 100": {
+          "value": "#e0f4f9",
+          "type": "color",
+          "description": "Background"
+        },
+        "Blue 500": {
+          "value": "#00a0c8",
+          "type": "color",
+          "description": "Highlights"
+        },
+        "Blue 700": {
+          "value": "#005d90",
+          "type": "color",
+          "description": "Footer"
+        }
+      }
+    },
+    "Tertiary": {
+      "Teal 500": {
+        "value": "#60b2a4",
+        "type": "color",
+        "description": "Background for Form which are not in Manage-area"
+      },
+      "Teal 700": {
+        "value": "#2b8475",
+        "type": "color",
+        "description": "Admin main color"
+      },
+      "Teal 800": {
+        "value": "#1e6761",
+        "type": "color",
+        "description": "Hover admin area"
+      }
+    },
+    "Warning": {
+      "Yellow 100": {
+        "value": "#fff4d2",
+        "type": "color",
+        "description": "Background Warning Messages"
+      },
+      "Yellow 400": {
+        "value": "#f6ce46",
+        "type": "color"
+      }
+    },
+    "Danger": {
+      "Red 200": {
+        "value": "#ffc4c4",
+        "type": "color",
+        "description": "Background Error Messages"
+      },
+      "Red 700": {
+        "value": "#d32b43",
+        "type": "color",
+        "description": "Error font color "
+      },
+      "Red 800": {
+        "value": "#b11b3e",
+        "type": "color",
+        "description": "Error hover color"
+      }
+    },
+    "Dropshadow": {
+      "small": {
+        "value": {
+          "color": "#00000014",
+          "type": "dropShadow",
+          "x": 0,
+          "y": 0,
+          "blur": 16,
+          "spread": 0
+        },
+        "type": "boxShadow"
+      },
+      "large": {
+        "value": {
+          "color": "#00000029",
+          "type": "dropShadow",
+          "x": 0,
+          "y": 0,
+          "blur": 24,
+          "spread": 0
+        },
+        "type": "boxShadow"
+      }
+    },
+    "fontFamilies": {
+      "fira-sans": {
+        "value": "Fira Sans",
+        "type": "fontFamilies"
+      }
+    },
+    "lineHeights": {
+      "0": {
+        "value": "120%",
+        "type": "lineHeights"
+      },
+      "1": {
+        "value": "110%",
+        "type": "lineHeights"
+      },
+      "2": {
+        "value": "130%",
+        "type": "lineHeights"
+      },
+      "3": {
+        "value": "140%",
+        "type": "lineHeights"
+      }
+    },
+    "fontWeights": {
+      "fira-sans-0": {
+        "value": "Regular",
+        "type": "fontWeights"
+      },
+      "fira-sans-1": {
+        "value": "Bold",
+        "type": "fontWeights"
+      }
+    },
+    "fontSize": {
+      "0": {
+        "value": "14",
+        "type": "fontSizes"
+      },
+      "1": {
+        "value": "16",
+        "type": "fontSizes"
+      },
+      "2": {
+        "value": "18",
+        "type": "fontSizes"
+      },
+      "3": {
+        "value": "24",
+        "type": "fontSizes"
+      },
+      "4": {
+        "value": "32",
+        "type": "fontSizes"
+      },
+      "5": {
+        "value": "56",
+        "type": "fontSizes"
+      }
+    },
+    "letterSpacing": {
+      "0": {
+        "value": "0%",
+        "type": "letterSpacing"
+      }
+    },
+    "paragraphSpacing": {
+      "0": {
+        "value": "0",
+        "type": "paragraphSpacing"
+      },
+      "1": {
+        "value": "8",
+        "type": "paragraphSpacing"
+      }
+    },
+    "XXX-Large": {
+      "value": {
+        "fontFamily": "$fontFamilies.fira-sans",
+        "fontWeight": "$fontWeights.fira-sans-0",
+        "lineHeight": "$lineHeights.0",
+        "fontSize": "$fontSize.5",
+        "letterSpacing": "$letterSpacing.0",
+        "paragraphSpacing": "$paragraphSpacing.0",
+        "textCase": "$textCase.none",
+        "textDecoration": "$textDecoration.none"
+      },
+      "type": "typography",
+      "description": "XXX-Large font size is used for primary headlines on desktop."
+    },
+    "XXX-Large Bold": {
+      "value": {
+        "fontFamily": "$fontFamilies.fira-sans",
+        "fontWeight": "$fontWeights.fira-sans-1",
+        "lineHeight": "$lineHeights.1",
+        "fontSize": "$fontSize.5",
+        "letterSpacing": "$letterSpacing.0",
+        "paragraphSpacing": "$paragraphSpacing.0",
+        "textCase": "$textCase.none",
+        "textDecoration": "$textDecoration.none"
+      },
+      "type": "typography",
+      "description": "XXX-Large font size is used for primary headlines on desktop."
+    },
+    "XX-Large": {
+      "value": {
+        "fontFamily": "$fontFamilies.fira-sans",
+        "fontWeight": "$fontWeights.fira-sans-0",
+        "lineHeight": "$lineHeights.0",
+        "fontSize": "$fontSize.4",
+        "letterSpacing": "$letterSpacing.0",
+        "paragraphSpacing": "$paragraphSpacing.0",
+        "textCase": "$textCase.none",
+        "textDecoration": "$textDecoration.none"
+      },
+      "type": "typography",
+      "description": "XX-Large font size is used for secondary headlines on desktop and primary headlines on mobile."
+    },
+    "XX-Large Bold": {
+      "value": {
+        "fontFamily": "$fontFamilies.fira-sans",
+        "fontWeight": "$fontWeights.fira-sans-1",
+        "lineHeight": "$lineHeights.0",
+        "fontSize": "$fontSize.4",
+        "letterSpacing": "$letterSpacing.0",
+        "paragraphSpacing": "$paragraphSpacing.0",
+        "textCase": "$textCase.none",
+        "textDecoration": "$textDecoration.none"
+      },
+      "type": "typography",
+      "description": "XX-Large font size is used for secondary headlines on desktop and primary headlines on mobile."
+    },
+    "X-Large": {
+      "value": {
+        "fontFamily": "$fontFamilies.fira-sans",
+        "fontWeight": "$fontWeights.fira-sans-0",
+        "lineHeight": "$lineHeights.2",
+        "fontSize": "$fontSize.3",
+        "letterSpacing": "$letterSpacing.0",
+        "paragraphSpacing": "$paragraphSpacing.0",
+        "textCase": "$textCase.none",
+        "textDecoration": "$textDecoration.none"
+      },
+      "type": "typography",
+      "description": "X-large font size is used for large sub-headlines and secondary headlines on mobile."
+    },
+    "X-Large Bold": {
+      "value": {
+        "fontFamily": "$fontFamilies.fira-sans",
+        "fontWeight": "$fontWeights.fira-sans-1",
+        "lineHeight": "$lineHeights.2",
+        "fontSize": "$fontSize.3",
+        "letterSpacing": "$letterSpacing.0",
+        "paragraphSpacing": "$paragraphSpacing.0",
+        "textCase": "$textCase.none",
+        "textDecoration": "$textDecoration.none"
+      },
+      "type": "typography",
+      "description": "X-large font size is used for large sub-headlines and secondary headlines on mobile."
+    },
+    "Large text": {
+      "value": {
+        "fontFamily": "$fontFamilies.fira-sans",
+        "fontWeight": "$fontWeights.fira-sans-0",
+        "lineHeight": "$lineHeights.3",
+        "fontSize": "$fontSize.2",
+        "letterSpacing": "$letterSpacing.0",
+        "paragraphSpacing": "$paragraphSpacing.0",
+        "textCase": "$textCase.none",
+        "textDecoration": "$textDecoration.none"
+      },
+      "type": "typography",
+      "description": "Large font size is used for small sub-headings, button- and input-labels."
+    },
+    "Large Text Bold": {
+      "value": {
+        "fontFamily": "$fontFamilies.fira-sans",
+        "fontWeight": "$fontWeights.fira-sans-1",
+        "lineHeight": "$lineHeights.3",
+        "fontSize": "$fontSize.2",
+        "letterSpacing": "$letterSpacing.0",
+        "paragraphSpacing": "$paragraphSpacing.0",
+        "textCase": "$textCase.none",
+        "textDecoration": "$textDecoration.none"
+      },
+      "type": "typography",
+      "description": "Large font size is used for small sub-headings, button- and input-labels."
+    },
+    "Body": {
+      "value": {
+        "fontFamily": "$fontFamilies.fira-sans",
+        "fontWeight": "$fontWeights.fira-sans-0",
+        "lineHeight": "$lineHeights.3",
+        "fontSize": "$fontSize.1",
+        "letterSpacing": "$letterSpacing.0",
+        "paragraphSpacing": "$paragraphSpacing.1",
+        "textCase": "$textCase.none",
+        "textDecoration": "$textDecoration.none"
+      },
+      "type": "typography",
+      "description": "Medium font size is used for the body text."
+    },
+    "Body Bold": {
+      "value": {
+        "fontFamily": "$fontFamilies.fira-sans",
+        "fontWeight": "$fontWeights.fira-sans-1",
+        "lineHeight": "$lineHeights.3",
+        "fontSize": "$fontSize.1",
+        "letterSpacing": "$letterSpacing.0",
+        "paragraphSpacing": "$paragraphSpacing.1",
+        "textCase": "$textCase.none",
+        "textDecoration": "$textDecoration.none"
+      },
+      "type": "typography",
+      "description": "Medium font size is used for the body text. Bold for highlighting."
+    },
+    "Link": {
+      "value": {
+        "fontFamily": "$fontFamilies.fira-sans",
+        "fontWeight": "$fontWeights.fira-sans-1",
+        "lineHeight": "$lineHeights.3",
+        "fontSize": "$fontSize.1",
+        "letterSpacing": "$letterSpacing.0",
+        "paragraphSpacing": "$paragraphSpacing.0",
+        "textCase": "$textCase.none",
+        "textDecoration": "$textDecoration.none"
+      },
+      "type": "typography"
+    },
+    "Small Text": {
+      "value": {
+        "fontFamily": "$fontFamilies.fira-sans",
+        "fontWeight": "$fontWeights.fira-sans-0",
+        "lineHeight": "$lineHeights.2",
+        "fontSize": "$fontSize.0",
+        "letterSpacing": "$letterSpacing.0",
+        "paragraphSpacing": "$paragraphSpacing.0",
+        "textCase": "$textCase.none",
+        "textDecoration": "$textDecoration.none"
+      },
+      "type": "typography",
+      "description": "Small font size should be used sparingly for annotations, descriptions, and similar content."
+    },
+    "Small Text Bold": {
+      "value": {
+        "fontFamily": "$fontFamilies.fira-sans",
+        "fontWeight": "$fontWeights.fira-sans-1",
+        "lineHeight": "$lineHeights.2",
+        "fontSize": "$fontSize.0",
+        "letterSpacing": "$letterSpacing.0",
+        "paragraphSpacing": "$paragraphSpacing.0",
+        "textCase": "$textCase.none",
+        "textDecoration": "$textDecoration.none"
+      },
+      "type": "typography",
+      "description": "Small font size should be used sparingly for annotations, descriptions, and similar content. Bold for highlighting."
+    },
+    "Link underlined": {
+      "value": {
+        "fontFamily": "$fontFamilies.fira-sans",
+        "fontWeight": "$fontWeights.fira-sans-1",
+        "lineHeight": "$lineHeights.3",
+        "fontSize": "$fontSize.1",
+        "letterSpacing": "$letterSpacing.0",
+        "paragraphSpacing": "$paragraphSpacing.1",
+        "textCase": "$textCase.none",
+        "textDecoration": "$textDecoration.underline"
+      },
+      "type": "typography"
+    },
+    "textCase": {
+      "none": {
+        "value": "none",
+        "type": "textCase"
+      }
+    },
+    "textDecoration": {
+      "none": {
+        "value": "none",
+        "type": "textDecoration"
+      },
+      "underline": {
+        "value": "underline",
+        "type": "textDecoration"
+      }
+    }
   }
 }

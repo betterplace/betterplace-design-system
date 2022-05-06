@@ -1,5 +1,6 @@
 import React, { ReactNode, useState } from 'react'
 import { tokens } from '../../tokens'
+import '../../build/css/globals.css'
 
 export const AVAILABLE_THEMES = [
   {
@@ -27,7 +28,7 @@ type ThemeProviderProps = {
 export const ThemeContext = React.createContext({})
 
 export const ThemeProvider = (props: ThemeProviderProps) => {
-  const [themeStyles, setThemeStyles] = useState('')
+  const [themeVars, setThemeVars] = useState('')
 
   const theme = {
     theme: props.theme,
@@ -37,13 +38,13 @@ export const ThemeProvider = (props: ThemeProviderProps) => {
     },
   }
 
-  import(`../../src/lib/theme/theme-${props.theme}.css`).then((styles) => {
-    setThemeStyles(styles.default)
+  import(`../../build/css/themes/theme-${props.theme}.css`).then((styles) => {
+    setThemeVars(styles.default)
   })
 
   return (
     <ThemeContext.Provider value={theme}>
-      <style id="theme">{themeStyles}</style>
+      <style id="theme-vars">{themeVars}</style>
       {props.children}
     </ThemeContext.Provider>
   )
