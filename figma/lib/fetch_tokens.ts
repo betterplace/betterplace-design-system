@@ -1,8 +1,8 @@
 import Figma from './client'
 import { Node, StylesMap, TypeStyle } from 'figma-api'
-import { ExtractorFn, getWalk, rgbToHex, slugify } from './helpers'
+import { ExtractorFn, getFileTopLevelChildren, getWalk, rgbToHex } from './helpers'
 type DataType = string | TypeStyle
-type Output = Record<string, { type: string; name: string; description: string; value: DataType }>
+type Output = Record<string, { type: string; name: string; description: string; value: DataType; frameName: string }>
 const getColorData: ExtractorFn<string> = (node) => {
   if (!('styles' in node)) return
   const nodeId = node.styles?.['fill'] as unknown as StylesMap['FILL'] // #bug in typings
@@ -36,24 +36,23 @@ const extractors = [getColorData, getTextData]
 export default async function fetchTokens(fileId: string) {
   const tokens: Record<string, Output> = {}
 
-  const file = await Figma.getFile(fileId)
-  const topLevelChildren = (file.document.children as Array<Node<'CANVAS'>>)
-    .filter((node) => node?.children?.length)
-    .map((node) => node.children)
-  const styles = file.styles
+  const res = await Figma.getFile(fileId)
+  const topLevelCanvas = getFileTopLevelChildren(res.document)
+  const styles = res.styles
 
-  const walk = getWalk<string | TypeStyle>(extractors, (data) => {
-    const [nodeId, type, value] = data
-    const style = styles[nodeId]
-    if (!style || !style.name) return
-    const description = style.description
-    const name = slugify(style.name)
-    if (!tokens[type]) {
-      tokens[type] = {}
-    }
-    tokens[type][nodeId] = { type, name, value, description }
-  })
-
-  topLevelChildren.forEach(walk)
+  topLevelCanvas.forEach((topLevel) =>
+    getWalk<string | TypeStyle>(extractors, (data) => {
+      const [nodeId, type, value] = data
+      const style = styles[nodeId]
+      if (!style || !style.name) return
+      const description = style.description
+      const name = style.name
+      if (!tokens[type]) {
+        tokens[type] = {}
+      }
+      const frameName = topLevel.name
+      tokens[type][nodeId] = { type, name, value, description, frameName }
+    })(topLevel.children)
+  )
   return tokens
 }

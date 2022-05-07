@@ -1,0 +1,360 @@
+{
+  "none": {
+    "url": "",
+    "components": {
+      "411:2962": { "name": "_admin-box", "states": ["default", "newPage"], "props": {} },
+      "106:742": {
+        "name": "header/at",
+        "states": [],
+        "props": {
+          "property1": { "name": "property1", "values": ["desktop", "mobile"] },
+          "user": { "name": "user", "values": ["default"] },
+          "icons": { "name": "icons", "values": ["yesPlusLabel", "yes", "no"] },
+          "adminState": { "name": "adminState", "values": ["default"] }
+        }
+      },
+      "437:2089": {
+        "name": "header-admin/at/",
+        "states": [],
+        "props": {
+          "property1": { "name": "property1", "values": ["adminbox"] },
+          "property2": { "name": "property2", "values": ["at"] },
+          "property3": { "name": "property3", "values": ["desktop", "mobile"] }
+        }
+      }
+    },
+    "name": "",
+    "canvasName": ""
+  },
+  "134:3859": {
+    "url": "134:3859",
+    "name": "Frame 37",
+    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+    "components": {
+      "none": { "name": "", "states": [], "props": { "group17": { "name": "group17", "values": [""] } } }
+    }
+  },
+  "302:1949": {
+    "url": "302:1949",
+    "name": "Tags",
+    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+    "components": {
+      "230:1297": {
+        "name": "tag/at",
+        "states": [],
+        "props": { "property1": { "name": "property1", "values": ["default", "round"] } }
+      }
+    }
+  },
+  "194:1773": {
+    "url": "194:1773",
+    "name": "Boxes",
+    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+    "components": {
+      "106:249": {
+        "name": "box/text/at",
+        "states": [],
+        "props": {
+          "type": { "name": "type", "values": ["adminBox", "infoBox", "cardBox", "adminHeaderBox", "cardTeaser"] }
+        }
+      }
+    }
+  },
+  "194:1992": {
+    "url": "194:1992",
+    "name": "Input Fields",
+    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+    "components": {
+      "106:857": {
+        "name": "input/global",
+        "states": [],
+        "props": {
+          "type": { "name": "type", "values": ["regular", "longText", "dropdown"] },
+          "variation": {
+            "name": "variation",
+            "values": ["default", "creditcardInput", "hint", "error", "hintAndError", "open", "label"]
+          },
+          "label": { "name": "label", "values": ["default", "no"] }
+        }
+      },
+      "145:1337": {
+        "name": "_input/dropdown-item/global",
+        "states": [],
+        "props": { "property1": { "name": "property1", "values": ["default", "hover", "selected"] } }
+      },
+      "145:1407": {
+        "name": "input/variation/country/global",
+        "states": [],
+        "props": {
+          "property1": { "name": "property1", "values": ["dropdown"] },
+          "property2": { "name": "property2", "values": ["default", "open"] },
+          "property3": { "name": "property3", "values": ["Österreich", "deutschland"] }
+        }
+      }
+    }
+  },
+  "194:2110": {
+    "url": "194:2110",
+    "name": "Selctions",
+    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+    "components": {
+      "111:137": {
+        "name": "checkbox/singular/at",
+        "states": ["active", "disabled"],
+        "props": {
+          "check": { "name": "check", "values": ["false", "true"] },
+          "label": { "name": "label", "values": ["false"] },
+          "hint": { "name": "hint", "values": ["false"] }
+        }
+      },
+      "111:230": {
+        "name": "checkbox/multiple/at",
+        "states": [],
+        "props": { "hint": { "name": "hint", "values": ["false", "true"] } }
+      },
+      "111:917": {
+        "name": "radiobutton/singular/at",
+        "states": ["default", "disabled"],
+        "props": { "property1": { "name": "property1", "values": ["false", "true"] } }
+      },
+      "111:928": {
+        "name": "radiobutton/multiple/at",
+        "states": [],
+        "props": { "property1": { "name": "property1", "values": ["noHint", "hint"] } }
+      },
+      "208:1513": {
+        "name": "tab/at",
+        "states": [],
+        "props": {
+          "property1": { "name": "property1", "values": ["active", "standalone", "inactive"] },
+          "property2": { "name": "property2", "values": ["noCounter", "counter"] },
+          "device": { "name": "device", "values": ["desktop", "mobile", "default"] }
+        }
+      }
+    }
+  },
+  "194:2394": {
+    "url": "194:2394",
+    "name": "Project Teaser",
+    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+    "components": {
+      "none": {
+        "name": "",
+        "states": [],
+        "props": { "Teaser/image/global": { "name": "Teaser/image/global", "values": [""] } }
+      },
+      "182:1336": { "name": "teaser/project/at", "states": ["default", "hover"], "props": {} }
+    }
+  },
+  "194:2496": {
+    "url": "194:2496",
+    "name": "Modals",
+    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+    "components": {
+      "211:1774": {
+        "name": "modal/at",
+        "states": [],
+        "props": { "property1": { "name": "property1", "values": ["mobile", "desktop"] } }
+      }
+    }
+  },
+  "407:1863": {
+    "url": "407:1863",
+    "name": "Frame 155",
+    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+    "components": {
+      "320:1885": {
+        "name": "gallery-progress/at",
+        "states": [],
+        "props": { "property1": { "name": "property1", "values": ["default", "galleryFakeDesktop", "gallery"] } }
+      }
+    }
+  },
+  "254:1584": {
+    "url": "254:1584",
+    "name": "Status Messages",
+    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+    "components": {
+      "254:1618": {
+        "name": "status-message/global",
+        "states": [],
+        "props": { "property1": { "name": "property1", "values": ["success", "warning", "error"] } }
+      }
+    }
+  },
+  "204:1922": {
+    "url": "204:1922",
+    "name": "Image and Info Element",
+    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+    "components": {
+      "204:1960": {
+        "name": "image-info/at",
+        "states": ["default", "undefined", "comment"],
+        "props": { "property1": { "name": "property1", "values": ["organization", "profile", "donation"] } }
+      }
+    }
+  },
+  "194:2535": {
+    "url": "194:2535",
+    "name": "Navigation and Progress",
+    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+    "components": {
+      "128:3415": {
+        "name": "navigation/dots/at",
+        "states": [],
+        "props": { "property1": { "name": "property1", "values": ["first", "second", "third", "fourth"] } }
+      },
+      "214:2529": {
+        "name": "accordion/global",
+        "states": [],
+        "props": {
+          "property1": { "name": "property1", "values": ["accordion"] },
+          "property2": { "name": "property2", "values": ["default", "open"] },
+          "property3": { "name": "property3", "values": ["default", "Österreich"] }
+        }
+      }
+    }
+  },
+  "404:1928": {
+    "url": "404:1928",
+    "name": "Frame 153",
+    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+    "components": {
+      "none": {
+        "name": "",
+        "states": [],
+        "props": { "navigation/progressIndicator/at": { "name": "navigation/progressIndicator/at", "values": [""] } }
+      }
+    }
+  },
+  "204:2409": {
+    "url": "204:2409",
+    "name": "Hints",
+    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+    "components": {
+      "111:205": {
+        "name": "hint/dropdown/global",
+        "states": [],
+        "props": {
+          "property1": { "name": "property1", "values": ["close", "open"] },
+          "background": { "name": "background", "values": ["transparent", "gray"] }
+        }
+      }
+    }
+  },
+  "194:2292": {
+    "url": "194:2292",
+    "name": "Footer",
+    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+    "components": {
+      "none": {
+        "name": "",
+        "states": [],
+        "props": { "footer/desktop/at": { "name": "footer/desktop/at", "values": [""] } }
+      },
+      "106:578": {
+        "name": "footer/mobile/at",
+        "states": [],
+        "props": { "property1": { "name": "property1", "values": ["mobile"] } }
+      }
+    }
+  },
+  "361:1934": {
+    "url": "361:1934",
+    "name": "Icons and Illustrations",
+    "canvasName": "05. Icons",
+    "components": {
+      "none": {
+        "name": "",
+        "states": [],
+        "props": { "illustrativeIcon/newsletter": { "name": "illustrativeIcon/newsletter", "values": [""] } }
+      },
+      "106:266": {
+        "name": "Icon",
+        "states": [],
+        "props": {
+          "iconType": {
+            "name": "iconType",
+            "values": ["arrowRight", "camera", "checkmark", "user", "heart", "home", "search", "userAlt", "infoI"]
+          }
+        }
+      },
+      "106:343": {
+        "name": "illustrative icons",
+        "states": [],
+        "props": {
+          "type": {
+            "name": "type",
+            "values": ["ribbon", "heart", "thumbsUp", "eMailOpen", "rocket", "handsHeart", "donation", "plus10Heart"]
+          }
+        }
+      },
+      "204:2170": {
+        "name": "sharing",
+        "states": [],
+        "props": {
+          "property1": {
+            "name": "property1",
+            "values": ["twitter", "email", "link", "facebook", "messenger", "whatsapp", "instagram"]
+          }
+        }
+      }
+    }
+  },
+  "361:1874": {
+    "url": "361:1874",
+    "name": "Buttons",
+    "canvasName": "08. Buttons",
+    "components": {
+      "105:93": {
+        "name": "button/primary /at",
+        "states": ["default", "hover", "focused", "pressed", "disabled"],
+        "props": {
+          "type": { "name": "type", "values": ["primary", "delete", "secondary"] },
+          "size": { "name": "size", "values": ["large", "small"] },
+          "icon": { "name": "icon", "values": ["false", "true", "default"] }
+        }
+      },
+      "194:1556": {
+        "name": "button/primary/me",
+        "states": ["default", "hover", "focused", "pressed", "disabled"],
+        "props": {
+          "type": { "name": "type", "values": ["primary", "delete", "secondary"] },
+          "size": { "name": "size", "values": ["large", "small"] }
+        }
+      }
+    }
+  },
+  "358:3089": {
+    "url": "358:3089",
+    "name": "Notifications",
+    "canvasName": "File Components",
+    "components": {
+      "358:3090": {
+        "name": "Note",
+        "states": [],
+        "props": { "size": { "name": "size", "values": ["large", "small"] } }
+      }
+    }
+  },
+  "723:2073": {
+    "url": "723:2073",
+    "name": "Color Tokens",
+    "canvasName": "File Components",
+    "components": {
+      "none": { "name": "", "states": [], "props": { "colorRole": { "name": "colorRole", "values": [""] } } }
+    }
+  },
+  "377:1863": {
+    "url": "377:1863",
+    "name": "Page Heading",
+    "canvasName": "File Components",
+    "components": {
+      "358:3080": {
+        "name": "Page Header",
+        "states": [],
+        "props": { "darkMode": { "name": "darkMode", "values": ["off", "on"] } }
+      }
+    }
+  }
+}
