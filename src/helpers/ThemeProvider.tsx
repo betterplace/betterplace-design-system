@@ -1,5 +1,5 @@
 import React, { ReactNode, useState } from 'react'
-import { tokens } from '../../tokens'
+import tokens from '../../config/tokens.json'
 import '../../build/css/globals.css'
 
 export const AVAILABLE_THEMES = [
@@ -33,12 +33,12 @@ export const ThemeProvider = (props: ThemeProviderProps) => {
   const theme = {
     theme: props.theme,
     tokens: {
-      global: tokens.globals,
+      global: tokens.global,
       theme: tokens[props.theme],
     },
   }
 
-  import(`../../build/css/themes/theme-${props.theme}.css`).then((styles) => {
+  import(`../../build/css/themes/${props.theme}.css`).then((styles) => {
     setThemeVars(styles.default)
   })
 

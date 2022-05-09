@@ -37,8 +37,33 @@ StyleDictionary.registerTransform({
   },
 })
 
+// shadows
+StyleDictionary.registerTransform({
+  name: 'value/boxShadow',
+  type: 'value',
+  matcher: function (token) {
+    return token.type === 'boxShadow'
+  },
+  transformer: function (token) {
+    return `${token.original.value.x}px ${token.original.value.y}px ${token.original.value.blur}px ${token.original.value.spread}px ${token.original.value.color}`
+  },
+})
+
+// typography
+StyleDictionary.registerTransform({
+  name: 'value/typography',
+  type: 'value',
+  matcher: function (token) {
+    return token.type === 'typography'
+  },
+  transformer: function (token) {
+    // TODO: add mixin instead of single tokens
+    return null
+  },
+})
+
 module.exports = {
-  source: ['tokens/**/*.json'],
+  source: ['config/tokens.json'],
   platforms: {
     css: {
       transforms: [
@@ -47,23 +72,24 @@ module.exports = {
         'name/theme',
         'time/seconds',
         'content/icon',
-        'size/rem',
         'color/css',
         'size/pxToRem',
         'value/quote',
+        'value/boxShadow',
+        'value/typography',
       ],
       prefix: 'betterplace',
       buildPath: 'build/css/',
       files: [
-        ...themes.map((source) => ({
-          destination: `themes/theme-${source}.css`,
+        ...themes.map((theme) => ({
+          destination: `themes/${theme}.css`,
           format: 'css/variables',
           options: {
             outputReferences: true,
           },
           filter: {
             attributes: {
-              category: source,
+              category: theme,
             },
           },
         })),
@@ -82,4 +108,22 @@ module.exports = {
       ],
     },
   },
+  parsers: [
+    {
+      pattern: /\.json$/,
+      parse: ({ contents }) => {
+        const tokens = JSON.parse(contents)
+
+        Object.keys(tokens).forEach((category) => {
+          categoryContents = JSON.stringify(tokens[category])
+          // TODO: how do we know which category the reference belongs to?
+          // categoryContents = categoryContents.replace(/"\$([^"]+)"/g, `"{${category}.$1.value}"`)
+          categoryContents = categoryContents.replace(/"\$([^"]+)"/g, `"{global.$1.value}"`)
+          tokens[category] = JSON.parse(categoryContents)
+        })
+
+        return tokens
+      },
+    },
+  ],
 }
