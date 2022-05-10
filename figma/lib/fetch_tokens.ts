@@ -32,7 +32,7 @@ const getGridData = (node: Node) => {
   return undefined
 }
 
-const extractors = [getColorData, getTextData]
+const extractors = [getColorData, getTextData] as const
 export default async function fetchTokens(fileId: string) {
   const tokens: Record<string, Output> = {}
 
@@ -41,7 +41,7 @@ export default async function fetchTokens(fileId: string) {
   const styles = res.styles
 
   topLevelCanvas.forEach((topLevel) =>
-    getWalk<string | TypeStyle>(extractors, (data) => {
+    getWalk(extractors)((data) => {
       const [nodeId, type, value] = data
       const style = styles[nodeId]
       if (!style || !style.name) return

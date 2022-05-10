@@ -1,24 +1,24 @@
 import { Node } from 'figma-api'
 import { ComponentMetadata } from 'figma-api/lib/api-types'
 import Figma from './client'
-import { getWalk, getFileTopLevelChildren, camelize } from './helpers'
+import { getWalk, getFileTopLevelChildren, camelize, ExtractorFn } from './helpers'
 
-const getComponent = (node: Node) => {
+const getComponent: ExtractorFn<Node<'COMPONENT'>, 'COMPONENT'> = (node: Node) => {
   if (node.type !== 'COMPONENT') return
-  return [node.id, 'component', node as Node<'COMPONENT'>] as const
+  return [node.id, 'COMPONENT', node as Node<'COMPONENT'>] as const
 }
 
-const getFrame = (node: Node) => {
+const getFrame: ExtractorFn<Node<'FRAME'>, 'FRAME'> = (node: Node) => {
   if (node.type !== 'FRAME') return
-  return [node.id, 'frame', node as Node<'FRAME'>] as const
+  return [node.id, 'FRAME', node as Node<'FRAME'>] as const
 }
 
-const getComponentSet = (node: Node) => {
+const getComponentSet: ExtractorFn<Node<'COMPONENT_SET'>, 'COMPONENT_SET'> = (node: Node) => {
   if (node.type !== 'COMPONENT_SET') return
-  return [node.id, 'componentSet', node as Node<'COMPONENT'>] as const
+  return [node.id, 'COMPONENT_SET', node as Node<'COMPONENT_SET'>] as const
 }
 
-const extractors = [getComponent, getFrame, getComponentSet]
+const extractors = [getComponent, getFrame, getComponentSet] as const
 
 export type PropData = Record<string, { name: string; values: string[] }>
 type RawComponentsType = {
@@ -32,10 +32,12 @@ type RawOutput<Type = RawComponentsType> = Record<
   Pick<Node<'FRAME'>, 'name'> & {
     url: string
     canvasName: string
-    components: Record<string, Pick<Node<'COMPONENT_SET'>, 'name'> & Type>
+    components: RawComponentInfo<Type>
   }
 >
+type RawComponentInfo<T> = Record<string, Pick<Node<'COMPONENT_SET'>, 'name' | 'id'> & { path: string } & T>
 
+export type ComponentInfo = RawComponentInfo<ComponentsType>
 export type Output = RawOutput<ComponentsType>
 
 function findComponentSetFrameId(output: RawOutput, componentSetId: string): string {
@@ -59,6 +61,7 @@ function cleanOutput(output: RawOutput): RawOutput {
   })
   return res
 }
+
 function variantNameToKeyValues(variantName: string) {
   return variantName
     .split(',')
@@ -83,7 +86,8 @@ function processVariants(output: RawOutput): Output {
   const res: Output = {}
   Object.keys(output).forEach((frameKey) => {
     const frame = output[frameKey]
-    const components: Record<string, Pick<Node<'COMPONENT_SET'>, 'name'> & ComponentsType> = {}
+    const components: Record<string, Pick<Node<'COMPONENT_SET'>, 'name' | 'id'> & { path: string } & ComponentsType> =
+      {}
     Object.keys(frame.components).forEach((componentKey) => {
       const states: string[] = []
       const props: PropData = {}
@@ -109,31 +113,41 @@ function processVariants(output: RawOutput): Output {
   return res
 }
 
+function getNameAndPath(origName: string) {
+  const nameSections = origName
+    .split(/\//g)
+    .filter((section) => !!section && !['at', 'org', 'me', 'global'].includes(section))
+  const path = nameSections.join('/')
+  const name = camelize(nameSections[0], true)
+  return { name, path }
+}
+
 export default async function fetchComponents(fileId: string) {
   const res = await Figma.getFile(fileId)
   const topLevelCanvas = getFileTopLevelChildren(res.document)
-  // console.log(topLevelCanvas)
   const output: RawOutput = { ['none']: { url: '', components: {}, name: '', canvasName: '' } }
   topLevelCanvas.forEach((topLevel) =>
-    getWalk<Node<'COMPONENT' | 'FRAME' | 'COMPONENT_SET'>>(extractors, (data, parent) => {
+    getWalk(extractors)((data, parent) => {
       const [id, type, node] = data
-      if (type === 'frame') {
+      if (type === 'FRAME') {
         const canvasName = topLevel.name
-        output[id] = { url: id, name: node.name, canvasName, components: { ['none']: { name: '', variants: {} } } }
+        output[id] = { url: id, name: node.name, canvasName, components: {} }
         return
       }
-      if (type === 'componentSet') {
-        output[parent?.id ?? 'none'].components[id] = { name: node.name, variants: {} }
+      if (type === 'COMPONENT_SET') {
+        const { name, path } = getNameAndPath(node.name)
+        output[parent?.id ?? 'none'].components[id] = { id, name, path, variants: {} }
         return
       }
-      let setId = 'none'
+      let setId = ''
       let frameId = 'none'
       if (parent?.type === 'COMPONENT_SET') {
         setId = parent.id
         frameId = findComponentSetFrameId(output, setId)
       } else if (parent?.type === 'FRAME') {
-        frameId = parent.id
-        output[frameId].components['none'] = { name: '', variants: {} }
+        const { name, path } = getNameAndPath(node.name)
+        output[parent?.id].components[id] = { id, name, path, variants: {} }
+        return
       }
       try {
         const { name } = node
@@ -144,5 +158,6 @@ export default async function fetchComponents(fileId: string) {
     })(topLevel.children)
   )
 
-  return processVariants(cleanOutput(output))
+  const data = processVariants(cleanOutput(output))
+  return { file: fileId, data }
 }

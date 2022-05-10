@@ -16,31 +16,33 @@ export function slugify(str: string) {
 }
 
 export function camelize(str: string, capitalizeInitial?: boolean): string {
-  const res = str.replace(/^([A-Z])|[\s-_]+(\w)/g, (_, p1: string, p2: string) => {
+  let res = str.replace(/^([A-Z])|[\s-_]+(\w)/g, (_, p1: string, p2: string) => {
     if (p2) return p2.toUpperCase()
     return p1.toLowerCase()
   })
-  if (res.length && capitalizeInitial) res.charAt(0).toUpperCase() + res.slice(1)
+  if (res.length && capitalizeInitial) res = res.charAt(0).toUpperCase() + res.slice(1)
   return res
 }
 
-export type DataTuple<T> = readonly [string, string, T]
+export type DataTuple<T, K extends string = string> = readonly [string, K, T]
 
-export type ExtractorFn<T> = (node: Node) => DataTuple<T> | undefined
+export type ExtractorFn<T, K extends string = string> = (node: Node) => DataTuple<T, K> | undefined
 export type Output<T> = Record<string, { type: string; name: string; description: string; value: T }>
-export type OnDataFoundCb<T> = (data: DataTuple<T>, parent?: Node) => void
+export type OnDataFoundCb<T extends DataTuple<unknown, string>> = (data: T, parent?: Node) => void
 
-export function getWalk<T>(extractors: Array<ExtractorFn<T>>, onDataFound: OnDataFoundCb<T>) {
-  return function walk(children: Array<Node>, parent?: Node) {
-    children.forEach((child) => {
-      extractors.forEach((fn) => {
-        const res = fn(child)
-        if (!res) return
-        onDataFound(res, parent)
+export function getWalk<F extends ExtractorFn<unknown, string>>(extractors: readonly F[]) {
+  return (onDataFound: OnDataFoundCb<ReturnType<F>>) => {
+    return function walk(children: Array<Node>, parent?: Node) {
+      children.forEach((child) => {
+        extractors.forEach((fn) => {
+          const res = fn(child) as ReturnType<F>
+          if (!res) return
+          onDataFound(res, parent)
+        })
+        if (!('children' in child) || !child.children?.length) return
+        walk(child.children, child)
       })
-      if (!('children' in child) || !child.children?.length) return
-      walk(child.children, child)
-    })
+    }
   }
 }
 

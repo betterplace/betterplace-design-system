@@ -1,359 +1,511 @@
 {
-  "none": {
-    "url": "",
-    "components": {
-      "411:2962": { "name": "_admin-box", "states": ["default", "newPage"], "props": {} },
-      "106:742": {
-        "name": "header/at",
-        "states": [],
-        "props": {
-          "property1": { "name": "property1", "values": ["desktop", "mobile"] },
-          "user": { "name": "user", "values": ["default"] },
-          "icons": { "name": "icons", "values": ["yesPlusLabel", "yes", "no"] },
-          "adminState": { "name": "adminState", "values": ["default"] }
+  "file": "PJ7OUutWRrSHW6qgaPNW1l",
+  "data": {
+    "none": {
+      "url": "",
+      "components": {
+        "411:2962": {
+          "id": "411:2962",
+          "name": "AdminBox",
+          "path": "_admin-box",
+          "states": ["Default", "NewPage"],
+          "props": {}
+        },
+        "106:742": {
+          "id": "106:742",
+          "name": "Header",
+          "path": "header",
+          "states": [],
+          "props": {
+            "property1": { "name": "property1", "values": ["Desktop", "Mobile"] },
+            "user": { "name": "user", "values": ["Default"] },
+            "icons": { "name": "icons", "values": ["YesPlusLabel", "Yes", "No"] },
+            "adminState": { "name": "adminState", "values": ["Default"] }
+          }
+        },
+        "437:2089": {
+          "id": "437:2089",
+          "name": "HeaderAdmin",
+          "path": "header-admin",
+          "states": [],
+          "props": {
+            "property1": { "name": "property1", "values": ["Adminbox"] },
+            "property2": { "name": "property2", "values": ["At"] },
+            "property3": { "name": "property3", "values": ["Desktop", "Mobile"] }
+          }
         }
       },
-      "437:2089": {
-        "name": "header-admin/at/",
-        "states": [],
-        "props": {
-          "property1": { "name": "property1", "values": ["adminbox"] },
-          "property2": { "name": "property2", "values": ["at"] },
-          "property3": { "name": "property3", "values": ["desktop", "mobile"] }
+      "name": "",
+      "canvasName": ""
+    },
+    "134:3859": {
+      "url": "134:3859",
+      "name": "Frame 37",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "components": {
+        "134:3862": { "id": "134:3862", "name": "Group15", "path": "Group 15", "states": [], "props": {} },
+        "134:3861": { "id": "134:3861", "name": "Group16", "path": "Group 16", "states": [], "props": {} },
+        "134:3860": { "id": "134:3860", "name": "Group17", "path": "Group 17", "states": [], "props": {} }
+      }
+    },
+    "302:1949": {
+      "url": "302:1949",
+      "name": "Tags",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "components": {
+        "230:1297": {
+          "id": "230:1297",
+          "name": "Tag",
+          "path": "tag",
+          "states": [],
+          "props": { "property1": { "name": "property1", "values": ["Default", "Round"] } }
         }
       }
     },
-    "name": "",
-    "canvasName": ""
-  },
-  "134:3859": {
-    "url": "134:3859",
-    "name": "Frame 37",
-    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
-    "components": {
-      "none": { "name": "", "states": [], "props": { "group17": { "name": "group17", "values": [""] } } }
-    }
-  },
-  "302:1949": {
-    "url": "302:1949",
-    "name": "Tags",
-    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
-    "components": {
-      "230:1297": {
-        "name": "tag/at",
-        "states": [],
-        "props": { "property1": { "name": "property1", "values": ["default", "round"] } }
-      }
-    }
-  },
-  "194:1773": {
-    "url": "194:1773",
-    "name": "Boxes",
-    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
-    "components": {
-      "106:249": {
-        "name": "box/text/at",
-        "states": [],
-        "props": {
-          "type": { "name": "type", "values": ["adminBox", "infoBox", "cardBox", "adminHeaderBox", "cardTeaser"] }
-        }
-      }
-    }
-  },
-  "194:1992": {
-    "url": "194:1992",
-    "name": "Input Fields",
-    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
-    "components": {
-      "106:857": {
-        "name": "input/global",
-        "states": [],
-        "props": {
-          "type": { "name": "type", "values": ["regular", "longText", "dropdown"] },
-          "variation": {
-            "name": "variation",
-            "values": ["default", "creditcardInput", "hint", "error", "hintAndError", "open", "label"]
-          },
-          "label": { "name": "label", "values": ["default", "no"] }
-        }
-      },
-      "145:1337": {
-        "name": "_input/dropdown-item/global",
-        "states": [],
-        "props": { "property1": { "name": "property1", "values": ["default", "hover", "selected"] } }
-      },
-      "145:1407": {
-        "name": "input/variation/country/global",
-        "states": [],
-        "props": {
-          "property1": { "name": "property1", "values": ["dropdown"] },
-          "property2": { "name": "property2", "values": ["default", "open"] },
-          "property3": { "name": "property3", "values": ["Österreich", "deutschland"] }
-        }
-      }
-    }
-  },
-  "194:2110": {
-    "url": "194:2110",
-    "name": "Selctions",
-    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
-    "components": {
-      "111:137": {
-        "name": "checkbox/singular/at",
-        "states": ["active", "disabled"],
-        "props": {
-          "check": { "name": "check", "values": ["false", "true"] },
-          "label": { "name": "label", "values": ["false"] },
-          "hint": { "name": "hint", "values": ["false"] }
-        }
-      },
-      "111:230": {
-        "name": "checkbox/multiple/at",
-        "states": [],
-        "props": { "hint": { "name": "hint", "values": ["false", "true"] } }
-      },
-      "111:917": {
-        "name": "radiobutton/singular/at",
-        "states": ["default", "disabled"],
-        "props": { "property1": { "name": "property1", "values": ["false", "true"] } }
-      },
-      "111:928": {
-        "name": "radiobutton/multiple/at",
-        "states": [],
-        "props": { "property1": { "name": "property1", "values": ["noHint", "hint"] } }
-      },
-      "208:1513": {
-        "name": "tab/at",
-        "states": [],
-        "props": {
-          "property1": { "name": "property1", "values": ["active", "standalone", "inactive"] },
-          "property2": { "name": "property2", "values": ["noCounter", "counter"] },
-          "device": { "name": "device", "values": ["desktop", "mobile", "default"] }
-        }
-      }
-    }
-  },
-  "194:2394": {
-    "url": "194:2394",
-    "name": "Project Teaser",
-    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
-    "components": {
-      "none": {
-        "name": "",
-        "states": [],
-        "props": { "Teaser/image/global": { "name": "Teaser/image/global", "values": [""] } }
-      },
-      "182:1336": { "name": "teaser/project/at", "states": ["default", "hover"], "props": {} }
-    }
-  },
-  "194:2496": {
-    "url": "194:2496",
-    "name": "Modals",
-    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
-    "components": {
-      "211:1774": {
-        "name": "modal/at",
-        "states": [],
-        "props": { "property1": { "name": "property1", "values": ["mobile", "desktop"] } }
-      }
-    }
-  },
-  "407:1863": {
-    "url": "407:1863",
-    "name": "Frame 155",
-    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
-    "components": {
-      "320:1885": {
-        "name": "gallery-progress/at",
-        "states": [],
-        "props": { "property1": { "name": "property1", "values": ["default", "galleryFakeDesktop", "gallery"] } }
-      }
-    }
-  },
-  "254:1584": {
-    "url": "254:1584",
-    "name": "Status Messages",
-    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
-    "components": {
-      "254:1618": {
-        "name": "status-message/global",
-        "states": [],
-        "props": { "property1": { "name": "property1", "values": ["success", "warning", "error"] } }
-      }
-    }
-  },
-  "204:1922": {
-    "url": "204:1922",
-    "name": "Image and Info Element",
-    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
-    "components": {
-      "204:1960": {
-        "name": "image-info/at",
-        "states": ["default", "undefined", "comment"],
-        "props": { "property1": { "name": "property1", "values": ["organization", "profile", "donation"] } }
-      }
-    }
-  },
-  "194:2535": {
-    "url": "194:2535",
-    "name": "Navigation and Progress",
-    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
-    "components": {
-      "128:3415": {
-        "name": "navigation/dots/at",
-        "states": [],
-        "props": { "property1": { "name": "property1", "values": ["first", "second", "third", "fourth"] } }
-      },
-      "214:2529": {
-        "name": "accordion/global",
-        "states": [],
-        "props": {
-          "property1": { "name": "property1", "values": ["accordion"] },
-          "property2": { "name": "property2", "values": ["default", "open"] },
-          "property3": { "name": "property3", "values": ["default", "Österreich"] }
-        }
-      }
-    }
-  },
-  "404:1928": {
-    "url": "404:1928",
-    "name": "Frame 153",
-    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
-    "components": {
-      "none": {
-        "name": "",
-        "states": [],
-        "props": { "navigation/progressIndicator/at": { "name": "navigation/progressIndicator/at", "values": [""] } }
-      }
-    }
-  },
-  "204:2409": {
-    "url": "204:2409",
-    "name": "Hints",
-    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
-    "components": {
-      "111:205": {
-        "name": "hint/dropdown/global",
-        "states": [],
-        "props": {
-          "property1": { "name": "property1", "values": ["close", "open"] },
-          "background": { "name": "background", "values": ["transparent", "gray"] }
-        }
-      }
-    }
-  },
-  "194:2292": {
-    "url": "194:2292",
-    "name": "Footer",
-    "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
-    "components": {
-      "none": {
-        "name": "",
-        "states": [],
-        "props": { "footer/desktop/at": { "name": "footer/desktop/at", "values": [""] } }
-      },
-      "106:578": {
-        "name": "footer/mobile/at",
-        "states": [],
-        "props": { "property1": { "name": "property1", "values": ["mobile"] } }
-      }
-    }
-  },
-  "361:1934": {
-    "url": "361:1934",
-    "name": "Icons and Illustrations",
-    "canvasName": "05. Icons",
-    "components": {
-      "none": {
-        "name": "",
-        "states": [],
-        "props": { "illustrativeIcon/newsletter": { "name": "illustrativeIcon/newsletter", "values": [""] } }
-      },
-      "106:266": {
-        "name": "Icon",
-        "states": [],
-        "props": {
-          "iconType": {
-            "name": "iconType",
-            "values": ["arrowRight", "camera", "checkmark", "user", "heart", "home", "search", "userAlt", "infoI"]
-          }
-        }
-      },
-      "106:343": {
-        "name": "illustrative icons",
-        "states": [],
-        "props": {
-          "type": {
-            "name": "type",
-            "values": ["ribbon", "heart", "thumbsUp", "eMailOpen", "rocket", "handsHeart", "donation", "plus10Heart"]
-          }
-        }
-      },
-      "204:2170": {
-        "name": "sharing",
-        "states": [],
-        "props": {
-          "property1": {
-            "name": "property1",
-            "values": ["twitter", "email", "link", "facebook", "messenger", "whatsapp", "instagram"]
+    "194:1773": {
+      "url": "194:1773",
+      "name": "Boxes",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "components": {
+        "106:249": {
+          "id": "106:249",
+          "name": "Box",
+          "path": "box/text",
+          "states": [],
+          "props": {
+            "type": { "name": "type", "values": ["AdminBox", "InfoBox", "CardBox", "AdminHeaderBox", "CardTeaser"] }
           }
         }
       }
-    }
-  },
-  "361:1874": {
-    "url": "361:1874",
-    "name": "Buttons",
-    "canvasName": "08. Buttons",
-    "components": {
-      "105:93": {
-        "name": "button/primary /at",
-        "states": ["default", "hover", "focused", "pressed", "disabled"],
-        "props": {
-          "type": { "name": "type", "values": ["primary", "delete", "secondary"] },
-          "size": { "name": "size", "values": ["large", "small"] },
-          "icon": { "name": "icon", "values": ["false", "true", "default"] }
-        }
-      },
-      "194:1556": {
-        "name": "button/primary/me",
-        "states": ["default", "hover", "focused", "pressed", "disabled"],
-        "props": {
-          "type": { "name": "type", "values": ["primary", "delete", "secondary"] },
-          "size": { "name": "size", "values": ["large", "small"] }
+    },
+    "194:1992": {
+      "url": "194:1992",
+      "name": "Input Fields",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "components": {
+        "106:857": {
+          "id": "106:857",
+          "name": "Input",
+          "path": "input",
+          "states": [],
+          "props": {
+            "type": { "name": "type", "values": ["Regular", "LongText", "Dropdown"] },
+            "variation": {
+              "name": "variation",
+              "values": ["Default", "CreditcardInput", "Hint", "Error", "HintAndError", "Open", "Label"]
+            },
+            "label": { "name": "label", "values": ["Default", "No"] }
+          }
+        },
+        "145:1337": {
+          "id": "145:1337",
+          "name": "Input",
+          "path": "_input/dropdown-item",
+          "states": [],
+          "props": { "property1": { "name": "property1", "values": ["Default", "Hover", "Selected"] } }
+        },
+        "145:1407": {
+          "id": "145:1407",
+          "name": "Input",
+          "path": "input/variation/country",
+          "states": [],
+          "props": {
+            "property1": { "name": "property1", "values": ["Dropdown"] },
+            "property2": { "name": "property2", "values": ["Default", "Open"] },
+            "property3": { "name": "property3", "values": ["Österreich", "Deutschland"] }
+          }
         }
       }
-    }
-  },
-  "358:3089": {
-    "url": "358:3089",
-    "name": "Notifications",
-    "canvasName": "File Components",
-    "components": {
-      "358:3090": {
-        "name": "Note",
-        "states": [],
-        "props": { "size": { "name": "size", "values": ["large", "small"] } }
+    },
+    "194:2110": {
+      "url": "194:2110",
+      "name": "Selctions",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "components": {
+        "111:137": {
+          "id": "111:137",
+          "name": "Checkbox",
+          "path": "checkbox/singular",
+          "states": ["Active", "Disabled"],
+          "props": {
+            "check": { "name": "check", "values": ["False", "True"] },
+            "label": { "name": "label", "values": ["False"] },
+            "hint": { "name": "hint", "values": ["False"] }
+          }
+        },
+        "111:230": {
+          "id": "111:230",
+          "name": "Checkbox",
+          "path": "checkbox/multiple",
+          "states": [],
+          "props": { "hint": { "name": "hint", "values": ["False", "True"] } }
+        },
+        "111:917": {
+          "id": "111:917",
+          "name": "Radiobutton",
+          "path": "radiobutton/singular",
+          "states": ["Default", "Disabled"],
+          "props": { "property1": { "name": "property1", "values": ["False", "True"] } }
+        },
+        "111:928": {
+          "id": "111:928",
+          "name": "Radiobutton",
+          "path": "radiobutton/multiple",
+          "states": [],
+          "props": { "property1": { "name": "property1", "values": ["NoHint", "Hint"] } }
+        },
+        "208:1513": {
+          "id": "208:1513",
+          "name": "Tab",
+          "path": "tab",
+          "states": [],
+          "props": {
+            "property1": { "name": "property1", "values": ["Active", "Standalone", "Inactive"] },
+            "property2": { "name": "property2", "values": ["NoCounter", "Counter"] },
+            "device": { "name": "device", "values": ["Desktop", "Mobile", "Default"] }
+          }
+        }
       }
-    }
-  },
-  "723:2073": {
-    "url": "723:2073",
-    "name": "Color Tokens",
-    "canvasName": "File Components",
-    "components": {
-      "none": { "name": "", "states": [], "props": { "colorRole": { "name": "colorRole", "values": [""] } } }
-    }
-  },
-  "377:1863": {
-    "url": "377:1863",
-    "name": "Page Heading",
-    "canvasName": "File Components",
-    "components": {
-      "358:3080": {
-        "name": "Page Header",
-        "states": [],
-        "props": { "darkMode": { "name": "darkMode", "values": ["off", "on"] } }
+    },
+    "194:2394": {
+      "url": "194:2394",
+      "name": "Project Teaser",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "components": {
+        "119:1644": { "id": "119:1644", "name": "Teaser", "path": "_teaser/image", "states": [], "props": {} },
+        "182:1336": {
+          "id": "182:1336",
+          "name": "Teaser",
+          "path": "teaser/project",
+          "states": ["Default", "Hover"],
+          "props": {}
+        }
+      }
+    },
+    "194:2496": {
+      "url": "194:2496",
+      "name": "Modals",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "components": {
+        "211:1774": {
+          "id": "211:1774",
+          "name": "Modal",
+          "path": "modal",
+          "states": [],
+          "props": { "property1": { "name": "property1", "values": ["Mobile", "Desktop"] } }
+        }
+      }
+    },
+    "407:1863": {
+      "url": "407:1863",
+      "name": "Frame 155",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "components": {
+        "320:1885": {
+          "id": "320:1885",
+          "name": "GalleryProgress",
+          "path": "gallery-progress",
+          "states": [],
+          "props": { "property1": { "name": "property1", "values": ["Default", "GalleryFakeDesktop", "Gallery"] } }
+        }
+      }
+    },
+    "254:1584": {
+      "url": "254:1584",
+      "name": "Status Messages",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "components": {
+        "254:1618": {
+          "id": "254:1618",
+          "name": "StatusMessage",
+          "path": "status-message",
+          "states": [],
+          "props": { "property1": { "name": "property1", "values": ["Success", "Warning", "Error"] } }
+        }
+      }
+    },
+    "204:1922": {
+      "url": "204:1922",
+      "name": "Image and Info Element",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "components": {
+        "204:1960": {
+          "id": "204:1960",
+          "name": "ImageInfo",
+          "path": "image-info",
+          "states": ["Default", "Undefined", "Comment"],
+          "props": { "property1": { "name": "property1", "values": ["Organization", "Profile", "Donation"] } }
+        }
+      }
+    },
+    "194:2535": {
+      "url": "194:2535",
+      "name": "Navigation and Progress",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "components": {
+        "128:3415": {
+          "id": "128:3415",
+          "name": "Navigation",
+          "path": "navigation/dots",
+          "states": [],
+          "props": { "property1": { "name": "property1", "values": ["First", "Second", "Third", "Fourth"] } }
+        },
+        "214:2529": {
+          "id": "214:2529",
+          "name": "Accordion",
+          "path": "accordion",
+          "states": [],
+          "props": {
+            "property1": { "name": "property1", "values": ["Accordion"] },
+            "property2": { "name": "property2", "values": ["Default", "Open"] },
+            "property3": { "name": "property3", "values": ["Default", "Österreich"] }
+          }
+        }
+      }
+    },
+    "404:1928": {
+      "url": "404:1928",
+      "name": "Frame 153",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "components": {
+        "108:333": {
+          "id": "108:333",
+          "name": "Navigation",
+          "path": "navigation/progress-indicator",
+          "states": [],
+          "props": {}
+        }
+      }
+    },
+    "204:2409": {
+      "url": "204:2409",
+      "name": "Hints",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "components": {
+        "111:205": {
+          "id": "111:205",
+          "name": "Hint",
+          "path": "hint/dropdown",
+          "states": [],
+          "props": {
+            "property1": { "name": "property1", "values": ["Close", "Open"] },
+            "background": { "name": "background", "values": ["Transparent", "Gray"] }
+          }
+        }
+      }
+    },
+    "194:2292": {
+      "url": "194:2292",
+      "name": "Footer",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "components": {
+        "106:578": {
+          "id": "106:578",
+          "name": "Footer",
+          "path": "footer/mobile",
+          "states": [],
+          "props": { "property1": { "name": "property1", "values": ["Mobile"] } }
+        },
+        "106:577": { "id": "106:577", "name": "Footer", "path": "footer/desktop", "states": [], "props": {} }
+      }
+    },
+    "361:1934": {
+      "url": "361:1934",
+      "name": "Icons and Illustrations",
+      "canvasName": "05. Icons",
+      "components": {
+        "106:266": {
+          "id": "106:266",
+          "name": "Icon",
+          "path": "Icon",
+          "states": [],
+          "props": {
+            "iconType": {
+              "name": "iconType",
+              "values": ["ArrowRight", "Camera", "Checkmark", "User", "Heart", "Home", "Search", "UserAlt", "InfoI"]
+            }
+          }
+        },
+        "106:343": {
+          "id": "106:343",
+          "name": "IllustrativeIcons",
+          "path": "illustrative icons",
+          "states": [],
+          "props": {
+            "type": {
+              "name": "type",
+              "values": ["Ribbon", "Heart", "ThumbsUp", "EMailOpen", "Rocket", "HandsHeart", "Donation", "Plus10Heart"]
+            }
+          }
+        },
+        "204:2170": {
+          "id": "204:2170",
+          "name": "Sharing",
+          "path": "sharing",
+          "states": [],
+          "props": {
+            "property1": {
+              "name": "property1",
+              "values": ["Twitter", "Email", "Link", "Facebook", "Messenger", "Whatsapp", "Instagram"]
+            }
+          }
+        },
+        "487:2357": {
+          "id": "487:2357",
+          "name": "IllustrativeIcon",
+          "path": "illustrative icon/home",
+          "states": [],
+          "props": {}
+        },
+        "487:2356": {
+          "id": "487:2356",
+          "name": "IllustrativeIcon",
+          "path": "illustrative icon/tools",
+          "states": [],
+          "props": {}
+        },
+        "487:2375": {
+          "id": "487:2375",
+          "name": "IllustrativeIcon",
+          "path": "illustrative icon/information",
+          "states": [],
+          "props": {}
+        },
+        "487:2359": {
+          "id": "487:2359",
+          "name": "IllustrativeIcon",
+          "path": "illustrative icon/crown",
+          "states": [],
+          "props": {}
+        },
+        "487:2373": {
+          "id": "487:2373",
+          "name": "IllustrativeIcon",
+          "path": "illustrative icon/printer",
+          "states": [],
+          "props": {}
+        },
+        "487:2371": {
+          "id": "487:2371",
+          "name": "IllustrativeIcon",
+          "path": "illustrative icon/newspaper",
+          "states": [],
+          "props": {}
+        },
+        "487:2361": {
+          "id": "487:2361",
+          "name": "IllustrativeIcon",
+          "path": "illustrative icon/search",
+          "states": [],
+          "props": {}
+        },
+        "487:2363": {
+          "id": "487:2363",
+          "name": "IllustrativeIcon",
+          "path": "illustrative icon/location-map",
+          "states": [],
+          "props": {}
+        },
+        "487:2365": {
+          "id": "487:2365",
+          "name": "IllustrativeIcon",
+          "path": "illustrative icon/chat",
+          "states": [],
+          "props": {}
+        },
+        "487:2367": {
+          "id": "487:2367",
+          "name": "IllustrativeIcon",
+          "path": "illustrative icon/calendar",
+          "states": [],
+          "props": {}
+        },
+        "487:2369": {
+          "id": "487:2369",
+          "name": "IllustrativeIcon",
+          "path": "illustrative icon/document",
+          "states": [],
+          "props": {}
+        },
+        "487:2379": {
+          "id": "487:2379",
+          "name": "IllustrativeIcon",
+          "path": "illustrative icon/fail-negative",
+          "states": [],
+          "props": {}
+        },
+        "487:2377": {
+          "id": "487:2377",
+          "name": "IllustrativeIcon",
+          "path": "illustrative icon/newsletter",
+          "states": [],
+          "props": {}
+        }
+      }
+    },
+    "361:1874": {
+      "url": "361:1874",
+      "name": "Buttons",
+      "canvasName": "08. Buttons",
+      "components": {
+        "105:93": {
+          "id": "105:93",
+          "name": "Button",
+          "path": "button/primary ",
+          "states": ["Default", "Hover", "Focused", "Pressed", "Disabled"],
+          "props": {
+            "type": { "name": "type", "values": ["Primary", "Delete", "Secondary"] },
+            "size": { "name": "size", "values": ["Large", "Small"] },
+            "icon": { "name": "icon", "values": ["False", "True", "Default"] }
+          }
+        },
+        "194:1556": {
+          "id": "194:1556",
+          "name": "Button",
+          "path": "button/primary",
+          "states": ["Default", "Hover", "Focused", "Pressed", "Disabled"],
+          "props": {
+            "type": { "name": "type", "values": ["Primary", "Delete", "Secondary"] },
+            "size": { "name": "size", "values": ["Large", "Small"] }
+          }
+        }
+      }
+    },
+    "358:3089": {
+      "url": "358:3089",
+      "name": "Notifications",
+      "canvasName": "File Components",
+      "components": {
+        "358:3090": {
+          "id": "358:3090",
+          "name": "Note",
+          "path": "Note",
+          "states": [],
+          "props": { "size": { "name": "size", "values": ["Large", "Small"] } }
+        }
+      }
+    },
+    "723:2073": {
+      "url": "723:2073",
+      "name": "Color Tokens",
+      "canvasName": "File Components",
+      "components": {
+        "723:2069": { "id": "723:2069", "name": "Tokenbox", "path": "tokenbox", "states": [], "props": {} },
+        "768:2301": { "id": "768:2301", "name": "ColorRole", "path": "colorRole", "states": [], "props": {} }
+      }
+    },
+    "377:1863": {
+      "url": "377:1863",
+      "name": "Page Heading",
+      "canvasName": "File Components",
+      "components": {
+        "358:3080": {
+          "id": "358:3080",
+          "name": "PageHeader",
+          "path": "Page Header",
+          "states": [],
+          "props": { "darkMode": { "name": "darkMode", "values": ["Off", "On"] } }
+        }
       }
     }
   }
