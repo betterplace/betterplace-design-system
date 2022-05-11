@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# This is a setup script for computers with only brew & asdf installed
+brew install gpg
+brew install gnu-tar
+asdf plugin add nodejs
+asdf plugin add ruby
+asdf plugin add yarn
+asdf install
+asdf install yarn # for whatever reason the command above does not necessarily work
+yarn
