@@ -8,7 +8,7 @@
           "id": "411:2962",
           "name": "AdminBox",
           "path": "_admin-box",
-          "states": ["Default", "NewPage"],
+          "states": ["default", "newPage"],
           "props": {}
         },
         "106:742": {
@@ -17,10 +17,10 @@
           "path": "header",
           "states": [],
           "props": {
-            "property1": { "name": "property1", "values": ["Desktop", "Mobile"] },
-            "user": { "name": "user", "values": ["Default"] },
-            "icons": { "name": "icons", "values": ["YesPlusLabel", "Yes", "No"] },
-            "adminState": { "name": "adminState", "values": ["Default"] }
+            "property1": { "name": "property1", "values": ["desktop", "mobile"], "mandatory": false },
+            "user": { "name": "user", "values": ["default"], "mandatory": false },
+            "icons": { "name": "icons", "values": ["yesPlusLabel", "yes", "no"], "mandatory": false },
+            "adminState": { "name": "adminState", "values": ["default"], "mandatory": false }
           }
         },
         "437:2089": {
@@ -29,9 +29,9 @@
           "path": "header-admin",
           "states": [],
           "props": {
-            "property1": { "name": "property1", "values": ["Adminbox"] },
-            "property2": { "name": "property2", "values": ["At"] },
-            "property3": { "name": "property3", "values": ["Desktop", "Mobile"] }
+            "property1": { "name": "property1", "values": ["adminbox"], "mandatory": false },
+            "property2": { "name": "property2", "values": ["at"], "mandatory": false },
+            "property3": { "name": "property3", "values": ["desktop", "mobile"], "mandatory": false }
           }
         }
       },
@@ -58,7 +58,7 @@
           "name": "Tag",
           "path": "tag",
           "states": [],
-          "props": { "property1": { "name": "property1", "values": ["Default", "Round"] } }
+          "props": { "property1": { "name": "property1", "values": ["default", "round"], "mandatory": false } }
         }
       }
     },
@@ -73,7 +73,11 @@
           "path": "box/text",
           "states": [],
           "props": {
-            "type": { "name": "type", "values": ["AdminBox", "InfoBox", "CardBox", "AdminHeaderBox", "CardTeaser"] }
+            "type": {
+              "name": "type",
+              "values": ["adminBox", "infoBox", "cardBox", "adminHeaderBox", "cardTeaser"],
+              "mandatory": false
+            }
           }
         }
       }
@@ -89,12 +93,13 @@
           "path": "input",
           "states": [],
           "props": {
-            "type": { "name": "type", "values": ["Regular", "LongText", "Dropdown"] },
+            "type": { "name": "type", "values": ["regular", "longText", "dropdown"], "mandatory": false },
             "variation": {
               "name": "variation",
-              "values": ["Default", "CreditcardInput", "Hint", "Error", "HintAndError", "Open", "Label"]
+              "values": ["default", "creditcardInput", "hint", "error", "hintAndError", "open", "label"],
+              "mandatory": false
             },
-            "label": { "name": "label", "values": ["Default", "No"] }
+            "label": { "name": "label", "values": ["default", "no"], "mandatory": false }
           }
         },
         "145:1337": {
@@ -102,7 +107,9 @@
           "name": "Input",
           "path": "_input/dropdown-item",
           "states": [],
-          "props": { "property1": { "name": "property1", "values": ["Default", "Hover", "Selected"] } }
+          "props": {
+            "property1": { "name": "property1", "values": ["default", "hover", "selected"], "mandatory": false }
+          }
         },
         "145:1407": {
           "id": "145:1407",
@@ -110,9 +117,9 @@
           "path": "input/variation/country",
           "states": [],
           "props": {
-            "property1": { "name": "property1", "values": ["Dropdown"] },
-            "property2": { "name": "property2", "values": ["Default", "Open"] },
-            "property3": { "name": "property3", "values": ["Österreich", "Deutschland"] }
+            "property1": { "name": "property1", "values": ["dropdown"], "mandatory": false },
+            "property2": { "name": "property2", "values": ["default", "open"], "mandatory": false },
+            "property3": { "name": "property3", "values": ["Österreich", "deutschland"], "mandatory": false }
           }
         }
       }
@@ -126,11 +133,11 @@
           "id": "111:137",
           "name": "Checkbox",
           "path": "checkbox/singular",
-          "states": ["Active", "Disabled"],
+          "states": ["active", "disabled"],
           "props": {
-            "check": { "name": "check", "values": ["False", "True"] },
-            "label": { "name": "label", "values": ["False"] },
-            "hint": { "name": "hint", "values": ["False"] }
+            "check": { "name": "check", "values": ["false", "true"], "mandatory": false },
+            "label": { "name": "label", "values": ["false"], "mandatory": false },
+            "hint": { "name": "hint", "values": ["false"], "mandatory": false }
           }
         },
         "111:230": {
@@ -138,21 +145,21 @@
           "name": "Checkbox",
           "path": "checkbox/multiple",
           "states": [],
-          "props": { "hint": { "name": "hint", "values": ["False", "True"] } }
+          "props": { "hint": { "name": "hint", "values": ["false", "true"], "mandatory": false } }
         },
         "111:917": {
           "id": "111:917",
           "name": "Radiobutton",
           "path": "radiobutton/singular",
-          "states": ["Default", "Disabled"],
-          "props": { "property1": { "name": "property1", "values": ["False", "True"] } }
+          "states": ["default", "disabled"],
+          "props": { "property1": { "name": "property1", "values": ["false", "true"], "mandatory": false } }
         },
         "111:928": {
           "id": "111:928",
           "name": "Radiobutton",
           "path": "radiobutton/multiple",
           "states": [],
-          "props": { "property1": { "name": "property1", "values": ["NoHint", "Hint"] } }
+          "props": { "property1": { "name": "property1", "values": ["noHint", "hint"], "mandatory": false } }
         },
         "208:1513": {
           "id": "208:1513",
@@ -160,9 +167,9 @@
           "path": "tab",
           "states": [],
           "props": {
-            "property1": { "name": "property1", "values": ["Active", "Standalone", "Inactive"] },
-            "property2": { "name": "property2", "values": ["NoCounter", "Counter"] },
-            "device": { "name": "device", "values": ["Desktop", "Mobile", "Default"] }
+            "property1": { "name": "property1", "values": ["active", "standalone", "inactive"], "mandatory": false },
+            "property2": { "name": "property2", "values": ["noCounter", "counter"], "mandatory": false },
+            "device": { "name": "device", "values": ["desktop", "mobile", "default"], "mandatory": false }
           }
         }
       }
@@ -177,7 +184,7 @@
           "id": "182:1336",
           "name": "Teaser",
           "path": "teaser/project",
-          "states": ["Default", "Hover"],
+          "states": ["default", "hover"],
           "props": {}
         }
       }
@@ -192,7 +199,7 @@
           "name": "Modal",
           "path": "modal",
           "states": [],
-          "props": { "property1": { "name": "property1", "values": ["Mobile", "Desktop"] } }
+          "props": { "property1": { "name": "property1", "values": ["mobile", "desktop"], "mandatory": false } }
         }
       }
     },
@@ -206,7 +213,13 @@
           "name": "GalleryProgress",
           "path": "gallery-progress",
           "states": [],
-          "props": { "property1": { "name": "property1", "values": ["Default", "GalleryFakeDesktop", "Gallery"] } }
+          "props": {
+            "property1": {
+              "name": "property1",
+              "values": ["default", "galleryFakeDesktop", "gallery"],
+              "mandatory": false
+            }
+          }
         }
       }
     },
@@ -220,7 +233,9 @@
           "name": "StatusMessage",
           "path": "status-message",
           "states": [],
-          "props": { "property1": { "name": "property1", "values": ["Success", "Warning", "Error"] } }
+          "props": {
+            "property1": { "name": "property1", "values": ["success", "warning", "error"], "mandatory": false }
+          }
         }
       }
     },
@@ -233,8 +248,10 @@
           "id": "204:1960",
           "name": "ImageInfo",
           "path": "image-info",
-          "states": ["Default", "Undefined", "Comment"],
-          "props": { "property1": { "name": "property1", "values": ["Organization", "Profile", "Donation"] } }
+          "states": ["default", "undefined", "comment"],
+          "props": {
+            "property1": { "name": "property1", "values": ["organization", "profile", "donation"], "mandatory": false }
+          }
         }
       }
     },
@@ -248,7 +265,9 @@
           "name": "Navigation",
           "path": "navigation/dots",
           "states": [],
-          "props": { "property1": { "name": "property1", "values": ["First", "Second", "Third", "Fourth"] } }
+          "props": {
+            "property1": { "name": "property1", "values": ["first", "second", "third", "fourth"], "mandatory": false }
+          }
         },
         "214:2529": {
           "id": "214:2529",
@@ -256,9 +275,9 @@
           "path": "accordion",
           "states": [],
           "props": {
-            "property1": { "name": "property1", "values": ["Accordion"] },
-            "property2": { "name": "property2", "values": ["Default", "Open"] },
-            "property3": { "name": "property3", "values": ["Default", "Österreich"] }
+            "property1": { "name": "property1", "values": ["accordion"], "mandatory": false },
+            "property2": { "name": "property2", "values": ["default", "open"], "mandatory": false },
+            "property3": { "name": "property3", "values": ["default", "Österreich"], "mandatory": false }
           }
         }
       }
@@ -288,8 +307,8 @@
           "path": "hint/dropdown",
           "states": [],
           "props": {
-            "property1": { "name": "property1", "values": ["Close", "Open"] },
-            "background": { "name": "background", "values": ["Transparent", "Gray"] }
+            "property1": { "name": "property1", "values": ["close", "open"], "mandatory": false },
+            "background": { "name": "background", "values": ["transparent", "gray"], "mandatory": false }
           }
         }
       }
@@ -304,7 +323,7 @@
           "name": "Footer",
           "path": "footer/mobile",
           "states": [],
-          "props": { "property1": { "name": "property1", "values": ["Mobile"] } }
+          "props": { "property1": { "name": "property1", "values": ["mobile"], "mandatory": false } }
         },
         "106:577": { "id": "106:577", "name": "Footer", "path": "footer/desktop", "states": [], "props": {} }
       }
@@ -322,7 +341,8 @@
           "props": {
             "iconType": {
               "name": "iconType",
-              "values": ["ArrowRight", "Camera", "Checkmark", "User", "Heart", "Home", "Search", "UserAlt", "InfoI"]
+              "values": ["arrowRight", "camera", "checkmark", "user", "heart", "home", "search", "userAlt", "infoI"],
+              "mandatory": false
             }
           }
         },
@@ -334,7 +354,8 @@
           "props": {
             "type": {
               "name": "type",
-              "values": ["Ribbon", "Heart", "ThumbsUp", "EMailOpen", "Rocket", "HandsHeart", "Donation", "Plus10Heart"]
+              "values": ["ribbon", "heart", "thumbsUp", "eMailOpen", "rocket", "handsHeart", "donation", "plus10Heart"],
+              "mandatory": false
             }
           }
         },
@@ -346,7 +367,8 @@
           "props": {
             "property1": {
               "name": "property1",
-              "values": ["Twitter", "Email", "Link", "Facebook", "Messenger", "Whatsapp", "Instagram"]
+              "values": ["twitter", "email", "link", "facebook", "messenger", "whatsapp", "instagram"],
+              "mandatory": false
             }
           }
         },
@@ -452,21 +474,21 @@
           "id": "105:93",
           "name": "Button",
           "path": "button/primary ",
-          "states": ["Default", "Hover", "Focused", "Pressed", "Disabled"],
+          "states": ["default", "hover", "focused", "pressed", "disabled"],
           "props": {
-            "type": { "name": "type", "values": ["Primary", "Delete", "Secondary"] },
-            "size": { "name": "size", "values": ["Large", "Small"] },
-            "icon": { "name": "icon", "values": ["False", "True", "Default"] }
+            "type": { "name": "type", "values": ["primary", "delete", "secondary"], "mandatory": false },
+            "size": { "name": "size", "values": ["large", "small"], "mandatory": false },
+            "icon": { "name": "icon", "values": ["false", "true", "default"], "mandatory": false }
           }
         },
         "194:1556": {
           "id": "194:1556",
           "name": "Button",
           "path": "button/primary",
-          "states": ["Default", "Hover", "Focused", "Pressed", "Disabled"],
+          "states": ["default", "hover", "focused", "pressed", "disabled"],
           "props": {
-            "type": { "name": "type", "values": ["Primary", "Delete", "Secondary"] },
-            "size": { "name": "size", "values": ["Large", "Small"] }
+            "type": { "name": "type", "values": ["primary", "delete", "secondary"], "mandatory": false },
+            "size": { "name": "size", "values": ["large", "small"], "mandatory": false }
           }
         }
       }
@@ -481,17 +503,25 @@
           "name": "Note",
           "path": "Note",
           "states": [],
-          "props": { "size": { "name": "size", "values": ["Large", "Small"] } }
+          "props": { "size": { "name": "size", "values": ["large", "small"], "mandatory": false } }
         }
       }
     },
     "723:2073": {
       "url": "723:2073",
-      "name": "Color Tokens",
+      "name": "Color Tokens local components",
       "canvasName": "File Components",
       "components": {
         "723:2069": { "id": "723:2069", "name": "Tokenbox", "path": "tokenbox", "states": [], "props": {} },
-        "768:2301": { "id": "768:2301", "name": "ColorRole", "path": "colorRole", "states": [], "props": {} }
+        "768:2301": { "id": "768:2301", "name": "ColorRole", "path": "colorRole", "states": [], "props": {} },
+        "927:3470": { "id": "927:3470", "name": "ColorSwatch", "path": "color swatch", "states": [], "props": {} },
+        "1029:5348": {
+          "id": "1029:5348",
+          "name": "ComponentNamingTable",
+          "path": "component naming table",
+          "states": [],
+          "props": {}
+        }
       }
     },
     "377:1863": {
@@ -504,9 +534,10 @@
           "name": "PageHeader",
           "path": "Page Header",
           "states": [],
-          "props": { "darkMode": { "name": "darkMode", "values": ["Off", "On"] } }
+          "props": { "darkMode": { "name": "darkMode", "values": ["off", "on"], "mandatory": false } }
         }
       }
     }
-  }
+  },
+  "timestamp": 1652268959130
 }

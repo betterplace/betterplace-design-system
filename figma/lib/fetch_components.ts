@@ -20,7 +20,7 @@ const getComponentSet: ExtractorFn<Node<'COMPONENT_SET'>, 'COMPONENT_SET'> = (no
 
 const extractors = [getComponent, getFrame, getComponentSet] as const
 
-export type PropData = Record<string, { name: string; values: string[] }>
+export type PropData = Record<string, { mandatory: boolean; name: string; values: string[] }>
 type RawComponentsType = {
   variants: Record<string, Pick<Node<'COMPONENT'>, 'name'>>
 }
@@ -32,13 +32,14 @@ type RawOutput<Type = RawComponentsType> = Record<
   Pick<Node<'FRAME'>, 'name'> & {
     url: string
     canvasName: string
-    components: RawComponentInfo<Type>
+    components: RawComponentInfoMap<Type>
   }
 >
-type RawComponentInfo<T> = Record<string, Pick<Node<'COMPONENT_SET'>, 'name' | 'id'> & { path: string } & T>
+type RawComponentInfo<T extends {}> = Pick<Node<'COMPONENT_SET'>, 'name' | 'id'> & { path: string } & T
+type RawComponentInfoMap<T extends {}> = Record<string, RawComponentInfo<T>>
 
-export type ComponentInfo = RawComponentInfo<ComponentsType>
 export type Output = RawOutput<ComponentsType>
+export type ComponentInfo = RawComponentInfo<ComponentsType>
 
 function findComponentSetFrameId(output: RawOutput, componentSetId: string): string {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -70,13 +71,10 @@ function variantNameToKeyValues(variantName: string) {
       keyValue
         .trim()
         .split('=')
-        .reduce(
-          (_, __, ___, [key, value]) => ({ key: camelize(key.trim()), value: camelize((value ?? '').trim(), true) }),
-          {
-            key: '',
-            value: '',
-          }
-        )
+        .reduce((_, __, ___, [key, value]) => ({ key: camelize(key.trim()), value: camelize((value ?? '').trim()) }), {
+          key: '',
+          value: '',
+        })
     )
 }
 function isStateKey(key: string) {
@@ -91,8 +89,10 @@ function processVariants(output: RawOutput): Output {
     Object.keys(frame.components).forEach((componentKey) => {
       const states: string[] = []
       const props: PropData = {}
+      const counters: Record<string, number> = {}
       const { variants, ...component_ } = frame.components[componentKey]
-      Object.keys(variants).forEach((variantKey) => {
+      const variantKeys = Object.keys(variants)
+      variantKeys.forEach((variantKey, index) => {
         const variant = variants[variantKey]
         const keyValues = variantNameToKeyValues(variant.name)
         if (!keyValues.length) return
@@ -101,9 +101,15 @@ function processVariants(output: RawOutput): Output {
             if (!states.includes(value)) states.push(value)
             return
           }
-          if (!props[key]) props[key] = { name: key, values: [] }
+          if (!props[key]) props[key] = { name: key, values: [], mandatory: true }
           if (!props[key].values.includes(value)) props[key].values.push(value)
+          counters[key] = counters[key] ?? 0
+          counters[key]++
         })
+      })
+      Object.keys(props).forEach((key) => {
+        const prop = props[key]
+        prop.mandatory = counters[key] === variantKeys.length - 1
       })
       const component = { ...component_, states, props }
       components[componentKey] = component
@@ -159,5 +165,5 @@ export default async function fetchComponents(fileId: string) {
   )
 
   const data = processVariants(cleanOutput(output))
-  return { file: fileId, data }
+  return { file: fileId, timestamp: new Date().getTime(), data }
 }

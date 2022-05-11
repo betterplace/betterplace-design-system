@@ -25,7 +25,7 @@ module.exports = {
       extends: ['eslint:recommended', 'plugin:mdx/recommended', 'plugin:prettier/recommended'],
       parser: 'eslint-mdx',
     },
-    { files: ['figma/**/*'], parserOptions: { project: './tsconfig.node.json' } },
+    { files: ['figma/**/*', 'generator/**/*'], parserOptions: { project: './tsconfig.node.json' } },
   ],
   settings: {
     react: {

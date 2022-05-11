@@ -4,7 +4,8 @@
     "module": "esnext",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "skipLibCheck": true
   },
-  "include": ["vite.config.ts", "figma/**/*"]
+  "include": ["vite.config.ts", "figma/**/*", "generator/**/*"]
 }

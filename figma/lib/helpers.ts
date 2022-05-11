@@ -24,6 +24,14 @@ export function camelize(str: string, capitalizeInitial?: boolean): string {
   return res
 }
 
+export function snakeify(str: string) {
+  return str
+    .replace(/([A-Z])/g, ' $1')
+    .split(' ')
+    .join('_')
+    .toLowerCase()
+}
+
 export type DataTuple<T, K extends string = string> = readonly [string, K, T]
 
 export type ExtractorFn<T, K extends string = string> = (node: Node) => DataTuple<T, K> | undefined

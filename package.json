@@ -50,6 +50,7 @@
     "@storybook/testing-library": "^0.0.9",
     "@types/react": "^17.0.10",
     "@types/react-dom": "^17.0.10",
+    "@types/yeoman-generator": "^5.2.10",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
     "@typescript-eslint/parser": "^5.20.0",
     "@vitejs/plugin-react": "^1.0.7",
@@ -77,7 +78,9 @@
     "vite": "^2.9.0",
     "vite-plugin-dts": "^1.0.5",
     "vite-plugin-dynamic-import": "^0.9.3",
-    "vite-plugin-eslint": "^1.6.0"
+    "vite-plugin-eslint": "^1.6.0",
+    "yeoman-generator": "^5.6.1",
+    "yo": "^4.3.0"
   },
   "lint-staged": {
     "**/*.ts?(x)": "bash -c tsc -p ./tsconfig.json --noEmit",
