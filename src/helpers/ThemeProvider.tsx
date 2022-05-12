@@ -25,12 +25,21 @@ type ThemeProviderProps = {
   children: ReactNode
 }
 
-export const ThemeContext = React.createContext({})
+type Tokens = typeof tokens
+export type ThemeProviderContext = {
+  theme?: Theme
+  tokens?: {
+    global: Tokens['global']
+    theme: Tokens[Exclude<keyof Tokens, 'globals'>]
+  }
+}
+
+export const ThemeContext = React.createContext<ThemeProviderContext>({})
 
 export const ThemeProvider = (props: ThemeProviderProps) => {
   const [themeVars, setThemeVars] = useState('')
 
-  const theme = {
+  const theme: ThemeProviderContext = {
     theme: props.theme,
     tokens: {
       global: tokens.global,
@@ -50,7 +59,12 @@ export const ThemeProvider = (props: ThemeProviderProps) => {
   )
 }
 
-export const withThemeProvider = (Story: any, context: { globals: { theme: Theme } }) => {
+export type ThemeDecoratorContext = { globals: { theme: Theme } }
+
+export const withThemeProvider = (
+  Story: React.ComponentType<ThemeDecoratorContext>,
+  context: ThemeDecoratorContext
+) => {
   return (
     <ThemeProvider theme={context.globals.theme}>
       <Story {...context} />
