@@ -13,7 +13,7 @@ StyleDictionary.registerTransformGroup({
 })
 
 StyleDictionary.registerTransformGroup({
-  name: 'custom/js',
+  name: 'custom/json',
   transforms: [
     ...StyleDictionary.transformGroup['js'],
     'name/cti/kebab',

@@ -1,4 +1,5 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react'
+import themeTokens from '../../../build/json/themes/org.json'
 
 export default {
   title: 'Foundations/Design Tokens/Colors',
@@ -22,5 +23,5 @@ const Template: ComponentStory<typeof ColorSwatch> = (args) => <ColorSwatch {...
 
 export const MainColors = Template.bind({})
 MainColors.args = {
-  colors: ['betterplace-color-primary', 'betterplace-color-secondary'],
+  colors: Object.keys(themeTokens).filter((token) => token.startsWith('betterplace-color')),
 }

@@ -37,11 +37,11 @@ module.exports = {
         outputReferences: true,
       },
     },
-    js: {
-      transformGroup: 'custom/js',
+    json: {
+      transformGroup: 'custom/json',
       prefix: 'betterplace',
-      buildPath: 'build/js/',
-      files: getFileConfig('js', 'javascript/module-flat'),
+      buildPath: 'build/json/',
+      files: getFileConfig('json', 'json/flat'),
       options: {
         outputReferences: true,
       },
