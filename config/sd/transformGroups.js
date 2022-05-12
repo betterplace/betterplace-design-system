@@ -8,7 +8,6 @@ StyleDictionary.registerTransformGroup({
     'size/pxToRem',
     'value/quote',
     'value/boxShadow',
-    'value/typography',
   ],
 })
 
