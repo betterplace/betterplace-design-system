@@ -11,3 +11,14 @@ StyleDictionary.registerTransformGroup({
     'value/typography',
   ],
 })
+
+StyleDictionary.registerTransformGroup({
+  name: 'custom/js',
+  transforms: [
+    ...StyleDictionary.transformGroup['js'],
+    'name/cti/kebab',
+    'name/theme',
+    'size/pxToRem',
+    'value/boxShadow',
+  ],
+})

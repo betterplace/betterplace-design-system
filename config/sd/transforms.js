@@ -9,7 +9,8 @@ StyleDictionary.registerTransform({
     return themes.includes(token.attributes.category)
   },
   transformer: function (token) {
-    return token.name.replace(token.attributes.category + '-', '')
+    const regex = new RegExp(token.attributes.category, 'ig')
+    return token.name.replace(regex, '').replace('--', '-')
   },
 })
 
