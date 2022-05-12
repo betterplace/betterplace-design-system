@@ -1,9 +1,9 @@
 /**
  * Do not edit directly
- * Generated on Mon, 09 May 2022 13:21:12 GMT
+ * Generated on Thu, 12 May 2022 13:49:00 GMT
  */
 
 :root {
-  --betterplace-color-secondary: var(--betterplace-global-secondary-purple-600);
-  --betterplace-color-primary: var(--betterplace-global-primary-green-800);
+  --betterplace-color-secondary: var(--betterplace-secondary-purple-600);
+  --betterplace-color-primary: var(--betterplace-primary-green-800);
 }

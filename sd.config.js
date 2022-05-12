@@ -49,7 +49,7 @@ StyleDictionary.registerTransform({
   },
 })
 
-// typography
+// TODO: output typography styles as mixin
 StyleDictionary.registerTransform({
   name: 'value/typography',
   type: 'value',
@@ -57,8 +57,40 @@ StyleDictionary.registerTransform({
     return token.type === 'typography'
   },
   transformer: function (token) {
-    // TODO: add mixin instead of single tokens
-    return null
+    console.log(token)
+    return `{
+      font-family: ${token.value.fontFamily};
+      font-size: ${token.value.fontSize};
+      font-weight: ${token.value.fontWeight};
+      line-height: ${token.value.lineHeight};
+      letter-spacing: ${token.value.letterSpacing};
+      text-transform: ${token.value.textCase};
+      text-decoration: ${token.value.textDecoration};
+    }`
+  },
+})
+
+StyleDictionary.registerParser({
+  pattern: /\.json$/,
+  parse: ({ contents }) => {
+    // replace the old reference syntax with the one style-dictionary understands
+    // e.g. "$fontFamilies.fira-sans" -> "{fontFamilies.fira-sans}"
+    // see https://docs.tokens.studio/tokens/aliases
+    const tokens = JSON.parse(contents.replace(/\$([^"]+)/g, `{$1}`))
+
+    // strip away the global key for global token set but keep the themes nested
+    // this is necessary, because the references from Figma Tokens do not include the token set key
+    // e.g. {Primary.Green 800} would not work
+    let transformedTokens = tokens['global']
+
+    Object.keys(tokens).forEach((set) => {
+      // only add the token set if it is defined as a valid theme
+      if (themes.includes(set)) {
+        transformedTokens[set] = tokens[set]
+      }
+    })
+
+    return transformedTokens
   },
 })
 
@@ -76,7 +108,7 @@ module.exports = {
         'size/pxToRem',
         'value/quote',
         'value/boxShadow',
-        'value/typography',
+        // 'value/typography',
       ],
       prefix: 'betterplace',
       buildPath: 'build/css/',
@@ -85,6 +117,7 @@ module.exports = {
           destination: `themes/${theme}.css`,
           format: 'css/variables',
           options: {
+            // if we want to only include the theme specific variables we would need to set this to false
             outputReferences: true,
           },
           filter: {
@@ -99,31 +132,12 @@ module.exports = {
           options: {
             outputReferences: true,
           },
-          filter: {
-            attributes: {
-              category: 'global',
-            },
+          filter: (token) => {
+            // all non-theme tokens are considered globals
+            return !themes.includes(token.attributes.category)
           },
         },
       ],
     },
   },
-  parsers: [
-    {
-      pattern: /\.json$/,
-      parse: ({ contents }) => {
-        const tokens = JSON.parse(contents)
-
-        Object.keys(tokens).forEach((category) => {
-          categoryContents = JSON.stringify(tokens[category])
-          // TODO: how do we know which category the reference belongs to?
-          // categoryContents = categoryContents.replace(/"\$([^"]+)"/g, `"{${category}.$1.value}"`)
-          categoryContents = categoryContents.replace(/"\$([^"]+)"/g, `"{global.$1.value}"`)
-          tokens[category] = JSON.parse(categoryContents)
-        })
-
-        return tokens
-      },
-    },
-  ],
 }
