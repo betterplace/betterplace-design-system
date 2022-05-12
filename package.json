@@ -25,7 +25,7 @@
     "preview": "vite preview",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "build-tokens": "style-dictionary build --config sd.config.js",
+    "build-tokens": "style-dictionary build --config config/sd.config.js",
     "prepare": "husky install"
   },
   "dependencies": {
