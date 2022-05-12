@@ -5,11 +5,8 @@ import getPropTypes from './lib/generate_component_prop_types'
 function generateAllTypes(data: Output): string {
   let res = ''
   for (const key in data) {
-    const components = data[key].components
-    for (const compKey in components) {
-      const component = components[compKey]
-      res += getPropTypes(component)
-    }
+    const component = data[key]
+    res += getPropTypes(component)
   }
   return res
 }

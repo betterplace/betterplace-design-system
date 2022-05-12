@@ -1,6 +1,8 @@
 import { Node } from 'figma-api'
 import { ComponentMetadata } from 'figma-api/lib/api-types'
 import Figma from './client'
+import AVAILABLE_THEMES from '../../src/themes'
+const THEME_KEYS = AVAILABLE_THEMES.map(({ key }) => key)
 import { getWalk, getFileTopLevelChildren, camelize, ExtractorFn } from './helpers'
 
 const getComponent: ExtractorFn<Node<'COMPONENT'>, 'COMPONENT'> = (node: Node) => {
@@ -23,44 +25,67 @@ const extractors = [getComponent, getFrame, getComponentSet] as const
 export type PropData = Record<string, { mandatory: boolean; name: string; values: string[] }>
 type RawComponentsType = {
   variants: Record<string, Pick<Node<'COMPONENT'>, 'name'>>
+  theme?: string
 }
+export type ThemeData = Record<string, { id: string; theme: string }>
+type MergedComponentType = Omit<RawComponentsType, 'theme'> & { themes?: ThemeData }
 
-type ComponentsType = { states: string[]; props: PropData }
-
-type RawOutput<Type = RawComponentsType> = Record<
-  string,
-  Pick<Node<'FRAME'>, 'name'> & {
-    url: string
-    canvasName: string
-    components: RawComponentInfoMap<Type>
-  }
->
-type RawComponentInfo<T extends {}> = Pick<Node<'COMPONENT_SET'>, 'name' | 'id'> & { path: string } & T
-type RawComponentInfoMap<T extends {}> = Record<string, RawComponentInfo<T>>
+type ComponentsType = { states: string[]; props: PropData; themes?: ThemeData }
+type CommonComponentInfo = Pick<Node<'COMPONENT_SET'>, 'name' | 'id'> & {
+  path: string
+  canvasName: string
+  frameId: string
+  frameName: string
+}
+type RawOutput<Type extends {} = RawComponentsType> = Record<string, RawComponentInfo<Type>>
+type RawComponentInfo<T extends {}> = CommonComponentInfo & T
 
 export type Output = RawOutput<ComponentsType>
 export type ComponentInfo = RawComponentInfo<ComponentsType>
 
-function findComponentSetFrameId(output: RawOutput, componentSetId: string): string {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  return Object.keys(output).find((key) => !!output[key].components[componentSetId])!
-}
+// function findComponentSetFrameId(output: RawOutput, componentSetId: string): string {
+//   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+//   return Object.keys(output).find((key) => !!output[key].components[componentSetId])!
+// }
 
-function cleanOutput(output: RawOutput): RawOutput {
-  const res: RawOutput = {}
-  Object.keys(output).forEach((key) => {
-    const len = Object.keys(output[key].components)?.length ?? 0
-    if (!len) return
-    const emptyDefault =
-      !!output[key].components['none'] && !Object.keys(output[key].components['none'].variants).length
-    if (len === 1 && emptyDefault) return
-    res[key] = output[key]
-    if (emptyDefault) {
-      const { ['none']: _, ...components } = res[key].components
-      res[key].components = components
+// function cleanOutput<T extends RawOutput>(output: T): T {
+//   const res: T = {} as T
+//   Object.keys(output).forEach((key: Extract<string, keyof T>) => {
+//     const len = Object.keys(output[key].components)?.length ?? 0
+//     if (!len) return
+//     const emptyDefault =
+//       !!output[key].components['none'] && !Object.keys(output[key].components['none'].variants).length
+//     if (len === 1 && emptyDefault) return
+//     res[key] = output[key]
+//     if (emptyDefault) {
+//       const { ['none']: _, ...components } = res[key].components
+//       res[key].components = components
+//     }
+//   })
+//   return res
+// }
+
+function combineThemes(output: RawOutput): RawOutput<MergedComponentType> {
+  let compKeys = Object.keys(output)
+  const components = compKeys.reduce((agg, compKey) => {
+    const cmp = output[compKey]
+    const theme = cmp.theme ?? 'global'
+    if (agg[cmp.path]) {
+      agg[cmp.path].variants = { ...agg[cmp.path].variants, ...cmp.variants }
+    } else {
+      agg[cmp.path] = cmp
+      agg[cmp.path].themes = {}
     }
+    agg[cmp.path].themes[theme] = { id: cmp.id, theme }
+    delete cmp.theme
+    return agg
+  }, {} as RawOutput<MergedComponentType>)
+  compKeys = Object.keys(components)
+  compKeys.forEach((compKey) => {
+    const cmp = components[compKey]
+    if ((Object.keys(cmp.themes)?.length ?? 0) < 2) delete cmp.themes
   })
-  return res
+  return components
 }
 
 function variantNameToKeyValues(variantName: string) {
@@ -80,90 +105,89 @@ function variantNameToKeyValues(variantName: string) {
 function isStateKey(key: string) {
   return ['state'].includes(key.toLowerCase())
 }
-function processVariants(output: RawOutput): Output {
+function processVariants(output: RawOutput<MergedComponentType>): Output {
   const res: Output = {}
-  Object.keys(output).forEach((frameKey) => {
-    const frame = output[frameKey]
-    const components: Record<string, Pick<Node<'COMPONENT_SET'>, 'name' | 'id'> & { path: string } & ComponentsType> =
-      {}
-    Object.keys(frame.components).forEach((componentKey) => {
-      const states: string[] = []
-      const props: PropData = {}
-      const counters: Record<string, number> = {}
-      const { variants, ...component_ } = frame.components[componentKey]
-      const variantKeys = Object.keys(variants)
-      variantKeys.forEach((variantKey, index) => {
-        const variant = variants[variantKey]
-        const keyValues = variantNameToKeyValues(variant.name)
-        if (!keyValues.length) return
-        keyValues.forEach(({ key, value }) => {
-          if (isStateKey(key)) {
-            if (!states.includes(value)) states.push(value)
-            return
-          }
-          if (!props[key]) props[key] = { name: key, values: [], mandatory: true }
-          if (!props[key].values.includes(value)) props[key].values.push(value)
-          counters[key] = counters[key] ?? 0
-          counters[key]++
-        })
+
+  Object.keys(output).forEach((componentKey) => {
+    const states: string[] = []
+    const props: PropData = {}
+    const counters: Record<string, number> = {}
+    const { variants, ...component_ } = output[componentKey]
+    const variantKeys = Object.keys(variants)
+    variantKeys.forEach((variantKey, index) => {
+      const variant = variants[variantKey]
+      const keyValues = variantNameToKeyValues(variant.name)
+      if (!keyValues.length) return
+      keyValues.forEach(({ key, value }) => {
+        if (isStateKey(key)) {
+          if (!states.includes(value)) states.push(value)
+          return
+        }
+        if (!props[key]) props[key] = { name: key, values: [], mandatory: true }
+        if (!props[key].values.includes(value)) props[key].values.push(value)
+        counters[key] = counters[key] ?? 0
+        counters[key]++
       })
-      Object.keys(props).forEach((key) => {
-        const prop = props[key]
-        prop.mandatory = counters[key] === variantKeys.length - 1
-      })
-      const component = { ...component_, states, props }
-      components[componentKey] = component
     })
-    res[frameKey] = { ...frame, components }
+    Object.keys(props).forEach((key) => {
+      const prop = props[key]
+      prop.mandatory = counters[key] === variantKeys.length - 1
+    })
+    const component = { ...component_, states, props }
+    res[componentKey] = component
   })
+
   return res
+}
+
+function isThemeKey(key: string): boolean {
+  return (THEME_KEYS as string[]).includes(key)
 }
 
 function getNameAndPath(origName: string) {
   const nameSections = origName
     .split(/\//g)
-    .filter((section) => !!section && !['at', 'org', 'me', 'global'].includes(section))
-  const path = nameSections.join('/')
+    .map((s) => s.trim())
+    .filter(Boolean)
+
+  const path = nameSections.filter((section) => ![...THEME_KEYS, 'global'].includes(section)).join('/')
   const name = camelize(nameSections[0], true)
-  return { name, path }
+  const lastSection = nameSections[nameSections.length - 1]
+  const theme = isThemeKey(lastSection) ? lastSection : undefined
+  return { name, path, theme }
 }
 
 export default async function fetchComponents(fileId: string) {
   const res = await Figma.getFile(fileId)
   const topLevelCanvas = getFileTopLevelChildren(res.document)
-  const output: RawOutput = { ['none']: { url: '', components: {}, name: '', canvasName: '' } }
+  const output: RawOutput = {}
+  let frameName = ''
+  let frameId = ''
   topLevelCanvas.forEach((topLevel) =>
     getWalk(extractors)((data, parent) => {
       const [id, type, node] = data
+      const canvasName = topLevel.name
       if (type === 'FRAME') {
-        const canvasName = topLevel.name
-        output[id] = { url: id, name: node.name, canvasName, components: {} }
+        frameName = node.name
+        frameId = node.id
         return
       }
       if (type === 'COMPONENT_SET') {
-        const { name, path } = getNameAndPath(node.name)
-        output[parent?.id ?? 'none'].components[id] = { id, name, path, variants: {} }
+        const { name, path, theme } = getNameAndPath(node.name)
+        output[path] = { id, name, theme, frameId, frameName, canvasName, path, variants: {} }
         return
       }
-      let setId = ''
-      let frameId = 'none'
       if (parent?.type === 'COMPONENT_SET') {
-        setId = parent.id
-        frameId = findComponentSetFrameId(output, setId)
+        const { path } = getNameAndPath(parent.name)
+        output[path].variants[id] = { name: node.name }
       } else if (parent?.type === 'FRAME') {
-        const { name, path } = getNameAndPath(node.name)
-        output[parent?.id].components[id] = { id, name, path, variants: {} }
+        const { name, path, theme } = getNameAndPath(node.name)
+        output[path] = { id, name, theme, frameId, frameName, canvasName, path, variants: {} }
         return
-      }
-      try {
-        const { name } = node
-        output[frameId].components[setId].variants[id] = { name }
-      } catch (_e) {
-        // ignore
       }
     })(topLevel.children)
   )
 
-  const data = processVariants(cleanOutput(output))
+  const data = processVariants(combineThemes(output))
   return { file: fileId, timestamp: new Date().getTime(), data }
 }

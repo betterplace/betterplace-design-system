@@ -1,21 +1,6 @@
 import React, { ReactNode, useState } from 'react'
 import { tokens } from '../../tokens'
-
-export const AVAILABLE_THEMES = [
-  {
-    key: 'org',
-    title: 'betterplace.org',
-  },
-  {
-    key: 'at',
-    title: 'betterplace.at',
-  },
-  {
-    key: 'me',
-    title: 'betterplace.me',
-  },
-] as const
-
+import AVAILABLE_THEMES from '../themes'
 const keys = AVAILABLE_THEMES.map((theme) => theme.key)
 type Theme = typeof keys[number]
 
