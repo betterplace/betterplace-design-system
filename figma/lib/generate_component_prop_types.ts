@@ -13,11 +13,11 @@ export default function generateComponentPropTypes({ props, name }: ComponentInf
     const { mandatory: mandatory_, values: values_, name } = props[key]
     const values = stripBooleanValues(values_)
     const bool = !values.length || values.length !== values_.length
-    const onlyString = values.length === 1
+    const simpleType = values.length === 1
     const optional = !mandatory_ || bool
     res += `${name}${optional ? '?' : ''}: `
     let type = ''
-    if (!onlyString) {
+    if (!simpleType) {
       type += values
         .filter((v) => v.toLowerCase() !== defLabel)
         .map((v) => `'${v}'`)
