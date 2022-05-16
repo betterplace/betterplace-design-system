@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from 'react'
 import { tokens } from '../../tokens'
-import AVAILABLE_THEMES from '../themes'
+import AVAILABLE_THEMES from '../lib/shared/themes'
 const keys = AVAILABLE_THEMES.map((theme) => theme.key)
 type Theme = typeof keys[number]
 

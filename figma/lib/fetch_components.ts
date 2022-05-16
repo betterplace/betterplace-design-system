@@ -1,7 +1,7 @@
 import { Node } from 'figma-api'
-import { ComponentMetadata } from 'figma-api/lib/api-types'
+import { ComponentMetadata, GetFileResult } from 'figma-api/lib/api-types'
 import Figma from './client'
-import AVAILABLE_THEMES from '../../src/themes'
+import AVAILABLE_THEMES from '../../src/lib/shared/themes'
 const THEME_KEYS = AVAILABLE_THEMES.map(({ key }) => key)
 import { getWalk, getFileTopLevelChildren, camelize, ExtractorFn } from './helpers'
 
@@ -22,6 +22,11 @@ const getComponentSet: ExtractorFn<Node<'COMPONENT_SET'>, 'COMPONENT_SET'> = (no
 
 const extractors = [getComponent, getFrame, getComponentSet] as const
 
+export function fetchComponentLink({ name, id: fileId }: FileInfo, { id: id_, themes }: ComponentInfo, theme?: string) {
+  const id = (theme && themes[theme]?.id) ?? id_
+  return `${process.env.STORYBOOK_FIGMA_URL}/file/${fileId}/${name}?node-id=${encodeURIComponent(id)}`
+}
+
 export type PropData = Record<string, { mandatory: boolean; name: string; values: string[] }>
 type RawComponentsType = {
   variants: Record<string, Pick<Node<'COMPONENT'>, 'name'>>
@@ -40,30 +45,20 @@ type CommonComponentInfo = Pick<Node<'COMPONENT_SET'>, 'name' | 'id'> & {
 type RawOutput<Type extends {} = RawComponentsType> = Record<string, RawComponentInfo<Type>>
 type RawComponentInfo<T extends {}> = CommonComponentInfo & T
 
+export type FileInfo = { name: string; id: string }
+
 export type Output = RawOutput<ComponentsType>
 export type ComponentInfo = RawComponentInfo<ComponentsType>
 
-// function findComponentSetFrameId(output: RawOutput, componentSetId: string): string {
-//   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-//   return Object.keys(output).find((key) => !!output[key].components[componentSetId])!
-// }
-
-// function cleanOutput<T extends RawOutput>(output: T): T {
-//   const res: T = {} as T
-//   Object.keys(output).forEach((key: Extract<string, keyof T>) => {
-//     const len = Object.keys(output[key].components)?.length ?? 0
-//     if (!len) return
-//     const emptyDefault =
-//       !!output[key].components['none'] && !Object.keys(output[key].components['none'].variants).length
-//     if (len === 1 && emptyDefault) return
-//     res[key] = output[key]
-//     if (emptyDefault) {
-//       const { ['none']: _, ...components } = res[key].components
-//       res[key].components = components
-//     }
-//   })
-//   return res
-// }
+function cleanOutput<T extends RawOutput>(output: T): T {
+  const res: T = {} as T
+  Object.keys(output).forEach((key: Extract<string, keyof T>) => {
+    const comp = output[key]
+    if (key.match(/Group\s[0-9]+/g)) return
+    res[key] = comp
+  })
+  return res
+}
 
 function combineThemes(output: RawOutput): RawOutput<MergedComponentType> {
   let compKeys = Object.keys(output)
@@ -114,7 +109,7 @@ function processVariants(output: RawOutput<MergedComponentType>): Output {
     const counters: Record<string, number> = {}
     const { variants, ...component_ } = output[componentKey]
     const variantKeys = Object.keys(variants)
-    variantKeys.forEach((variantKey, index) => {
+    variantKeys.forEach((variantKey) => {
       const variant = variants[variantKey]
       const keyValues = variantNameToKeyValues(variant.name)
       if (!keyValues.length) return
@@ -131,7 +126,7 @@ function processVariants(output: RawOutput<MergedComponentType>): Output {
     })
     Object.keys(props).forEach((key) => {
       const prop = props[key]
-      prop.mandatory = counters[key] === variantKeys.length - 1
+      prop.mandatory = counters[key] === variantKeys.length && !prop.values.includes('default')
     })
     const component = { ...component_, states, props }
     res[componentKey] = component
@@ -159,6 +154,7 @@ function getNameAndPath(origName: string) {
 
 export default async function fetchComponents(fileId: string) {
   const res = await Figma.getFile(fileId)
+  const fileName = res.name
   const topLevelCanvas = getFileTopLevelChildren(res.document)
   const output: RawOutput = {}
   let frameName = ''
@@ -174,20 +170,29 @@ export default async function fetchComponents(fileId: string) {
       }
       if (type === 'COMPONENT_SET') {
         const { name, path, theme } = getNameAndPath(node.name)
-        output[path] = { id, name, theme, frameId, frameName, canvasName, path, variants: {} }
+        const key = path + '/' + theme
+        output[key] = { id, name, theme, frameId, frameName, canvasName, path, variants: {} }
         return
       }
       if (parent?.type === 'COMPONENT_SET') {
-        const { path } = getNameAndPath(parent.name)
-        output[path].variants[id] = { name: node.name }
+        const { path, theme } = getNameAndPath(parent.name)
+        const key = path + '/' + theme
+        output[key].variants[id] = { name: node.name }
       } else if (parent?.type === 'FRAME') {
         const { name, path, theme } = getNameAndPath(node.name)
-        output[path] = { id, name, theme, frameId, frameName, canvasName, path, variants: {} }
+        const key = path + '/' + theme
+        output[key] = { id, name, theme, frameId, frameName, canvasName, path, variants: {} }
         return
       }
     })(topLevel.children)
   )
 
-  const data = processVariants(combineThemes(output))
-  return { file: fileId, timestamp: new Date().getTime(), data }
+  const data = processVariants(combineThemes(cleanOutput(output)))
+  return {
+    meta: {
+      file: { id: fileId, name: fileName },
+      timestamp: new Date().getTime(),
+    },
+    data,
+  }
 }

@@ -1,37 +1,6 @@
 {
-  "file": "PJ7OUutWRrSHW6qgaPNW1l",
-  "timestamp": 1652368742366,
+  "meta": { "file": { "id": "PJ7OUutWRrSHW6qgaPNW1l", "name": "DS betterplace GENERAL" }, "timestamp": 1652730533724 },
   "data": {
-    "Group 15": {
-      "id": "134:3862",
-      "name": "Group15",
-      "frameId": "134:3859",
-      "frameName": "Frame 37",
-      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
-      "path": "Group 15",
-      "states": [],
-      "props": {}
-    },
-    "Group 16": {
-      "id": "134:3861",
-      "name": "Group16",
-      "frameId": "134:3859",
-      "frameName": "Frame 37",
-      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
-      "path": "Group 16",
-      "states": [],
-      "props": {}
-    },
-    "Group 17": {
-      "id": "134:3860",
-      "name": "Group17",
-      "frameId": "134:3859",
-      "frameName": "Frame 37",
-      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
-      "path": "Group 17",
-      "states": [],
-      "props": {}
-    },
     "tag": {
       "id": "230:1297",
       "name": "Tag",
@@ -54,7 +23,7 @@
         "type": {
           "name": "type",
           "values": ["adminBox", "infoBox", "cardBox", "adminHeaderBox", "cardTeaser"],
-          "mandatory": false
+          "mandatory": true
         }
       }
     },
@@ -67,7 +36,7 @@
       "path": "input",
       "states": [],
       "props": {
-        "type": { "name": "type", "values": ["regular", "longText", "dropdown"], "mandatory": false },
+        "type": { "name": "type", "values": ["regular", "longText", "dropdown"], "mandatory": true },
         "variation": {
           "name": "variation",
           "values": ["default", "creditcardInput", "hint", "error", "hintAndError", "open", "label"],
@@ -95,9 +64,9 @@
       "path": "input/variation/country",
       "states": [],
       "props": {
-        "property1": { "name": "property1", "values": ["dropdown"], "mandatory": false },
+        "property1": { "name": "property1", "values": ["dropdown"], "mandatory": true },
         "property2": { "name": "property2", "values": ["default", "open"], "mandatory": false },
-        "property3": { "name": "property3", "values": ["Österreich", "deutschland"], "mandatory": false }
+        "property3": { "name": "property3", "values": ["Österreich", "deutschland"], "mandatory": true }
       }
     },
     "checkbox/singular": {
@@ -109,9 +78,9 @@
       "path": "checkbox/singular",
       "states": ["active", "disabled"],
       "props": {
-        "check": { "name": "check", "values": ["false", "true"], "mandatory": false },
-        "label": { "name": "label", "values": ["false"], "mandatory": false },
-        "hint": { "name": "hint", "values": ["false"], "mandatory": false }
+        "check": { "name": "check", "values": ["false", "true"], "mandatory": true },
+        "label": { "name": "label", "values": ["false"], "mandatory": true },
+        "hint": { "name": "hint", "values": ["false"], "mandatory": true }
       }
     },
     "checkbox/multiple": {
@@ -122,7 +91,7 @@
       "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
       "path": "checkbox/multiple",
       "states": [],
-      "props": { "hint": { "name": "hint", "values": ["false", "true"], "mandatory": false } }
+      "props": { "hint": { "name": "hint", "values": ["false", "true"], "mandatory": true } }
     },
     "radiobutton/singular": {
       "id": "111:917",
@@ -132,7 +101,7 @@
       "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
       "path": "radiobutton/singular",
       "states": ["default", "disabled"],
-      "props": { "property1": { "name": "property1", "values": ["false", "true"], "mandatory": false } }
+      "props": { "property1": { "name": "property1", "values": ["false", "true"], "mandatory": true } }
     },
     "radiobutton/multiple": {
       "id": "111:928",
@@ -142,7 +111,7 @@
       "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
       "path": "radiobutton/multiple",
       "states": [],
-      "props": { "property1": { "name": "property1", "values": ["noHint", "hint"], "mandatory": false } }
+      "props": { "property1": { "name": "property1", "values": ["noHint", "hint"], "mandatory": true } }
     },
     "tab": {
       "id": "208:1513",
@@ -153,8 +122,8 @@
       "path": "tab",
       "states": [],
       "props": {
-        "property1": { "name": "property1", "values": ["active", "standalone", "inactive"], "mandatory": false },
-        "property2": { "name": "property2", "values": ["noCounter", "counter"], "mandatory": false },
+        "property1": { "name": "property1", "values": ["active", "standalone", "inactive"], "mandatory": true },
+        "property2": { "name": "property2", "values": ["noCounter", "counter"], "mandatory": true },
         "device": { "name": "device", "values": ["desktop", "mobile", "default"], "mandatory": false }
       }
     },
@@ -186,7 +155,7 @@
       "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
       "path": "modal",
       "states": [],
-      "props": { "property1": { "name": "property1", "values": ["mobile", "desktop"], "mandatory": false } }
+      "props": { "property1": { "name": "property1", "values": ["mobile", "desktop"], "mandatory": true } }
     },
     "gallery-progress": {
       "id": "320:1885",
@@ -208,7 +177,7 @@
       "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
       "path": "status-message",
       "states": [],
-      "props": { "property1": { "name": "property1", "values": ["success", "warning", "error"], "mandatory": false } }
+      "props": { "property1": { "name": "property1", "values": ["success", "warning", "error"], "mandatory": true } }
     },
     "image-info": {
       "id": "204:1960",
@@ -219,7 +188,7 @@
       "path": "image-info",
       "states": ["default", "undefined", "comment"],
       "props": {
-        "property1": { "name": "property1", "values": ["organization", "profile", "donation"], "mandatory": false }
+        "property1": { "name": "property1", "values": ["organization", "profile", "donation"], "mandatory": true }
       }
     },
     "navigation/dots": {
@@ -231,7 +200,7 @@
       "path": "navigation/dots",
       "states": [],
       "props": {
-        "property1": { "name": "property1", "values": ["first", "second", "third", "fourth"], "mandatory": false }
+        "property1": { "name": "property1", "values": ["first", "second", "third", "fourth"], "mandatory": true }
       }
     },
     "accordion": {
@@ -243,7 +212,7 @@
       "path": "accordion",
       "states": [],
       "props": {
-        "property1": { "name": "property1", "values": ["accordion"], "mandatory": false },
+        "property1": { "name": "property1", "values": ["accordion"], "mandatory": true },
         "property2": { "name": "property2", "values": ["default", "open"], "mandatory": false },
         "property3": { "name": "property3", "values": ["default", "Österreich"], "mandatory": false }
       }
@@ -267,8 +236,8 @@
       "path": "hint/dropdown",
       "states": [],
       "props": {
-        "property1": { "name": "property1", "values": ["close", "open"], "mandatory": false },
-        "background": { "name": "background", "values": ["transparent", "gray"], "mandatory": false }
+        "property1": { "name": "property1", "values": ["close", "open"], "mandatory": true },
+        "background": { "name": "background", "values": ["transparent", "gray"], "mandatory": true }
       }
     },
     "footer/mobile": {
@@ -279,7 +248,7 @@
       "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
       "path": "footer/mobile",
       "states": [],
-      "props": { "property1": { "name": "property1", "values": ["mobile"], "mandatory": false } }
+      "props": { "property1": { "name": "property1", "values": ["mobile"], "mandatory": true } }
     },
     "footer/desktop": {
       "id": "106:577",
@@ -303,7 +272,7 @@
         "iconType": {
           "name": "iconType",
           "values": ["arrowRight", "camera", "checkmark", "user", "heart", "home", "search", "userAlt", "infoI"],
-          "mandatory": false
+          "mandatory": true
         }
       }
     },
@@ -319,7 +288,7 @@
         "type": {
           "name": "type",
           "values": ["ribbon", "heart", "thumbsUp", "eMailOpen", "rocket", "handsHeart", "donation", "plus10Heart"],
-          "mandatory": false
+          "mandatory": true
         }
       }
     },
@@ -335,7 +304,7 @@
         "property1": {
           "name": "property1",
           "values": ["twitter", "email", "link", "facebook", "messenger", "whatsapp", "instagram"],
-          "mandatory": false
+          "mandatory": true
         }
       }
     },
@@ -470,16 +439,18 @@
       "props": {}
     },
     "button/primary": {
-      "id": "194:1556",
+      "id": "105:93",
       "name": "Button",
       "frameId": "361:1874",
       "frameName": "Buttons",
       "canvasName": "08. Buttons",
       "path": "button/primary",
+      "themes": { "at": { "id": "105:93", "theme": "at" }, "me": { "id": "194:1556", "theme": "me" } },
       "states": ["default", "hover", "focused", "pressed", "disabled"],
       "props": {
-        "type": { "name": "type", "values": ["primary", "delete", "secondary"], "mandatory": false },
-        "size": { "name": "size", "values": ["large", "small"], "mandatory": false }
+        "type": { "name": "type", "values": ["primary", "delete", "secondary"], "mandatory": true },
+        "size": { "name": "size", "values": ["large", "small"], "mandatory": true },
+        "icon": { "name": "icon", "values": ["false", "true", "default"], "mandatory": false }
       }
     },
     "_admin-box": {
@@ -501,9 +472,9 @@
       "path": "header",
       "states": [],
       "props": {
-        "property1": { "name": "property1", "values": ["desktop", "mobile"], "mandatory": false },
+        "property1": { "name": "property1", "values": ["desktop", "mobile"], "mandatory": true },
         "user": { "name": "user", "values": ["default"], "mandatory": false },
-        "icons": { "name": "icons", "values": ["yesPlusLabel", "yes", "no"], "mandatory": false },
+        "icons": { "name": "icons", "values": ["yesPlusLabel", "yes", "no"], "mandatory": true },
         "adminState": { "name": "adminState", "values": ["default"], "mandatory": false }
       }
     },
@@ -516,9 +487,9 @@
       "path": "header-admin",
       "states": [],
       "props": {
-        "property1": { "name": "property1", "values": ["adminbox"], "mandatory": false },
-        "property2": { "name": "property2", "values": ["at"], "mandatory": false },
-        "property3": { "name": "property3", "values": ["desktop", "mobile"], "mandatory": false }
+        "property1": { "name": "property1", "values": ["adminbox"], "mandatory": true },
+        "property2": { "name": "property2", "values": ["at"], "mandatory": true },
+        "property3": { "name": "property3", "values": ["desktop", "mobile"], "mandatory": true }
       }
     },
     "Note": {
@@ -529,7 +500,7 @@
       "canvasName": "File Components",
       "path": "Note",
       "states": [],
-      "props": { "size": { "name": "size", "values": ["large", "small"], "mandatory": false } }
+      "props": { "size": { "name": "size", "values": ["large", "small"], "mandatory": true } }
     },
     "tokenbox": {
       "id": "723:2069",
@@ -579,7 +550,19 @@
       "canvasName": "File Components",
       "path": "Page Header",
       "states": [],
-      "props": { "darkMode": { "name": "darkMode", "values": ["off", "on"], "mandatory": false } }
+      "props": { "darkMode": { "name": "darkMode", "values": ["off", "on"], "mandatory": true } }
+    },
+    "Tablerow-tokens": {
+      "id": "1089:2903",
+      "name": "TablerowTokens",
+      "frameId": "1089:2922",
+      "frameName": "Frame 8",
+      "canvasName": "File Components",
+      "path": "Tablerow-tokens",
+      "states": [],
+      "props": {
+        "property1": { "name": "property1", "values": ["firstRow", "secondRow", "thirdRow"], "mandatory": true }
+      }
     }
   }
 }

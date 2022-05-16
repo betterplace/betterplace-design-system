@@ -7,5 +7,5 @@
     "esModuleInterop": true,
     "skipLibCheck": true
   },
-  "include": ["vite.config.ts", "figma/**/*", "generator/**/*"]
+  "include": ["vite.config.ts", "figma/**/*", "generator/**/*", "src/lib/shared/themes.ts"]
 }

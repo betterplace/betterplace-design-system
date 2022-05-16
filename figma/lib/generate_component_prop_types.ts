@@ -6,14 +6,14 @@ function stripBooleanValues(values: string[]): string[] {
 }
 
 export default function generateComponentPropTypes({ props, name }: ComponentInfo): string {
-  if (!Object.keys(props).length) return ''
   let res = `export type ${name}Props = {`
 
   for (const key in props) {
     const { mandatory: mandatory_, values: values_, name } = props[key]
     const values = stripBooleanValues(values_)
-    const bool = !values.length || values.length !== values_.length
+    let bool = !values.length || values.length !== values_.length
     const simpleType = values.length === 1
+    bool = bool && !simpleType
     const optional = !mandatory_ || bool
     res += `${name}${optional ? '?' : ''}: `
     let type = ''
@@ -23,7 +23,7 @@ export default function generateComponentPropTypes({ props, name }: ComponentInf
         .map((v) => `'${v}'`)
         .join(' | ')
     } else {
-      type += 'string'
+      type = 'any'
     }
     if (bool) {
       if (type) type += ' | '
