@@ -5,7 +5,7 @@ function stripBooleanValues(values: string[]): string[] {
   return values.filter((value) => !boolLabels.includes(value.toLowerCase()))
 }
 
-export default function generateComponentPropTypes({ props, name }: ComponentInfo): string {
+export default function generateComponentPropTypes({ props, name }: Pick<ComponentInfo, 'props' | 'name'>): string {
   let res = `export type ${name}Props = {`
 
   for (const key in props) {

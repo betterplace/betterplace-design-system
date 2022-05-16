@@ -22,7 +22,11 @@ const getComponentSet: ExtractorFn<Node<'COMPONENT_SET'>, 'COMPONENT_SET'> = (no
 
 const extractors = [getComponent, getFrame, getComponentSet] as const
 
-export function fetchComponentLink({ name, id: fileId }: FileInfo, { id: id_, themes }: ComponentInfo, theme?: string) {
+export function getComponentSpecUrl(
+  { name, id: fileId }: FileInfo,
+  { id: id_, themes }: ComponentInfo,
+  theme?: string
+) {
   const id = (theme && themes[theme]?.id) ?? id_
   return `${process.env.STORYBOOK_FIGMA_URL}/file/${fileId}/${name}?node-id=${encodeURIComponent(id)}`
 }

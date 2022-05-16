@@ -5,7 +5,8 @@
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "resolveJsonModule": true
   },
   "include": ["vite.config.ts", "figma/**/*", "generator/**/*", "src/lib/shared/themes.ts"]
 }
