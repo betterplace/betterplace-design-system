@@ -20,6 +20,8 @@ type Opts = GeneratorOpts &
 class StorybookGenerator extends Generator<GeneratorOpts> {
   options: Opts
   fileInfo?: FileInfo
+  componentPath: string
+  componentsRoot: string
 
   constructor(args: string | string[], opts: Opts) {
     super(args, opts)
@@ -36,6 +38,11 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
     this.options = { ...opts, props: opts.props ?? {} }
     this.options.camelizedName = camelize(this.options.name)
     this.options.snakifiedName = snakeify(this.options.camelizedName)
+    if (this.options.root) {
+      this.destinationRoot(this.options.root)
+    }
+    this.componentsRoot = this.destinationRoot() + '/components'
+    this.componentPath = `${this.componentsRoot}/${this.options.snakifiedName}`
   }
 
   async getFileInfo() {
@@ -52,31 +59,33 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
     if (!this.options.figma || !this.options.story) return Promise.resolve()
     const res = await import('../config/components.json').then((d) => d.data)
     const list: Array<ComponentInfo> = Object.keys(res).map((key) => res[key])
-
-    const engine = new Fuse(list, { includeScore: true, keys: ['path'] })
-    const results = engine.search(this.options.name)
-    if (!results.length) {
-      this.log('Could not find matching figma components')
-      return Promise.resolve()
+    let figma: ComponentInfo
+    const figmaPath = `${this.componentPath}/figma.lock.ts`
+    if (this.fs.exists(figmaPath)) {
+      const id: string = await import(figmaPath).then((module) => module.default.id)
+      figma = list.find((f) => f.id === id)
     }
-    const answers = await this.prompt([
-      {
-        type: 'list',
-        message: 'Choose figma component',
-        name: 'figma',
-        choices: results.map(({ item }) => ({ name: item.path, value: item })),
-      },
-    ] as const)
-    this.options = { ...this.options, ...answers.figma }
+    if (!figma) {
+      const engine = new Fuse(list, { includeScore: true, keys: ['path'] })
+      const results = engine.search(this.options.name)
+      if (!results.length) {
+        this.log('Could not find matching figma components')
+        return Promise.resolve()
+      }
+      const answers = await this.prompt([
+        {
+          type: 'list',
+          message: 'Choose figma component',
+          name: 'figma',
+          choices: results.map(({ item }) => ({ name: item.path, value: item })),
+        },
+      ] as const)
+      figma = answers.figma
+    }
+    this.options = { ...this.options, ...figma }
   }
 
   writing() {
-    if (this.options.root) {
-      this.log(this.options.root)
-      this.destinationRoot(this.options.root)
-    }
-    const componentsRoot = this.destinationRoot() + '/components'
-    const componentPath = `${componentsRoot}/${this.options.snakifiedName}`
     const types = generateComponentPropTypes(this.options)
     const cssFileName = `${this.options.snakifiedName}.module.css`
     const compFileName = `${this.options.snakifiedName}.tsx`
@@ -94,16 +103,20 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
       .join('/')
     const mainClassName = `${this.options.camelizedName}Main`
     const compName = camelize(this.options.name, true)
-    this.fs.write(`${componentPath}/types.ts`, types)
-    this.fs.copyTpl(this.templatePath('component.tsx.ejs'), this.destinationPath(`${componentPath}/${compFileName}`), {
-      propsName: `${compName}Props`,
-      cssFileName,
-      componentName: compName,
-      mainClassName,
-    })
+    this.fs.write(`${this.componentPath}/types.ts`, types)
+    this.fs.copyTpl(
+      this.templatePath('component.tsx.ejs'),
+      this.destinationPath(`${this.componentPath}/${compFileName}`),
+      {
+        propsName: `${compName}Props`,
+        cssFileName,
+        componentName: compName,
+        mainClassName,
+      }
+    )
     this.fs.copyTpl(
       this.templatePath('component.test.tsx.ejs'),
-      this.destinationPath(`${componentPath}/${this.options.snakifiedName}.test.tsx`),
+      this.destinationPath(`${this.componentPath}/${this.options.snakifiedName}.test.tsx`),
       {
         compName,
         compFileName: this.options.snakifiedName,
@@ -111,13 +124,17 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
       }
     )
     if (this.options.story) {
-      this.fs.copyTpl(this.templatePath('figma.lock.ts.ejs'), this.destinationPath(`${componentPath}/figma.lock.ts`), {
-        url: specUrl,
-        id: this.options.id,
-      })
+      this.fs.copyTpl(
+        this.templatePath('figma.lock.ts.ejs'),
+        this.destinationPath(`${this.componentPath}/figma.lock.ts`),
+        {
+          url: specUrl,
+          id: this.options.id,
+        }
+      )
       this.fs.copyTpl(
         this.templatePath('component.stories.tsx.ejs'),
-        this.destinationPath(`${componentPath}/${this.options.snakifiedName}.stories.tsx`),
+        this.destinationPath(`${this.componentPath}/${this.options.snakifiedName}.stories.tsx`),
         {
           compName,
           compFileName: this.options.snakifiedName,
@@ -127,17 +144,17 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
     }
     this.fs.copyTpl(
       this.templatePath('component.module.css.ejs'),
-      this.destinationPath(`${componentPath}/${cssFileName}`),
+      this.destinationPath(`${this.componentPath}/${cssFileName}`),
       {
         states: (this.options.states ?? []).filter((s) => s !== 'default'),
         mainClassName,
       }
     )
-    this.fs.copyTpl(this.templatePath('index.ts.ejs'), this.destinationPath(`${componentPath}/index.ts`), {
+    this.fs.copyTpl(this.templatePath('index.ts.ejs'), this.destinationPath(`${this.componentPath}/index.ts`), {
       compFileName: this.options.snakifiedName,
       compName,
     })
-    const indexFilePath = `${componentsRoot}/index.ts`
+    const indexFilePath = `${this.componentsRoot}/index.ts`
     const exportLine = `export * from './${this.options.snakifiedName}'\n`
     let exportFound = false
     const indexExists = this.fs.exists(indexFilePath)
