@@ -1,3 +1,4 @@
+import { ReactFramework, StoryContext } from '@storybook/react'
 import React, { ReactNode, useState } from 'react'
 import { tokens } from '../../tokens'
 import AVAILABLE_THEMES from '../lib/shared/themes'
@@ -46,8 +47,10 @@ export const ThemeProvider = (props: ThemeProviderProps) => {
 export type ThemeDecoratorContext = { globals: { theme: Theme } }
 
 export const withThemeProvider = (
-  Story: React.ComponentType<ThemeDecoratorContext>,
-  context: ThemeDecoratorContext
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Story: React.ComponentType<StoryContext<ReactFramework, any>>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  context: StoryContext<ReactFramework, any>
 ) => {
   return (
     <ThemeProvider theme={context.globals.theme}>

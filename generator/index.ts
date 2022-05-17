@@ -1,4 +1,5 @@
 import Generator from 'yeoman-generator'
+import fetch from 'isomorphic-unfetch'
 import { ComponentInfo, FileInfo, getComponentSpecUrl } from '../figma/lib/fetch_components'
 import generateComponentPropTypes from '../figma/lib/generate_component_prop_types'
 import { camelize, snakeify } from '../figma/lib/helpers'
@@ -31,44 +32,59 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
   }
 
   async getFileInfo() {
-    return fetch('../config/components.json')
-      .then((r) => r.json())
-      .then((d) => {
-        this.fileInfo = d.meta.file
-      })
+    return (
+      import('../config/components.json')
+        // .then((r) => r.json())
+        .then((d: { meta: { file: FileInfo } }) => {
+          this.fileInfo = d.meta.file
+        })
+    )
   }
 
   writing() {
     const componentPath = `src/lib/components/${this.options.snakifiedName}`
     const types = generateComponentPropTypes(this.options)
-    const cssFileName = `${componentPath}/${this.options.snakifiedName}.module.css`
-    const compFileName = `${componentPath}/${this.options.snakifiedName}.tsx`
+    const cssFileName = `${this.options.snakifiedName}.module.css`
+    const compFileName = `${this.options.snakifiedName}.tsx`
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const specUrl = getComponentSpecUrl(this.fileInfo!, this.options)
     const storyTitle = ['Components', this.options.frameName, this.options.name].filter(Boolean).join('/')
+    const mainClassName = `${this.options.camelizedName}Main`
+    const compName = camelize(this.options.name, true)
     this.fs.write(`${componentPath}/types.ts`, types)
-    this.fs.copyTpl(this.templatePath('./templates/component.tsx.ejs'), this.destinationPath(compFileName), {
-      propsName: `${this.options.camelizedName}Props`,
+    this.fs.copyTpl(this.templatePath('component.tsx.ejs'), this.destinationPath(`${componentPath}/${compFileName}`), {
+      propsName: `${compName}Props`,
       cssFileName,
-      componentName: this.options.camelizedName,
+      componentName: compName,
+      mainClassName,
     })
     this.fs.copyTpl(
-      this.templatePath('./templates/component.test.tsx.ejs'),
-      this.destinationPath(`${componentPath}/$${this.options.snakifiedName}.test.tsx`)
+      this.templatePath('component.test.tsx.ejs'),
+      this.destinationPath(`${componentPath}/${this.options.snakifiedName}.test.tsx`),
+      {
+        compName,
+        compFileName: this.options.snakifiedName,
+        compFullName: this.options.name,
+      }
     )
     this.fs.copyTpl(
-      this.templatePath('./templates/component.stories.tsx.ejs'),
-      this.destinationPath(`${componentPath}/$/${this.options.snakifiedName}.stories.tsx`),
+      this.templatePath('component.stories.tsx.ejs'),
+      this.destinationPath(`${componentPath}/${this.options.snakifiedName}.stories.tsx`),
       {
         specUrl,
-        compName: this.options.camelizedName,
-        compFileName,
+        compName,
+        compFileName: this.options.snakifiedName,
         title: storyTitle,
       }
     )
-    this.fs.copyTpl(this.templatePath('./templates/component.module.css.ejs'), this.destinationPath(cssFileName), {
-      states: (this.options.states ?? []).filter((s) => s !== 'default'),
-    })
+    this.fs.copyTpl(
+      this.templatePath('component.module.css.ejs'),
+      this.destinationPath(`${componentPath}/${cssFileName}`),
+      {
+        states: (this.options.states ?? []).filter((s) => s !== 'default'),
+        mainClassName,
+      }
+    )
   }
 }
 

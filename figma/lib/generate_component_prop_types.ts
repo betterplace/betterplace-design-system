@@ -1,4 +1,5 @@
 import { ComponentInfo } from './fetch_components'
+import { camelize } from './helpers'
 const boolLabels = ['true', 'false', 'on', 'off', 'yes', 'no']
 const defLabel = 'default'
 function stripBooleanValues(values: string[]): string[] {
@@ -6,7 +7,7 @@ function stripBooleanValues(values: string[]): string[] {
 }
 
 export default function generateComponentPropTypes({ props, name }: Pick<ComponentInfo, 'props' | 'name'>): string {
-  let res = `export type ${name}Props = {`
+  let res = `export type ${camelize(name, true)}Props = {`
 
   for (const key in props) {
     const { mandatory: mandatory_, values: values_, name } = props[key]

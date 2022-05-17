@@ -28,7 +28,7 @@
     "prepare": "husky install",
     "figma::tokens": "ts-node -r dotenv/config --project ./tsconfig.node.json -O '{\"module\": \"commonjs\"}' figma/fetch_tokens.ts PJ7OUutWRrSHW6qgaPNW1l",
     "figma::components": "ts-node -r dotenv/config --project ./tsconfig.node.json -O '{\"module\": \"commonjs\"}' figma/fetch_components.ts PJ7OUutWRrSHW6qgaPNW1l",
-    "component::add": "ts-node node_modules/.bin/yo ./generator"
+    "component::add": "ts-node --project ./tsconfig.node.json -O '{\"module\": \"commonjs\", \"target\":\"es6\"}'  node_modules/.bin/yo ./generator"
   },
   "dependencies": {
     "react": "^17.0.2",
@@ -68,6 +68,7 @@
     "eslint-plugin-react-hooks": "^4.5.0",
     "figma-api": "^1.10.1",
     "husky": ">=6",
+    "isomorphic-unfetch": "^3.1.0",
     "lint-staged": ">=10",
     "storybook-addon-designs": "^6.2.1",
     "stylelint": "^14.8.1",

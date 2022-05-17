@@ -8,5 +8,5 @@
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "include": ["vite.config.ts", "figma/**/*", "generator/**/*", "src/lib/shared/themes.ts"]
+  "include": ["vite.config.ts", "figma/**/*", "generator/**/*", "src/lib/shared/themes.ts", "config/components.json"]
 }
