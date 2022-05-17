@@ -28,7 +28,8 @@
     "prepare": "husky install",
     "figma::tokens": "ts-node -r dotenv/config --project ./tsconfig.node.json -O '{\"module\": \"commonjs\"}' figma/fetch_tokens.ts PJ7OUutWRrSHW6qgaPNW1l",
     "figma::components": "ts-node -r dotenv/config --project ./tsconfig.node.json -O '{\"module\": \"commonjs\"}' figma/fetch_components.ts PJ7OUutWRrSHW6qgaPNW1l",
-    "component::add": "ts-node --project ./tsconfig.node.json -O '{\"module\": \"commonjs\", \"target\":\"es6\"}'  node_modules/.bin/yo ./generator"
+    "component::add::main": "ts-node --project ./tsconfig.node.json -O '{\"module\": \"commonjs\", \"target\":\"es6\"}'  node_modules/.bin/yo ./generator --figma --test --story --root='src/lib'",
+    "component::add::local": "ROOT=$(pwd) && ts-node --project ./tsconfig.node.json -O '{\"module\": \"commonjs\", \"target\":\"es6\"}'  node_modules/.bin/yo ./generator --root=$ROOT"
   },
   "dependencies": {
     "react": "^17.0.2",
@@ -49,6 +50,8 @@
     "@storybook/builder-vite": "^0.1.28",
     "@storybook/react": "^6.4.21",
     "@storybook/testing-library": "^0.0.9",
+    "@testing-library/react": "^13.2.0",
+    "@types/jest": "^27.5.1",
     "@types/react": "^17.0.10",
     "@types/react-dom": "^17.0.10",
     "@types/yeoman-generator": "^5.2.10",
@@ -67,6 +70,7 @@
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.5.0",
     "figma-api": "^1.10.1",
+    "fuse.js": "^6.6.2",
     "husky": ">=6",
     "isomorphic-unfetch": "^3.1.0",
     "lint-staged": ">=10",
@@ -75,6 +79,7 @@
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^25.0.0",
     "stylelint-prettier": "^2.0.0",
+    "ts-jest": "^28.0.2",
     "ts-node": "^10.7.0",
     "typescript": "^4.5.4",
     "vite": "^2.9.0",

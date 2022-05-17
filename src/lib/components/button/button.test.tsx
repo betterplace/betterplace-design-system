@@ -1,9 +1,9 @@
 import { render } from '@testing-library/react'
-import <%=compName%> from './<%=compFileName%>'
+import Button from './button'
 
-describe('<%=compFullName%>', () => {
+describe('Button', () => {
   it('should render the component', () => {
-    const { getByTestId } = render(<<%=compName%> data-test-id="root" />)
+    const { getByTestId } = render(<Button data-test-id="root" />)
     const root = getByTestId('root')
     expect(root).toBeTruthy()
   })
