@@ -1,7 +1,6 @@
 import Generator from 'yeoman-generator'
 import { ComponentInfo, FileInfo, getComponentSpecUrl } from '../figma/lib/fetch_components'
-import generateComponentPropTypes from '../figma/lib/generate_component_prop_types'
-import { camelize, snakeify } from '../figma/lib/helpers'
+import { camelize, objToArr, snakeify } from '../figma/lib/helpers'
 import Fuse from 'fuse.js'
 
 interface GeneratorOpts {
@@ -57,8 +56,8 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
 
   async prompting() {
     if (!this.options.figma || !this.options.story) return Promise.resolve()
-    const res = await import('../config/components.json').then((d) => d.data)
-    const list: Array<ComponentInfo> = Object.keys(res).map((key) => res[key])
+    const res = (await import('../config/components.json').then((d) => d.data)) as Record<string, ComponentInfo>
+    const list = objToArr(res)
     let figma: ComponentInfo
     const figmaPath = `${this.componentPath}/figma.lock.ts`
     if (this.fs.exists(figmaPath)) {
@@ -86,7 +85,6 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
   }
 
   writing() {
-    const types = generateComponentPropTypes(this.options)
     const cssFileName = `${this.options.snakifiedName}.module.css`
     const compFileName = `${this.options.snakifiedName}.tsx`
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -103,12 +101,16 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
       .join('/')
     const mainClassName = `${this.options.camelizedName}Main`
     const compName = camelize(this.options.name, true)
-    this.fs.write(`${this.componentPath}/types.ts`, types)
+    const propsName = `${compName}Props`
+    this.fs.copyTpl(this.templatePath('types.ts.ejs'), this.destinationPath(`${this.componentPath}/types.ts`), {
+      propsName,
+      props: objToArr(this.options.props),
+    })
     this.fs.copyTpl(
       this.templatePath('component.tsx.ejs'),
       this.destinationPath(`${this.componentPath}/${compFileName}`),
       {
-        propsName: `${compName}Props`,
+        propsName,
         cssFileName,
         componentName: compName,
         mainClassName,

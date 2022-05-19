@@ -1,19 +1,13 @@
 .buttonMain {
+  &:hover {
+  }
 
-    &:hover {
+  &:focus {
+  }
 
-    }
+  &:active {
+  }
 
-    &:focused {
-
-    }
-
-    &:pressed {
-
-    }
-
-    &:disabled {
-
-    }
-
+  &:disabled {
+  }
 }

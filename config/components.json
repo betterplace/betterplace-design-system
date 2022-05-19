@@ -1,5 +1,12 @@
 {
-  "meta": { "file": { "id": "PJ7OUutWRrSHW6qgaPNW1l", "name": "DS betterplace GENERAL" }, "timestamp": 1652730533724 },
+  "meta": {
+    "file": {
+      "id": "PJ7OUutWRrSHW6qgaPNW1l",
+      "name": "DS betterplace GENERAL",
+      "lastModified": "2022-05-18T08:02:24Z"
+    },
+    "timestamp": 1652918110883
+  },
   "data": {
     "tag": {
       "id": "230:1297",
@@ -9,7 +16,7 @@
       "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
       "path": "tag",
       "states": [],
-      "props": { "property1": { "name": "property1", "values": ["default", "round"], "mandatory": false } }
+      "props": {}
     },
     "box/text": {
       "id": "106:249",
@@ -22,8 +29,9 @@
       "props": {
         "type": {
           "name": "type",
-          "values": ["adminBox", "infoBox", "cardBox", "adminHeaderBox", "cardTeaser"],
-          "mandatory": true
+          "values": ["'adminBox'", "'infoBox'", "'cardBox'", "'adminHeaderBox'", "'cardTeaser'"],
+          "required": true,
+          "type": []
         }
       }
     },
@@ -36,13 +44,14 @@
       "path": "input",
       "states": [],
       "props": {
-        "type": { "name": "type", "values": ["regular", "longText", "dropdown"], "mandatory": true },
+        "type": { "name": "type", "values": ["'regular'", "'longText'", "'dropdown'"], "required": true, "type": [] },
         "variation": {
           "name": "variation",
-          "values": ["default", "creditcardInput", "hint", "error", "hintAndError", "open", "label"],
-          "mandatory": false
+          "values": ["'creditcardInput'", "'hint'", "'error'", "'hintAndError'", "'open'", "'label'"],
+          "required": false,
+          "type": []
         },
-        "label": { "name": "label", "values": ["default", "no"], "mandatory": false }
+        "label": { "required": false, "type": ["string", "JSX.Element", "null"], "name": "label" }
       }
     },
     "_input/dropdown-item": {
@@ -53,7 +62,7 @@
       "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
       "path": "_input/dropdown-item",
       "states": [],
-      "props": { "property1": { "name": "property1", "values": ["default", "hover", "selected"], "mandatory": false } }
+      "props": {}
     },
     "input/variation/country": {
       "id": "145:1407",
@@ -63,11 +72,7 @@
       "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
       "path": "input/variation/country",
       "states": [],
-      "props": {
-        "property1": { "name": "property1", "values": ["dropdown"], "mandatory": true },
-        "property2": { "name": "property2", "values": ["default", "open"], "mandatory": false },
-        "property3": { "name": "property3", "values": ["Österreich", "deutschland"], "mandatory": true }
-      }
+      "props": {}
     },
     "checkbox/singular": {
       "id": "111:137",
@@ -78,9 +83,9 @@
       "path": "checkbox/singular",
       "states": ["active", "disabled"],
       "props": {
-        "check": { "name": "check", "values": ["false", "true"], "mandatory": true },
-        "label": { "name": "label", "values": ["false"], "mandatory": true },
-        "hint": { "name": "hint", "values": ["false"], "mandatory": true }
+        "check": { "name": "check", "values": [], "required": false, "type": ["boolean"] },
+        "label": { "required": false, "type": ["string", "JSX.Element", "null"], "name": "label" },
+        "hint": { "required": false, "type": ["string", "JSX.Element", "null"], "name": "label" }
       }
     },
     "checkbox/multiple": {
@@ -91,7 +96,7 @@
       "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
       "path": "checkbox/multiple",
       "states": [],
-      "props": { "hint": { "name": "hint", "values": ["false", "true"], "mandatory": true } }
+      "props": { "hint": { "required": false, "type": ["string", "JSX.Element", "null"], "name": "label" } }
     },
     "radiobutton/singular": {
       "id": "111:917",
@@ -101,7 +106,7 @@
       "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
       "path": "radiobutton/singular",
       "states": ["default", "disabled"],
-      "props": { "property1": { "name": "property1", "values": ["false", "true"], "mandatory": true } }
+      "props": {}
     },
     "radiobutton/multiple": {
       "id": "111:928",
@@ -111,7 +116,7 @@
       "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
       "path": "radiobutton/multiple",
       "states": [],
-      "props": { "property1": { "name": "property1", "values": ["noHint", "hint"], "mandatory": true } }
+      "props": {}
     },
     "tab": {
       "id": "208:1513",
@@ -121,11 +126,7 @@
       "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
       "path": "tab",
       "states": [],
-      "props": {
-        "property1": { "name": "property1", "values": ["active", "standalone", "inactive"], "mandatory": true },
-        "property2": { "name": "property2", "values": ["noCounter", "counter"], "mandatory": true },
-        "device": { "name": "device", "values": ["desktop", "mobile", "default"], "mandatory": false }
-      }
+      "props": { "device": { "name": "device", "values": ["'desktop'", "'mobile'"], "required": false, "type": [] } }
     },
     "_teaser/image": {
       "id": "119:1644",
@@ -155,7 +156,7 @@
       "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
       "path": "modal",
       "states": [],
-      "props": { "property1": { "name": "property1", "values": ["mobile", "desktop"], "mandatory": true } }
+      "props": {}
     },
     "gallery-progress": {
       "id": "320:1885",
@@ -165,9 +166,7 @@
       "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
       "path": "gallery-progress",
       "states": [],
-      "props": {
-        "property1": { "name": "property1", "values": ["default", "galleryFakeDesktop", "gallery"], "mandatory": false }
-      }
+      "props": {}
     },
     "status-message": {
       "id": "254:1618",
@@ -177,7 +176,7 @@
       "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
       "path": "status-message",
       "states": [],
-      "props": { "property1": { "name": "property1", "values": ["success", "warning", "error"], "mandatory": true } }
+      "props": {}
     },
     "image-info": {
       "id": "204:1960",
@@ -187,9 +186,7 @@
       "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
       "path": "image-info",
       "states": ["default", "undefined", "comment"],
-      "props": {
-        "property1": { "name": "property1", "values": ["organization", "profile", "donation"], "mandatory": true }
-      }
+      "props": {}
     },
     "navigation/dots": {
       "id": "128:3415",
@@ -199,9 +196,7 @@
       "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
       "path": "navigation/dots",
       "states": [],
-      "props": {
-        "property1": { "name": "property1", "values": ["first", "second", "third", "fourth"], "mandatory": true }
-      }
+      "props": {}
     },
     "accordion": {
       "id": "214:2529",
@@ -211,11 +206,7 @@
       "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
       "path": "accordion",
       "states": [],
-      "props": {
-        "property1": { "name": "property1", "values": ["accordion"], "mandatory": true },
-        "property2": { "name": "property2", "values": ["default", "open"], "mandatory": false },
-        "property3": { "name": "property3", "values": ["default", "Österreich"], "mandatory": false }
-      }
+      "props": {}
     },
     "navigation/progress-indicator": {
       "id": "108:333",
@@ -236,8 +227,7 @@
       "path": "hint/dropdown",
       "states": [],
       "props": {
-        "property1": { "name": "property1", "values": ["close", "open"], "mandatory": true },
-        "background": { "name": "background", "values": ["transparent", "gray"], "mandatory": true }
+        "background": { "name": "background", "values": ["'transparent'", "'gray'"], "required": true, "type": [] }
       }
     },
     "footer/mobile": {
@@ -248,7 +238,7 @@
       "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
       "path": "footer/mobile",
       "states": [],
-      "props": { "property1": { "name": "property1", "values": ["mobile"], "mandatory": true } }
+      "props": {}
     },
     "footer/desktop": {
       "id": "106:577",
@@ -271,8 +261,19 @@
       "props": {
         "iconType": {
           "name": "iconType",
-          "values": ["arrowRight", "camera", "checkmark", "user", "heart", "home", "search", "userAlt", "infoI"],
-          "mandatory": true
+          "values": [
+            "'arrowRight'",
+            "'camera'",
+            "'checkmark'",
+            "'user'",
+            "'heart'",
+            "'home'",
+            "'search'",
+            "'userAlt'",
+            "'infoI'"
+          ],
+          "required": true,
+          "type": []
         }
       }
     },
@@ -287,8 +288,18 @@
       "props": {
         "type": {
           "name": "type",
-          "values": ["ribbon", "heart", "thumbsUp", "eMailOpen", "rocket", "handsHeart", "donation", "plus10Heart"],
-          "mandatory": true
+          "values": [
+            "'ribbon'",
+            "'heart'",
+            "'thumbsUp'",
+            "'eMailOpen'",
+            "'rocket'",
+            "'handsHeart'",
+            "'donation'",
+            "'plus10Heart'"
+          ],
+          "required": true,
+          "type": []
         }
       }
     },
@@ -300,13 +311,7 @@
       "canvasName": "05. Icons",
       "path": "sharing",
       "states": [],
-      "props": {
-        "property1": {
-          "name": "property1",
-          "values": ["twitter", "email", "link", "facebook", "messenger", "whatsapp", "instagram"],
-          "mandatory": true
-        }
-      }
+      "props": {}
     },
     "illustrative icon/home": {
       "id": "487:2357",
@@ -446,11 +451,11 @@
       "canvasName": "08. Buttons",
       "path": "button/primary",
       "themes": { "at": { "id": "105:93", "theme": "at" }, "me": { "id": "194:1556", "theme": "me" } },
-      "states": ["default", "hover", "focused", "pressed", "disabled"],
+      "states": ["default", "hover", "focus", "active", "disabled"],
       "props": {
-        "type": { "name": "type", "values": ["primary", "delete", "secondary"], "mandatory": true },
-        "size": { "name": "size", "values": ["large", "small"], "mandatory": true },
-        "icon": { "name": "icon", "values": ["false", "true", "default"], "mandatory": false }
+        "type": { "name": "type", "values": ["'primary'", "'delete'", "'secondary'"], "required": true, "type": [] },
+        "size": { "name": "size", "values": ["'large'", "'small'"], "required": true, "type": [] },
+        "icon": { "name": "icon", "values": [], "required": false, "type": [] }
       }
     },
     "_admin-box": {
@@ -472,10 +477,9 @@
       "path": "header",
       "states": [],
       "props": {
-        "property1": { "name": "property1", "values": ["desktop", "mobile"], "mandatory": true },
-        "user": { "name": "user", "values": ["default"], "mandatory": false },
-        "icons": { "name": "icons", "values": ["yesPlusLabel", "yes", "no"], "mandatory": true },
-        "adminState": { "name": "adminState", "values": ["default"], "mandatory": false }
+        "user": { "name": "user", "values": [], "required": false, "type": [] },
+        "icons": { "name": "icons", "values": ["'yesPlusLabel'"], "required": true, "type": [] },
+        "adminState": { "name": "adminState", "values": [], "required": false, "type": [] }
       }
     },
     "header-admin": {
@@ -486,11 +490,7 @@
       "canvasName": "Header Components",
       "path": "header-admin",
       "states": [],
-      "props": {
-        "property1": { "name": "property1", "values": ["adminbox"], "mandatory": true },
-        "property2": { "name": "property2", "values": ["at"], "mandatory": true },
-        "property3": { "name": "property3", "values": ["desktop", "mobile"], "mandatory": true }
-      }
+      "props": {}
     },
     "Note": {
       "id": "358:3090",
@@ -500,7 +500,7 @@
       "canvasName": "File Components",
       "path": "Note",
       "states": [],
-      "props": { "size": { "name": "size", "values": ["large", "small"], "mandatory": true } }
+      "props": { "size": { "name": "size", "values": ["'large'", "'small'"], "required": true, "type": [] } }
     },
     "tokenbox": {
       "id": "723:2069",
@@ -550,19 +550,17 @@
       "canvasName": "File Components",
       "path": "Page Header",
       "states": [],
-      "props": { "darkMode": { "name": "darkMode", "values": ["off", "on"], "mandatory": true } }
+      "props": { "darkMode": { "name": "darkMode", "values": [], "required": false, "type": ["boolean"] } }
     },
     "Tablerow-tokens": {
       "id": "1089:2903",
       "name": "TablerowTokens",
-      "frameId": "1089:2922",
-      "frameName": "Frame 8",
+      "frameId": "1109:5090",
+      "frameName": "Table",
       "canvasName": "File Components",
       "path": "Tablerow-tokens",
       "states": [],
-      "props": {
-        "property1": { "name": "property1", "values": ["firstRow", "secondRow", "thirdRow"], "mandatory": true }
-      }
+      "props": {}
     }
   }
 }

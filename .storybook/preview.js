@@ -1,5 +1,5 @@
 import { withDesign } from 'storybook-addon-designs'
-import { withThemeProvider, AVAILABLE_THEMES } from '../src/helpers/ThemeProvider'
+import { withThemeProvider, AVAILABLE_THEMES } from '../src/helpers'
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
