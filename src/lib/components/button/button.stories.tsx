@@ -12,11 +12,14 @@ export default {
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   // argTypes: {},
   parameters: {
-    design: {
-      type: 'figspec',
-      accessToken: process.env.STORYBOOK_FIGMA_ACCESS_TOKEN,
-      url: FigmaCfg.url,
-    },
+    design: FigmaCfg.themes
+      ? FigmaCfg.themes.map(({ url, name }) => ({
+          url,
+          name,
+          type: 'figspec',
+          accessToken: process.env.STORYBOOK_FIGMA_ACCESS_TOKEN,
+        }))
+      : { type: 'figspec', accessToken: process.env.STORYBOOK_FIGMA_ACCESS_TOKEN, url: FigmaCfg.url },
   },
 } as ComponentMeta<typeof Button>
 

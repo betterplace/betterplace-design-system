@@ -3095,6 +3095,11 @@
   resolved "https://registry.yarnpkg.com/@types/parse5/-/parse5-5.0.3.tgz#e7b5aebbac150f8b5fdd4a46e7f0bd8e65e19109"
   integrity sha512-kUNnecmtkunAoQ3CnjmMkzNU/gtxG8guhi+Fk2U/kOpIKjIMKnXGp4IJCgQJrXSgMsWYimYG4TGjz/UzbGEBTw==
 
+"@types/prettier@^2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-2.6.1.tgz#76e72d8a775eef7ce649c63c8acae1a0824bbaed"
+  integrity sha512-XFjFHmaLVifrAKaZ+EKghFHtHSUonyw8P2Qmy2/+osBnrKbH9UYtlK10zg8/kCt47MFilll/DEDKy3DHfJ0URw==
+
 "@types/pretty-hrtime@^1.0.0":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/pretty-hrtime/-/pretty-hrtime-1.0.1.tgz#72a26101dc567b0d68fd956cf42314556e42d601"
@@ -3159,6 +3164,13 @@
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/@types/text-table/-/text-table-0.2.2.tgz#774c90cfcfbc8b4b0ebb00fecbe861dc8b1e8e26"
   integrity sha512-dGoI5Af7To0R2XE8wJuc6vwlavWARsCh3UKJPjWs1YEqGUqfgBI/j/4GX0yf19/DsDPPf0YAXWAp8psNeIehLg==
+
+"@types/through2@^2.0.36":
+  version "2.0.36"
+  resolved "https://registry.yarnpkg.com/@types/through2/-/through2-2.0.36.tgz#35fda0db635827d44c0e08e2c94653e647574a00"
+  integrity sha512-vuifQksQHJXhV9McpVsXKuhnf3lsoX70PnhcqIAbs9dqLH2NgrGz0DzZPDY3+Yh6eaRqcE1gnCQ6QhBn1/PT5A==
+  dependencies:
+    "@types/node" "*"
 
 "@types/through@*":
   version "0.0.30"
@@ -12240,7 +12252,7 @@ read-pkg@^5.2.0:
     string_decoder "~1.1.1"
     util-deprecate "~1.0.1"
 
-readable-stream@^3.4.0, readable-stream@^3.6.0:
+readable-stream@3, readable-stream@^3.4.0, readable-stream@^3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.6.0.tgz#337bbda3adc0706bd3e024426a286d4b4b2c9198"
   integrity sha512-BViHy7LKeTz4oNnkcLJ+lVSL6vpiFeX6/d3oSH8zCW7UxP2onchk+vTGB143xuFjHS3deTgkKoXXymXqymiIdA==
@@ -13925,6 +13937,13 @@ through2@^2.0.0:
   dependencies:
     readable-stream "~2.3.6"
     xtend "~4.0.1"
+
+through2@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/through2/-/through2-4.0.2.tgz#a7ce3ac2a7a8b0b966c80e7c49f0484c3b239764"
+  integrity sha512-iOqSav00cVxEEICeD7TjLB1sueEL+81Wpzp2bY17uZjZN0pWZPuo4suZ/61VujxmqSGFfgOcNuTZ85QJwNZQpw==
+  dependencies:
+    readable-stream "3"
 
 through@^2.3.6, through@^2.3.8:
   version "2.3.8"

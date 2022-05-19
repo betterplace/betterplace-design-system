@@ -1,7 +1,8 @@
 import Generator from 'yeoman-generator'
-import { ComponentInfo, FileInfo, getComponentSpecUrl } from '../figma/lib/fetch_components'
+import { ComponentInfo, FileInfo, getComponentSpecUrl, PropData, Props, PropType } from '../figma/lib/fetch_components'
 import { camelize, objToArr, snakeify } from '../figma/lib/helpers'
 import Fuse from 'fuse.js'
+import { prettierTransform } from './transforms'
 
 interface GeneratorOpts {
   name: string
@@ -15,6 +16,40 @@ type Opts = GeneratorOpts &
     camelizedName: string
     snakifiedName: string
   }
+type Variant = { name: string; values: Record<string, any> }
+function getValue(type?: PropType): any {
+  switch (type) {
+    case 'boolean':
+      return true
+    case 'number':
+      return 1
+    case 'string':
+      return 'Lorem ipsum'
+    case 'object':
+      return {}
+    case 'array':
+      return []
+    case 'null':
+      return null
+    default:
+      return
+  }
+}
+// function createVariants(props: Props) {
+//   const resHash: Record<string, Variant> = {}
+//   const arr = objToArr(props).sort(({ required: a }, { required: b }) => +a - +b)
+//   const count = arr.length
+//   if (!count) return []
+//   arr.forEach((outer, i) => {
+//     const key = ''
+//     arr.forEach((inner, j) => {
+//       if (inner.name === outer.name) return
+//     })
+//     // const value = values?.[0] ?? getValue(type?.[0]) ?? ;
+//     // const key = name + '-' + values?[0] ?? (getValue(type?[0])) ?? {}
+//   })
+//   return objToArr(resHash)
+// }
 
 class StorybookGenerator extends Generator<GeneratorOpts> {
   options: Opts
@@ -42,6 +77,8 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
     }
     this.componentsRoot = this.destinationRoot() + '/components'
     this.componentPath = `${this.componentsRoot}/${this.options.snakifiedName}`
+    const trafo = prettierTransform()
+    this.queueTransformStream(trafo)
   }
 
   async getFileInfo() {
@@ -87,8 +124,6 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
   writing() {
     const cssFileName = `${this.options.snakifiedName}.module.css`
     const compFileName = `${this.options.snakifiedName}.tsx`
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const specUrl = getComponentSpecUrl(this.fileInfo!, this.options)
     const hash: Record<string, boolean> = {}
     const storyTitle = ['Components', this.options.canvasName, this.options.frameName, this.options.name]
       .filter(Boolean)
@@ -126,14 +161,24 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
       }
     )
     if (this.options.story) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const fileInfo = this.fileInfo!
+      const specUrl = getComponentSpecUrl(fileInfo, this.options)
       this.fs.copyTpl(
         this.templatePath('figma.lock.ts.ejs'),
         this.destinationPath(`${this.componentPath}/figma.lock.ts`),
         {
           url: specUrl,
           id: this.options.id,
+          themes:
+            this.options.themes &&
+            objToArr(this.options.themes).map((theme) => ({
+              ...theme,
+              url: getComponentSpecUrl(fileInfo, this.options, theme.theme),
+            })),
         }
       )
+
       this.fs.copyTpl(
         this.templatePath('component.stories.tsx.ejs'),
         this.destinationPath(`${this.componentPath}/${this.options.snakifiedName}.stories.tsx`),
@@ -141,6 +186,7 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
           compName,
           compFileName: this.options.snakifiedName,
           title: storyTitle,
+          variants: objToArr(this.options.props).map(({ name }) => ({ name, values })),
         }
       )
     }
@@ -170,6 +216,7 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
       this.fs.append(indexFilePath, exportLine, {})
     }
   }
+  re
 }
 
 export default StorybookGenerator
