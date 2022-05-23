@@ -31,4 +31,29 @@ There is a (german) testing and certification option for websites as well. But w
 
 ## A11y in Code
 
-TBD
+### Markup
+
+Use native HTML elements wherever it makes semantically sense. Most HTML elements convey a semantic meaning and provide additional functionality, that users can benefit from or even depend on.
+
+#### Examples:
+
+- use a `button`, when an interaction triggers some action on the page, e.g. opening a modal, submitting a form, loading data, swiping a slider, etc.
+- use an `a` tag with an `href` attribute for links, i.e. when the interaction navigates the user to a different page (or a different part of the page).
+- use a `ul` or `ol`, whenever you want to group some items together in a list and want the user to know how many items the list contains. This does not only apply to "regular" text items, but can be anything, e.g. a gallery of images, a list of teasers, navigation items, etc.
+- use headline tags (`h1`, `h2`, etc.) for headlines and use them in a logical order.
+
+Complete [list of HTML elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element).
+
+### Images
+
+Make sure _every_ image has an `alt` attribute, either with
+
+- a descriptive text (think of how you would describe the image to someone on the phone) or
+- an empty string. This only applies to images that are purely decorative and don't contribute anything to the content.
+
+If it's an image uploaded by the user, decide whether
+
+- we can define a general rule, e.g. "avatar of _name of the user_". (Keep in mind that this is usually less valuable of an information. You should also be careful not to create redundancy.) Or
+- we should give the user the possibility to enter their own alternative text.
+
+More information about [writing good alt text](https://webaim.org/techniques/alttext/).

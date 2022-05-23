@@ -1,7 +1,7 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 export default {
-  title: 'Foundations/Design Tokens/Colors',
+  title: 'Design Tokens/Colors',
 } as ComponentMeta<typeof ColorSwatch>
 
 type ColorSwatchProps = {
