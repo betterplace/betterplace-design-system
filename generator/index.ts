@@ -6,7 +6,7 @@ import { prettierTransform } from './transforms'
 
 interface GeneratorOpts {
   name: string
-  root?: string
+  root: string
   figma?: boolean
   story?: boolean
   test?: boolean
@@ -41,37 +41,36 @@ function getStringifiedValue(type?: PropType | string): string {
   }
 }
 
-function createVariants(props?: Props) {
-  if (!props) return []
-  const resHash: Record<string, Variant> = {}
-  const arr = objToArr(props).sort(({ required: a }, { required: b }) => +b - +a)
-  const count = arr.length
-  if (!count) return []
-  arr.forEach((outer) => {
-    const vsOrig = [...(outer.values ?? []), ...(outer.type ?? [])]
-    if (!vsOrig.length) vsOrig.push('any')
-    const values = vsOrig.map(getStringifiedValue)
-    values.forEach((v, index) => {
-      let key = ''
-      const variant: Variant = {
-        name: camelize(`${outer.name} ${vsOrig[index].replace(/'/gi, '')}`, true),
-        values: [],
-      }
-      arr.forEach((inner) => {
-        const sameProp = inner.name === outer.name
-        if (!inner.required && !sameProp) return
-        const value = sameProp ? v : getStringifiedValue(inner.values?.[0] ?? inner.type?.[0])
-        variant.values.push({ name: inner.name, value, required: inner.required })
-        key += `${inner.name}:${value}::`
-      })
-      if (resHash[key]) return
-      resHash[key] = variant
-    })
-  })
-  return objToArr(resHash)
-}
-
 class StorybookGenerator extends Generator<GeneratorOpts> {
+  static createVariants(props?: Props) {
+    if (!props) return []
+    const resHash: Record<string, Variant> = {}
+    const arr = objToArr(props).sort(({ required: a }, { required: b }) => +b - +a)
+    const count = arr.length
+    if (!count) return []
+    arr.forEach((outer) => {
+      const vsOrig = [...(outer.values ?? []), ...(outer.type ?? [])]
+      if (!vsOrig.length) vsOrig.push('any')
+      const values = vsOrig.map(getStringifiedValue)
+      values.forEach((v, index) => {
+        let key = ''
+        const variant: Variant = {
+          name: camelize(`${outer.name} ${vsOrig[index].replace(/'/gi, '')}`, true),
+          values: [],
+        }
+        arr.forEach((inner) => {
+          const sameProp = inner.name === outer.name
+          if (!inner.required && !sameProp) return
+          const value = sameProp ? v : getStringifiedValue(inner.values?.[0] ?? inner.type?.[0])
+          variant.values.push({ name: inner.name, value, required: inner.required })
+          key += `${inner.name}:${value}::`
+        })
+        if (resHash[key]) return
+        resHash[key] = variant
+      })
+    })
+    return objToArr(resHash)
+  }
   options: Opts
   fileInfo?: FileInfo
   componentPath: string
@@ -79,22 +78,24 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
 
   constructor(args: string | string[], opts: Opts) {
     super(args, opts)
+    this.option('root', {
+      type: String,
+      description: "Specifies components' root",
+    })
     this.argument('name', {
       required: true,
       type: String,
       description: 'The name of the component',
     })
     this.option('figma', { type: Boolean, description: 'Link with Figma component' })
-    this.option('root', {
-      type: String,
-      description: 'Specifies components root',
-    })
     this.options = { ...opts, props: opts.props ?? {} }
     this.options.camelizedName = camelize(this.options.name)
     this.options.snakifiedName = snakeify(this.options.camelizedName)
-    if (this.options.root) {
-      this.destinationRoot(this.options.root)
+    if (!this.options.root) {
+      this.log.error('Component root was not provided!')
+      process.exit(1)
     }
+    this.destinationRoot(this.options.root)
     this.componentsRoot = this.destinationRoot() + '/components'
     this.componentPath = `${this.componentsRoot}/${this.options.snakifiedName}`
     const trafo = prettierTransform()
@@ -157,7 +158,7 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
     const mainClassName = `${this.options.camelizedName}Main`
     const compName = camelize(this.options.name, true)
     const propsName = `${compName}Props`
-    const variants = createVariants(this.options.props)
+    const variants = StorybookGenerator.createVariants(this.options.props)
 
     this.fs.copyTpl(this.templatePath('types.ts.ejs'), this.destinationPath(`${this.componentPath}/types.ts`), {
       propsName,

@@ -15,5 +15,9 @@
     "src/lib/shared/themes.ts",
     "config/components.json",
     "src/**/*.lock.ts"
-  ]
+  ],
+  "ts-node": {
+    "transpileOnly": true,
+    "transpiler": "ts-node/transpilers/swc"
+  }
 }

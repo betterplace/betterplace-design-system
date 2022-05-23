@@ -1,9 +1,9 @@
 import { render } from '@testing-library/react'
-import Button from './button'
+import Icon from './icon'
 
-describe('Button', () => {
+describe('Icon', () => {
   it('should render the component', () => {
-    const { getByTestId } = render(<Button data-test-id="root" />)
+    const { getByTestId } = render(<Icon data-test-id="root" iconType="arrowRight" />)
     const root = getByTestId('root')
     expect(root).toBeTruthy()
   })

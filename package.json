@@ -28,8 +28,8 @@
     "prepare": "husky install",
     "figma::tokens": "ts-node -r dotenv/config --project ./tsconfig.node.json -O '{\"module\": \"commonjs\"}' figma/fetch_tokens.ts PJ7OUutWRrSHW6qgaPNW1l",
     "figma::components": "ts-node -r dotenv/config --project ./tsconfig.node.json -O '{\"module\": \"commonjs\"}' figma/fetch_components.ts PJ7OUutWRrSHW6qgaPNW1l",
-    "component::add::main": "ts-node --project ./tsconfig.node.json -O '{\"module\": \"commonjs\", \"target\":\"es6\"}'  node_modules/.bin/yo ./generator --figma --test --story --root='src/lib'",
-    "component::add::local": "ROOT=$(pwd) && ts-node --project ./tsconfig.node.json -O '{\"module\": \"commonjs\", \"target\":\"es6\"}'  node_modules/.bin/yo ./generator --root=$ROOT"
+    "component::add::main": "ts-node --project ./tsconfig.node.json -O '{\"module\": \"commonjs\", \"target\":\"es6\"}'  node_modules/.bin/yo ./generator --figma --test --story --root src/lib",
+    "component::add::local": "ts-node --project ./tsconfig.node.json -O '{\"module\": \"commonjs\", \"target\":\"es6\"}'  node_modules/.bin/yo ./generator --root"
   },
   "dependencies": {
     "react": "^17.0.2",
@@ -50,6 +50,7 @@
     "@storybook/builder-vite": "^0.1.28",
     "@storybook/react": "^6.4.21",
     "@storybook/testing-library": "^0.0.9",
+    "@swc/core": "^1.2.189",
     "@testing-library/react": "^13.2.0",
     "@types/jest": "^27.5.1",
     "@types/prettier": "^2.6.1",
