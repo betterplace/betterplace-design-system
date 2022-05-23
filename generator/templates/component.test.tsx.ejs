@@ -1,10 +1,16 @@
+/**
+ * @jest-environment jsdom
+ */
+import React from 'react'
 import { render } from '@testing-library/react'
 import <%=compName%> from './<%=compFileName%>'
+import '@testing-library/jest-dom'
+
 
 describe('<%=compFullName%>', () => {
   it('should render the component', () => {
-    const { getByTestId } = render(<<%=compName%> data-test-id="root" <% if(variants.length) { variants[0].values.filter(function(v) { return v.required }).forEach(function(v) { %> <%-v.name%>=<%-v.value%> <% }) } %> />)
-    const root = getByTestId('root')
-    expect(root).toBeTruthy()
+    const { container } = render(<<%=compName%> <% if(variants.length) { variants[0].values.filter(function(v) { return v.required }).forEach(function(v) { %> <%-v.name%>=<%-v.value%> <% }) } %> />)
+    const element = container.querySelector('.<%=mainClassName%>')
+    expect(element).toBeTruthy()
   })
 })

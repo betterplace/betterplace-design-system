@@ -182,6 +182,7 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
         compFileName: this.options.snakifiedName,
         compFullName: this.options.name,
         variants,
+        mainClassName,
       }
     )
     if (this.options.story) {
