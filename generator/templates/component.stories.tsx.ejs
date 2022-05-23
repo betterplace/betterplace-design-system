@@ -25,5 +25,7 @@ export const Default = Template.bind({})
 Default.args = {}
 <%} else { variants.forEach(function(variant) {%>
 export const <%=variant.name%> = Template.bind({})
-<%=variant.name%>.args = <%JSON.stringify(variant.values)%>
+<%=variant.name%>.args = {
+  <% variant.values.forEach(function(value) { %> <%-value.name%>: <%-value.value%>, <% }) %>
+}
 <%})}%>

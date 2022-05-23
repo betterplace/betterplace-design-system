@@ -3,9 +3,9 @@
     "file": {
       "id": "PJ7OUutWRrSHW6qgaPNW1l",
       "name": "DS betterplace GENERAL",
-      "lastModified": "2022-05-18T08:02:24Z"
+      "lastModified": "2022-05-21T11:14:09Z"
     },
-    "timestamp": 1652918110883
+    "timestamp": 1653300717238
   },
   "data": {
     "tag": {
@@ -29,7 +29,7 @@
       "props": {
         "type": {
           "name": "type",
-          "values": ["'adminBox'", "'infoBox'", "'cardBox'", "'adminHeaderBox'", "'cardTeaser'"],
+          "values": ["adminBox", "infoBox", "cardBox", "adminHeaderBox", "cardTeaser"],
           "required": true,
           "type": []
         }
@@ -44,10 +44,10 @@
       "path": "input",
       "states": [],
       "props": {
-        "type": { "name": "type", "values": ["'regular'", "'longText'", "'dropdown'"], "required": true, "type": [] },
+        "type": { "name": "type", "values": ["regular", "longText", "dropdown"], "required": true, "type": [] },
         "variation": {
           "name": "variation",
-          "values": ["'creditcardInput'", "'hint'", "'error'", "'hintAndError'", "'open'", "'label'"],
+          "values": ["creditcardInput", "hint", "error", "hintAndError", "open", "label"],
           "required": false,
           "type": []
         },
@@ -126,7 +126,7 @@
       "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
       "path": "tab",
       "states": [],
-      "props": { "device": { "name": "device", "values": ["'desktop'", "'mobile'"], "required": false, "type": [] } }
+      "props": { "device": { "name": "device", "values": ["desktop", "mobile"], "required": false, "type": [] } }
     },
     "_teaser/image": {
       "id": "119:1644",
@@ -227,7 +227,7 @@
       "path": "hint/dropdown",
       "states": [],
       "props": {
-        "background": { "name": "background", "values": ["'transparent'", "'gray'"], "required": true, "type": [] }
+        "background": { "name": "background", "values": ["transparent", "gray"], "required": true, "type": [] }
       }
     },
     "footer/mobile": {
@@ -261,17 +261,7 @@
       "props": {
         "iconType": {
           "name": "iconType",
-          "values": [
-            "'arrowRight'",
-            "'camera'",
-            "'checkmark'",
-            "'user'",
-            "'heart'",
-            "'home'",
-            "'search'",
-            "'userAlt'",
-            "'infoI'"
-          ],
+          "values": ["arrowRight", "camera", "checkmark", "user", "heart", "home", "search", "userAlt", "infoI"],
           "required": true,
           "type": []
         }
@@ -288,16 +278,7 @@
       "props": {
         "type": {
           "name": "type",
-          "values": [
-            "'ribbon'",
-            "'heart'",
-            "'thumbsUp'",
-            "'eMailOpen'",
-            "'rocket'",
-            "'handsHeart'",
-            "'donation'",
-            "'plus10Heart'"
-          ],
+          "values": ["ribbon", "heart", "thumbsUp", "eMailOpen", "rocket", "handsHeart", "donation", "plus10Heart"],
           "required": true,
           "type": []
         }
@@ -453,8 +434,8 @@
       "themes": { "at": { "id": "105:93", "theme": "at" }, "me": { "id": "194:1556", "theme": "me" } },
       "states": ["default", "hover", "focus", "active", "disabled"],
       "props": {
-        "type": { "name": "type", "values": ["'primary'", "'delete'", "'secondary'"], "required": true, "type": [] },
-        "size": { "name": "size", "values": ["'large'", "'small'"], "required": true, "type": [] },
+        "type": { "name": "type", "values": ["primary", "delete", "secondary"], "required": true, "type": [] },
+        "size": { "name": "size", "values": ["large", "small"], "required": true, "type": [] },
         "icon": { "name": "icon", "values": [], "required": false, "type": [] }
       }
     },
@@ -478,7 +459,7 @@
       "states": [],
       "props": {
         "user": { "name": "user", "values": [], "required": false, "type": [] },
-        "icons": { "name": "icons", "values": ["'yesPlusLabel'"], "required": true, "type": [] },
+        "icons": { "name": "icons", "values": ["yesPlusLabel"], "required": true, "type": [] },
         "adminState": { "name": "adminState", "values": [], "required": false, "type": [] }
       }
     },
@@ -500,7 +481,7 @@
       "canvasName": "File Components",
       "path": "Note",
       "states": [],
-      "props": { "size": { "name": "size", "values": ["'large'", "'small'"], "required": true, "type": [] } }
+      "props": { "size": { "name": "size", "values": ["large", "small"], "required": true, "type": [] } }
     },
     "tokenbox": {
       "id": "723:2069",

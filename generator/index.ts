@@ -16,40 +16,60 @@ type Opts = GeneratorOpts &
     camelizedName: string
     snakifiedName: string
   }
-type Variant = { name: string; values: Record<string, any> }
-function getValue(type?: PropType): any {
+type VariantPropValue = { name: string; value: string; required: boolean }
+type Variant = { name: string; values: Array<VariantPropValue> }
+function getStringifiedValue(type?: PropType | string): string {
   switch (type) {
     case 'boolean':
-      return true
+      return `true`
     case 'number':
-      return 1
+      return `1`
     case 'string':
-      return 'Lorem ipsum'
+      return '`Lorem ipsum sic dolor`'
     case 'object':
-      return {}
+      return `{}`
     case 'array':
-      return []
+      return `[]`
     case 'null':
-      return null
+      return `null`
+    case 'any':
+      return 'undefined'
+    case 'JSX.Element':
+      return `<span>Lorem ipsum sic dolor in markupo</span>`
     default:
-      return
+      return `'${type}'`
   }
 }
-// function createVariants(props: Props) {
-//   const resHash: Record<string, Variant> = {}
-//   const arr = objToArr(props).sort(({ required: a }, { required: b }) => +a - +b)
-//   const count = arr.length
-//   if (!count) return []
-//   arr.forEach((outer, i) => {
-//     const key = ''
-//     arr.forEach((inner, j) => {
-//       if (inner.name === outer.name) return
-//     })
-//     // const value = values?.[0] ?? getValue(type?.[0]) ?? ;
-//     // const key = name + '-' + values?[0] ?? (getValue(type?[0])) ?? {}
-//   })
-//   return objToArr(resHash)
-// }
+
+function createVariants(props?: Props) {
+  if (!props) return []
+  const resHash: Record<string, Variant> = {}
+  const arr = objToArr(props).sort(({ required: a }, { required: b }) => +b - +a)
+  const count = arr.length
+  if (!count) return []
+  arr.forEach((outer) => {
+    const vsOrig = [...(outer.values ?? []), ...(outer.type ?? [])]
+    if (!vsOrig.length) vsOrig.push('any')
+    const values = vsOrig.map(getStringifiedValue)
+    values.forEach((v, index) => {
+      let key = ''
+      const variant: Variant = {
+        name: camelize(`${outer.name} ${vsOrig[index].replace(/'/gi, '')}`, true),
+        values: [],
+      }
+      arr.forEach((inner) => {
+        const sameProp = inner.name === outer.name
+        if (!inner.required && !sameProp) return
+        const value = sameProp ? v : getStringifiedValue(inner.values?.[0] ?? inner.type?.[0])
+        variant.values.push({ name: inner.name, value, required: inner.required })
+        key += `${inner.name}:${value}::`
+      })
+      if (resHash[key]) return
+      resHash[key] = variant
+    })
+  })
+  return objToArr(resHash)
+}
 
 class StorybookGenerator extends Generator<GeneratorOpts> {
   options: Opts
@@ -137,6 +157,8 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
     const mainClassName = `${this.options.camelizedName}Main`
     const compName = camelize(this.options.name, true)
     const propsName = `${compName}Props`
+    const variants = createVariants(this.options.props)
+
     this.fs.copyTpl(this.templatePath('types.ts.ejs'), this.destinationPath(`${this.componentPath}/types.ts`), {
       propsName,
       props: objToArr(this.options.props),
@@ -158,6 +180,7 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
         compName,
         compFileName: this.options.snakifiedName,
         compFullName: this.options.name,
+        variants,
       }
     )
     if (this.options.story) {
@@ -178,7 +201,6 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
             })),
         }
       )
-
       this.fs.copyTpl(
         this.templatePath('component.stories.tsx.ejs'),
         this.destinationPath(`${this.componentPath}/${this.options.snakifiedName}.stories.tsx`),
@@ -186,7 +208,7 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
           compName,
           compFileName: this.options.snakifiedName,
           title: storyTitle,
-          variants: objToArr(this.options.props).map(({ name }) => ({ name, values })),
+          variants,
         }
       )
     }
@@ -216,7 +238,6 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
       this.fs.append(indexFilePath, exportLine, {})
     }
   }
-  re
 }
 
 export default StorybookGenerator

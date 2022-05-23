@@ -1,4 +1,4 @@
 export type <%=propsName%> = {
-  <%props.forEach(function(prop) {%><%=prop.name%><%=prop.required ? '' : '?'%>: <%-[...(prop.values || []), ...(prop.type || [])].join(' | ') || 'any'%>; <%}) %>
+  <%props.forEach(function(prop) {%><%=prop.name%><%=prop.required ? '' : '?'%>: <%-[...(prop.values || []).map(v => `'${v}'`), ...(prop.type || [])].join(' | ') || 'any'%>; <%}) %>
 }
 

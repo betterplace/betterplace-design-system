@@ -142,7 +142,7 @@ function processPropTypes(prop: PropData, presentInAllVariants: boolean): PropDa
   const nonBoolValues = stripBooleanValues(prop.values)
   const simpleType = nonBoolValues.length === 1
   const bool = prop.values.length !== nonBoolValues.length && !simpleType
-  const values = nonBoolValues.filter((v) => v !== DEFAULT_LABEL).map((v) => `'${v}'`)
+  const values = nonBoolValues.filter((v) => v !== DEFAULT_LABEL)
   const required = presentInAllVariants && values.length === nonBoolValues.length && !bool
   if (bool) type.push('boolean')
   return { ...prop, values, required, type }
