@@ -194,12 +194,10 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
         {
           url: specUrl,
           id: this.options.id,
-          themes:
-            this.options.themes &&
-            objToArr(this.options.themes).map((theme) => ({
-              ...theme,
-              url: getComponentSpecUrl(fileInfo, this.options, theme.theme),
-            })),
+          themes: objToArr(this.options.themes ?? {}).map((theme) => ({
+            ...theme,
+            url: getComponentSpecUrl(fileInfo, this.options, theme.theme),
+          })),
         }
       )
       this.fs.copyTpl(
