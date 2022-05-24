@@ -11,3 +11,5 @@ app/javascript/shared/i18n.ts
 config/**/*.js
 vite.config.ts
 node_modules
+storybook-static
+dist

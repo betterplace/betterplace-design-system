@@ -1,0 +1,19 @@
+version: v1.0
+name: Deployment
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2004
+blocks:
+  - name: Publish NPM Package
+    task:
+      secrets:
+        - name: betterplace-design-system
+      jobs:
+        - name: Deploy to NPM
+          commands:
+            - cache restore
+            - cache restore npm-package
+            - cache restore package
+            - npm set-script prepare ""
+            - HUSKY=0 npm publish

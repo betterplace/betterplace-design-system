@@ -5,6 +5,7 @@
   "name": "betterplace-design-system",
   "author": "betterplace <developers@betterplace.org>",
   "license": "Apache-2.0",
+  "homepage": "http://betterplace.github.io/betterplace-design-system",
   "version": "0.0.0",
   "files": [
     "dist"
@@ -24,7 +25,9 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
+    "build-storybook": "export BASE_URL='/betterplace-design-system/'; build-storybook",
+    "test": "echo 'TEST PLACEHOLDER'",
+    "lint": "tsc && eslint . && stylelint src/**/*.css",
     "prepare": "husky install"
   },
   "dependencies": {
