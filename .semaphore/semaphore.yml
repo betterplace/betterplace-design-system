@@ -18,7 +18,7 @@ blocks:
             - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
             - cache restore
             - yarn
-            - cache store node-modules
+            - cache store
       prologue:
         commands:
           - checkout
