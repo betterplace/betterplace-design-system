@@ -13,6 +13,8 @@ blocks:
         - name: Publish to GitHub Pages
           commands:
             - checkout
+            - git config --global user.email "developers@betterplace.org"
+            - git config --global user.name "betterplace"
             - cache restore
             - npm i gh-pages -g
             - cache restore storybook
