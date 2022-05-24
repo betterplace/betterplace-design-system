@@ -12,4 +12,10 @@ module.exports = {
   core: {
     builder: '@storybook/builder-vite',
   },
+  async viteFinal(config, { configType }) {
+    config.base = process.env.BASE_URL || config.base
+
+    // return the customized config
+    return config
+  },
 }
