@@ -16,8 +16,6 @@ blocks:
             - cache restore package
             - npm publish
   - name: Deploy Storybook
-    dependencies:
-      - Publish NPM Package
     task:
       secrets:
         - name: betterplace-design-system
