@@ -21,4 +21,4 @@ blocks:
             - cache restore
             - npm i gh-pages -g
             - cache restore storybook
-            - gh-pages -d storybook-static
+            - gh-pages --dist storybook-static --dotfiles --message "[skip ci] Updates"
