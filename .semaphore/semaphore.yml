@@ -10,7 +10,7 @@ blocks:
       jobs:
         - name: Install
           commands:
-            - 'sem-version node $(awk ''/^nodejs/ { print $2 }'' .tool-versions)'
+            - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
             - cache restore
             - yarn
             - cache store node-modules
@@ -25,7 +25,7 @@ blocks:
       jobs:
         - name: Jest
           commands:
-            - 'sem-version node $(awk ''/^nodejs/ { print $2 }'' .tool-versions)'
+            - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
             - cache restore
             - yarn
             - yarn test
@@ -39,7 +39,7 @@ blocks:
       jobs:
         - name: ESlint & TSC
           commands:
-            - 'sem-version node $(awk ''/^nodejs/ { print $2 }'' .tool-versions)'
+            - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
             - cache restore
             - yarn
             - yarn lint
@@ -54,20 +54,20 @@ blocks:
       jobs:
         - name: Build NPM Package
           commands:
-            - 'sem-version node $(awk ''/^nodejs/ { print $2 }'' .tool-versions)'
+            - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
             - cache restore
             - yarn
             - yarn build
             - cache store npm-package dist
         - name: Build Storybook
           commands:
-            - 'sem-version node $(awk ''/^nodejs/ { print $2 }'' .tool-versions)'
+            - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
             - cache restore
             - yarn
             - yarn build-storybook
             - cache store storybook storybook-static
 promotions:
   - name: Deploy
-    pipeline_file: pipeline_2.yml
+    pipeline_file: deployment.yml
     auto_promote:
       when: branch = 'main' AND result = 'passed' AND tag =~ '.*'
