@@ -16,7 +16,7 @@ blocks:
         - name: Install
           commands:
             - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
-            - cache restore
+            - cache clear
             - yarn
             - cache store
       prologue:
