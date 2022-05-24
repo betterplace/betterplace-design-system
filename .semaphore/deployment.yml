@@ -15,7 +15,8 @@ blocks:
             - cache restore
             - cache restore npm-package
             - cache restore package
-            - npm publish
+            - npm set-script prepare ""
+            - HUSKY=0 npm publish
   - name: Deploy Storybook
     task:
       secrets:
