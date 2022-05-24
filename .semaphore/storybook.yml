@@ -1,0 +1,19 @@
+version: v1.0
+name: Deployment
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: Deploy Storybook
+    task:
+      secrets:
+        - name: betterplace-design-system
+      jobs:
+        - name: Publish to GitHub Pages
+          commands:
+            - checkout
+            - cache restore
+            - npm i gh-pages -g
+            - cache restore storybook
+            - gh-pages -d storybook-static
