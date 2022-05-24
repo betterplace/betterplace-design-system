@@ -5,17 +5,27 @@ agent:
     type: e1-standard-2
     os_image: ubuntu1804
 blocks:
-  - name: Deploy
+  - name: Publish NPM Package
     task:
       secrets:
         - name: betterplace-design-system
       jobs:
-        - name: Publish NPM Package
+        - name: Deploy to NPM
           commands:
             - cache restore npm-package
-            - yarn deploy
+            - npm publish
         - name: Publish Storybook
           commands:
             - npm i gh-pages -g
             - cache restore storybook
-            - yarn deploy-storybook
+            - gh-pages -d storybook-static
+  - name: Deploy Storybook
+    task:
+      secrets:
+        - name: betterplace-design-system
+      jobs:
+        - name: Publish to GitHub Pages
+          commands:
+            - npm i gh-pages -g
+            - cache restore storybook
+            - gh-pages -d storybook-static

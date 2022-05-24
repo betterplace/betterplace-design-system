@@ -26,8 +26,6 @@
     "preview": "vite preview",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "BASE_URL=/betterplace-design-system/ build-storybook",
-    "deploy-storybook": "gh-pages -d storybook-static",
-    "deploy": "npm publish",
     "test": "echo 'TEST PLACEHOLDER'",
     "lint": "tsc && eslint . && stylelint src/**/*.css",
     "prepare": "husky install"
