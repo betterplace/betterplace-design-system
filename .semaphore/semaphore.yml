@@ -67,6 +67,7 @@ blocks:
             - yarn
             - yarn build
             - cache store npm-package dist
+            - cache store package package.json
         - name: Build Storybook
           commands:
             - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
