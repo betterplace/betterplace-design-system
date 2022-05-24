@@ -15,6 +15,9 @@ blocks:
             - checkout
             - git config --global user.email "developers@betterplace.org"
             - git config --global user.name "betterplace"
+            - ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+            - chmod 600 ~/.ssh/id_rsa_semaphore
+            - ssh-add ~/.ssh/id_rsa_semaphore
             - cache restore
             - npm i gh-pages -g
             - cache restore storybook
