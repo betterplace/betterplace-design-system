@@ -6,9 +6,11 @@ agent:
     os_image: ubuntu2004
 auto_cancel:
   running:
-    when: "branch = 'gh-pages'"
+    when: "branch != 'main'"
 blocks:
   - name: Install dependencies
+    skip:
+      when: "branch = 'gh-pages'"
     task:
       jobs:
         - name: Install

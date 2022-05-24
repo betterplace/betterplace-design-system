@@ -12,6 +12,7 @@ blocks:
       jobs:
         - name: Deploy to NPM
           commands:
+            - cache restore
             - cache restore npm-package
             - cache restore package
             - npm publish
