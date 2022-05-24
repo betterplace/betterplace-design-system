@@ -13,6 +13,7 @@ module.exports = {
     builder: '@storybook/builder-vite',
   },
   async viteFinal(config, { configType }) {
+    console.log(process.env, import.meta.env)
     config.base = process.env.BASE_URL || config.base
 
     // return the customized config
