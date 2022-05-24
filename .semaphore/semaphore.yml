@@ -1,0 +1,73 @@
+version: v1.0
+name: Test
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2004
+blocks:
+  - name: Install dependencies
+    task:
+      jobs:
+        - name: Install
+          commands:
+            - 'sem-version node $(awk ''/^nodejs/ { print $2 }'' .tool-versions)'
+            - cache restore
+            - yarn
+            - cache store node-modules
+    dependencies: []
+  - name: Test
+    dependencies:
+      - Install dependencies
+    task:
+      prologue:
+        commands:
+          - checkout
+      jobs:
+        - name: Jest
+          commands:
+            - 'sem-version node $(awk ''/^nodejs/ { print $2 }'' .tool-versions)'
+            - cache restore
+            - yarn
+            - yarn test
+  - name: Lint
+    dependencies:
+      - Install dependencies
+    task:
+      prologue:
+        commands:
+          - checkout
+      jobs:
+        - name: ESlint & TSC
+          commands:
+            - 'sem-version node $(awk ''/^nodejs/ { print $2 }'' .tool-versions)'
+            - cache restore
+            - yarn
+            - yarn lint
+  - name: 'Build '
+    dependencies:
+      - Lint
+      - Test
+    task:
+      prologue:
+        commands:
+          - checkout
+      jobs:
+        - name: Build NPM Package
+          commands:
+            - 'sem-version node $(awk ''/^nodejs/ { print $2 }'' .tool-versions)'
+            - cache restore
+            - yarn
+            - yarn build
+            - cache store npm-package dist
+        - name: Build Storybook
+          commands:
+            - 'sem-version node $(awk ''/^nodejs/ { print $2 }'' .tool-versions)'
+            - cache restore
+            - yarn
+            - yarn build-storybook
+            - cache store storybook storybook-static
+promotions:
+  - name: Deploy
+    pipeline_file: pipeline_2.yml
+    auto_promote:
+      when: branch = 'main' AND result = 'passed' AND tag =~ '.*'
