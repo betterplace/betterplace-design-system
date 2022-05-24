@@ -7,6 +7,8 @@ agent:
 blocks:
   - name: Deploy
     task:
+      secrets:
+        - name: betterplace-design-system
       jobs:
         - name: Publish NPM Package
           commands:
@@ -14,6 +16,6 @@ blocks:
             - yarn deploy
         - name: Publish Storybook
           commands:
-            - yarn add gh-pages -g
+            - npm i gh-pages -g
             - cache restore storybook
             - yarn deploy-storybook

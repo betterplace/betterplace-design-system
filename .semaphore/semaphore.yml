@@ -4,6 +4,9 @@ agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu2004
+auto_cancel:
+  running:
+    when: "branch == 'gh-pages'"
 blocks:
   - name: Install dependencies
     task:
@@ -51,6 +54,8 @@ blocks:
       - Lint
       - Test
     task:
+      secrets:
+        - name: betterplace-design-system
       prologue:
         commands:
           - checkout
