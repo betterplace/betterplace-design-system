@@ -5,6 +5,7 @@
   "name": "betterplace-design-system",
   "author": "betterplace <developers@betterplace.org>",
   "license": "Apache-2.0",
+  "homepage": "http://betterplace.github.io/betterplace-design-system",
   "version": "0.0.0",
   "files": [
     "dist"
@@ -25,6 +26,10 @@
     "preview": "vite preview",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
+    "deploy-storybook": "gh-pages -d storybook-static",
+    "deploy": "npm publish",
+    "test": "echo 'TEST PLACEHOLDER'",
+    "lint": "tsc && eslint && stylelint",
     "prepare": "husky install"
   },
   "dependencies": {
