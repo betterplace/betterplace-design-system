@@ -5,6 +5,7 @@
   "name": "betterplace-design-system",
   "author": "betterplace <developers@betterplace.org>",
   "license": "Apache-2.0",
+  "homepage": "http://betterplace.github.io/betterplace-design-system",
   "version": "0.0.0",
   "files": [
     "dist"
@@ -25,12 +26,14 @@
     "build": "tsc -p tsconfig.base.json  && vite build",
     "preview": "vite preview",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "prepare": "husky install",
     "figma::tokens": "ts-node -r dotenv/config --project ./tsconfig.tsnode.json figma/fetch_tokens.ts PJ7OUutWRrSHW6qgaPNW1l",
     "figma::components": "ts-node -r dotenv/config --project ./tsconfig.tsnode.json figma/fetch_components.ts PJ7OUutWRrSHW6qgaPNW1l",
     "component::add::main": "ts-node --project ./tsconfig.tsnode.json  node_modules/.bin/yo ./generator --figma --test --story --root src/lib",
-    "component::add::local": "ts-node --project ./tsconfig.tsnode.json  node_modules/.bin/yo ./generator --root"
+    "component::add::local": "ts-node --project ./tsconfig.tsnode.json  node_modules/.bin/yo ./generator --root",
+    "build-storybook": "export BASE_URL='/betterplace-design-system/'; build-storybook",
+    "build-tokens": "style-dictionary build --config config/sd.config.js",
+    "lint": "tsc && eslint . && stylelint src/**/*.css",
+    "prepare": "husky install"
   },
   "dependencies": {
     "react": "^17.0.2",
@@ -86,6 +89,7 @@
     "postcss-apply": "^0.12.0",
     "postcss-nesting": "^10.1.7",
     "storybook-addon-designs": "^6.2.1",
+    "style-dictionary": "^3.7.0",
     "stylelint": "^14.8.1",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^25.0.0",
