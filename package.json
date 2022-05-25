@@ -23,7 +23,7 @@
     "setup": "./script/setup",
     "test": "jest",
     "dev": "vite",
-    "build": "yarn build-tokens && tsc -p tsconfig.base.json  && vite build  && cp -r ./build/* ./dist/ && mv ./dist/style.css ./dist/css/",
+    "build": "yarn build-tokens && tsc -p tsconfig.base.json  && vite build  && cp -r ./build/* ./dist/",
     "preview": "vite preview",
     "storybook": "start-storybook -p 6006",
     "figma::tokens": "ts-node -r dotenv/config --project ./tsconfig.tsnode.json figma/fetch_tokens.ts PJ7OUutWRrSHW6qgaPNW1l",
