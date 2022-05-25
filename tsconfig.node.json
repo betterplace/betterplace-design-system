@@ -4,7 +4,9 @@
     "module": "esnext",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true
   },
   "include": ["vite.config.ts"]
 }

@@ -1,0 +1,789 @@
+{
+  "meta": {
+    "file": {
+      "id": "PJ7OUutWRrSHW6qgaPNW1l",
+      "name": "DS betterplace GENERAL",
+      "lastModified": "2022-05-25T10:13:02Z"
+    },
+    "timestamp": 1653493179545
+  },
+  "data": {
+    "tag": {
+      "id": "230:1297",
+      "name": "Tag",
+      "frameId": "302:1949",
+      "frameName": "Tags",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "path": "tag",
+      "states": [],
+      "props": {},
+      "variants": { "204:2129": { "name": "Property 1=Default" }, "230:1298": { "name": "Property 1=Round" } }
+    },
+    "box/text": {
+      "id": "106:249",
+      "name": "Box",
+      "frameId": "194:1773",
+      "frameName": "Boxes",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "path": "box/text",
+      "states": [],
+      "props": {
+        "type": {
+          "name": "type",
+          "values": ["adminBox", "infoBox", "cardBox", "adminHeaderBox", "cardTeaser"],
+          "required": true,
+          "type": []
+        }
+      },
+      "variants": {
+        "106:246": { "name": "Type=Admin box" },
+        "106:250": { "name": "Type=Info box" },
+        "106:252": { "name": "Type=Card box" },
+        "106:262": { "name": "Type=Admin header box" },
+        "115:1325": { "name": "Type=Card Teaser" }
+      }
+    },
+    "input": {
+      "id": "106:857",
+      "name": "Input",
+      "frameId": "194:1992",
+      "frameName": "Input Fields",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "path": "input",
+      "states": [],
+      "props": {
+        "type": { "name": "type", "values": ["regular", "longText", "dropdown"], "required": true, "type": [] },
+        "variation": {
+          "name": "variation",
+          "values": ["creditcardInput", "hint", "error", "hintAndError", "open", "label"],
+          "required": false,
+          "type": []
+        },
+        "label": { "required": false, "type": ["string", "JSX.Element", "null"], "name": "label" }
+      },
+      "variants": {
+        "106:856": { "name": "Type=Regular, Variation=Default, Label=Default" },
+        "256:2140": { "name": "Type=Regular, Variation=Default, Label=No" },
+        "268:1784": { "name": "Type=Regular, Variation=creditcard input, Label=No" },
+        "108:210": { "name": "Type=Long text, Variation=Default, Label=Default" },
+        "108:250": { "name": "Type=Long text, Variation=Hint, Label=Default" },
+        "108:264": { "name": "Type=Long text, Variation=Error, Label=Default" },
+        "108:285": { "name": "Type=Long text, Variation=Hint and Error, Label=Default" },
+        "107:47": { "name": "Type=Dropdown, Variation=Default, Label=Default" },
+        "256:2128": { "name": "Type=Dropdown, Variation=Default, Label=No" },
+        "226:3084": { "name": "Type=Dropdown, Variation=Hint, Label=Default" },
+        "226:3098": { "name": "Type=Dropdown, Variation=Hint and Error, Label=Default" },
+        "226:3120": { "name": "Type=Dropdown, Variation=Error, Label=Default" },
+        "145:1319": { "name": "Type=Dropdown, Variation=Open, Label=Default" },
+        "256:2094": { "name": "Type=Dropdown, Variation=Open, Label=No" },
+        "106:878": { "name": "Type=Regular, Variation=Hint, Label=Default" },
+        "106:885": { "name": "Type=Regular, Variation=Error, Label=Default" },
+        "107:89": { "name": "Type=Regular, Variation=Hint and Error, Label=Default" },
+        "256:2110": { "name": "Type=Regular, Variation=Label, Label=Default" }
+      }
+    },
+    "_input/dropdown-item": {
+      "id": "145:1337",
+      "name": "Input",
+      "frameId": "256:2114",
+      "frameName": "Frame 7",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "path": "_input/dropdown-item",
+      "states": [],
+      "props": {},
+      "variants": {
+        "145:1336": { "name": "Property 1=Default" },
+        "145:1341": { "name": "Property 1=Hover" },
+        "145:1338": { "name": "Property 1=Selected" }
+      }
+    },
+    "input/variation/country": {
+      "id": "145:1407",
+      "name": "Input",
+      "frameId": "145:1339",
+      "frameName": "Frame 7",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "path": "input/variation/country",
+      "states": [],
+      "props": {},
+      "variants": {
+        "145:1400": { "name": "Property 1=Dropdown, Property 2=Default, Property 3=Österreich" },
+        "145:1408": { "name": "Property 1=Dropdown, Property 2=Default, Property 3=Deutschland" },
+        "145:1384": { "name": "Property 1=Dropdown, Property 2=Open, Property 3=Österreich" },
+        "145:1417": { "name": "Property 1=Dropdown, Property 2=Open, Property 3=Deutschland" }
+      }
+    },
+    "checkbox/singular": {
+      "id": "111:137",
+      "name": "Checkbox",
+      "frameId": "194:2110",
+      "frameName": "Selctions",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "path": "checkbox/singular",
+      "states": ["active", "disabled"],
+      "props": {
+        "check": { "name": "check", "values": [], "required": false, "type": ["boolean"] },
+        "label": { "required": false, "type": ["string", "JSX.Element", "null"], "name": "label" },
+        "hint": { "required": false, "type": ["string", "JSX.Element", "null"], "name": "label" }
+      },
+      "variants": {
+        "111:136": { "name": "Check=False, State=Active, Label=False, Hint=False" },
+        "340:1864": { "name": "Check=False, State=Disabled, Label=False, Hint=False" },
+        "111:148": { "name": "Check=True, State=Active, Label=False, Hint=False" }
+      }
+    },
+    "checkbox/multiple": {
+      "id": "111:230",
+      "name": "Checkbox",
+      "frameId": "I111:157;111:120",
+      "frameName": "Checkbox",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "path": "checkbox/multiple",
+      "states": [],
+      "props": { "hint": { "required": false, "type": ["string", "JSX.Element", "null"], "name": "label" } },
+      "variants": { "111:138": { "name": "Hint=False" }, "111:231": { "name": "Hint=True" } }
+    },
+    "radiobutton/singular": {
+      "id": "111:917",
+      "name": "Radiobutton",
+      "frameId": "I111:995;360:1950;340:1865",
+      "frameName": "Checkbox",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "path": "radiobutton/singular",
+      "states": ["default", "disabled"],
+      "props": {},
+      "variants": {
+        "111:918": { "name": "Property 1=False, State=Default" },
+        "340:1856": { "name": "Property 1=False, State=Disabled" },
+        "111:922": { "name": "Property 1=True, State=Default" }
+      }
+    },
+    "radiobutton/multiple": {
+      "id": "111:928",
+      "name": "Radiobutton",
+      "frameId": "111:923",
+      "frameName": "Checkbox",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "path": "radiobutton/multiple",
+      "states": [],
+      "props": {},
+      "variants": { "111:929": { "name": "Property 1=No hint" }, "111:932": { "name": "Property 1=Hint" } }
+    },
+    "tab": {
+      "id": "208:1513",
+      "name": "Tab",
+      "frameId": "I111:963;111:944;111:923",
+      "frameName": "Checkbox",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "path": "tab",
+      "states": [],
+      "props": { "device": { "name": "device", "values": ["desktop", "mobile"], "required": false, "type": [] } },
+      "variants": {
+        "208:1512": { "name": "Property 1=active, Property 2=no counter, Device=desktop" },
+        "229:1269": { "name": "Property 1=active, Property 2=no counter, Device=mobile" },
+        "328:1806": { "name": "Property 1=Standalone, Property 2=no counter, Device=mobile" },
+        "208:1528": { "name": "Property 1=inactive, Property 2=no counter, Device=desktop" },
+        "229:1275": { "name": "Property 1=inactive, Property 2=no counter, Device=mobile" },
+        "208:1511": { "name": "Property 1=active, Property 2=counter, Device=desktop" },
+        "229:1281": { "name": "Property 1=active, Property 2=counter, Device=Default" },
+        "208:1534": { "name": "Property 1=inactive, Property 2=counter, Device=desktop" },
+        "229:1288": { "name": "Property 1=inactive, Property 2=counter, Device=mobile" }
+      }
+    },
+    "_teaser/image": {
+      "id": "119:1644",
+      "name": "Teaser",
+      "frameId": "194:2394",
+      "frameName": "Project Teaser",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "path": "_teaser/image",
+      "states": [],
+      "props": {},
+      "variants": {}
+    },
+    "teaser/project": {
+      "id": "182:1336",
+      "name": "Teaser",
+      "frameId": "I119:1909;119:1866",
+      "frameName": "Frame 23",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "path": "teaser/project",
+      "states": ["default", "hover"],
+      "props": {},
+      "variants": { "119:1660": { "name": "State=Default" }, "404:2453": { "name": "State=Hover" } }
+    },
+    "modal": {
+      "id": "211:1774",
+      "name": "Modal",
+      "frameId": "194:2496",
+      "frameName": "Modals",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "path": "modal",
+      "states": [],
+      "props": {},
+      "variants": { "124:2866": { "name": "Property 1=Mobile" }, "211:1775": { "name": "Property 1=Desktop" } }
+    },
+    "gallery-progress": {
+      "id": "320:1885",
+      "name": "GalleryProgress",
+      "frameId": "407:1863",
+      "frameName": "Frame 155",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "path": "gallery-progress",
+      "states": [],
+      "props": {},
+      "variants": {
+        "202:1889": { "name": "Property 1=Default" },
+        "341:1940": { "name": "Property 1=Gallery-fake-desktop" },
+        "320:1886": { "name": "Property 1=Gallery" }
+      }
+    },
+    "status-message": {
+      "id": "254:1618",
+      "name": "StatusMessage",
+      "frameId": "254:1584",
+      "frameName": "Status Messages",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "path": "status-message",
+      "states": [],
+      "props": {},
+      "variants": {
+        "254:1617": { "name": "Property 1=Success" },
+        "254:1619": { "name": "Property 1=Warning" },
+        "254:1634": { "name": "Property 1=Error" }
+      }
+    },
+    "image-info": {
+      "id": "204:1960",
+      "name": "ImageInfo",
+      "frameId": "204:1922",
+      "frameName": "Image and Info Element",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "path": "image-info",
+      "states": ["default", "undefined", "comment"],
+      "props": {},
+      "variants": {
+        "204:1959": { "name": "Property 1=Organization, State=Default" },
+        "204:1961": { "name": "Property 1=Profile, State=Default" },
+        "326:2018": { "name": "Property 1=Profile, State=Undefined" },
+        "204:2063": { "name": "Property 1=Donation, State=Default" },
+        "204:2075": { "name": "Property 1=Donation, State=Comment" }
+      }
+    },
+    "navigation/dots": {
+      "id": "128:3415",
+      "name": "Navigation",
+      "frameId": "194:2535",
+      "frameName": "Navigation and Progress",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "path": "navigation/dots",
+      "states": [],
+      "props": {},
+      "variants": {
+        "128:3414": { "name": "Property 1=First" },
+        "128:3416": { "name": "Property 1=second" },
+        "128:3421": { "name": "Property 1=Third" },
+        "128:3426": { "name": "Property 1=Fourth" }
+      }
+    },
+    "accordion": {
+      "id": "214:2529",
+      "name": "Accordion",
+      "frameId": "194:2535",
+      "frameName": "Navigation and Progress",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "path": "accordion",
+      "states": [],
+      "props": {},
+      "variants": {
+        "214:2530": { "name": "Property 1=Accordion, Property 2=Default, Property 3=Default" },
+        "214:2544": { "name": "Property 1=Accordion, Property 2=Open, Property 3=Österreich" }
+      }
+    },
+    "navigation/progress-indicator": {
+      "id": "108:333",
+      "name": "Navigation",
+      "frameId": "404:1928",
+      "frameName": "Frame 153",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "path": "navigation/progress-indicator",
+      "states": [],
+      "props": {},
+      "variants": {}
+    },
+    "hint/dropdown": {
+      "id": "111:205",
+      "name": "Hint",
+      "frameId": "204:2409",
+      "frameName": "Hints",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "path": "hint/dropdown",
+      "states": [],
+      "props": {
+        "background": { "name": "background", "values": ["transparent", "gray"], "required": true, "type": [] }
+      },
+      "variants": {
+        "111:204": { "name": "Property 1=Close, Background=Transparent" },
+        "204:1989": { "name": "Property 1=Close, Background=gray" },
+        "111:206": { "name": "Property 1=Open, Background=Transparent" },
+        "204:1995": { "name": "Property 1=Open, Background=gray" }
+      }
+    },
+    "footer/mobile": {
+      "id": "106:578",
+      "name": "Footer",
+      "frameId": "194:2292",
+      "frameName": "Footer",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "path": "footer/mobile",
+      "states": [],
+      "props": {},
+      "variants": { "106:576": { "name": "Property 1=mobile" } }
+    },
+    "footer/desktop": {
+      "id": "106:577",
+      "name": "Footer",
+      "frameId": "194:2292",
+      "frameName": "Footer",
+      "canvasName": "Allet: auf einmal - will be deleted when everything is merged",
+      "path": "footer/desktop",
+      "states": [],
+      "props": {},
+      "variants": {}
+    },
+    "samplerectangle": {
+      "id": "1227:2688",
+      "name": "Samplerectangle",
+      "frameId": "1225:2686",
+      "frameName": "testrun-component",
+      "canvasName": "01 a testrun-component",
+      "path": "samplerectangle",
+      "tokens": { "background": "Global/Secondary/Purple 600" },
+      "states": [],
+      "props": {},
+      "variants": {}
+    },
+    "Icon": {
+      "id": "106:266",
+      "name": "Icon",
+      "frameId": "361:1934",
+      "frameName": "Icons and Illustrations",
+      "canvasName": "05. Icons",
+      "path": "Icon",
+      "states": [],
+      "props": {
+        "iconType": {
+          "name": "iconType",
+          "values": ["arrowRight", "camera", "checkmark", "user", "heart", "home", "search", "userAlt", "infoI"],
+          "required": true,
+          "type": []
+        }
+      },
+      "variants": {
+        "106:265": { "name": "Icon Type=Arrow right" },
+        "106:267": { "name": "Icon Type=Camera" },
+        "106:273": { "name": "Icon Type=Checkmark" },
+        "106:287": { "name": "Icon Type=User" },
+        "106:289": { "name": "Icon Type=Heart" },
+        "106:291": { "name": "Icon Type=Home" },
+        "106:731": { "name": "Icon Type=Search" },
+        "106:733": { "name": "Icon Type=User Alt" },
+        "124:2842": { "name": "Icon Type=Info I" }
+      }
+    },
+    "illustrative icons": {
+      "id": "106:343",
+      "name": "IllustrativeIcons",
+      "frameId": "361:1934",
+      "frameName": "Icons and Illustrations",
+      "canvasName": "05. Icons",
+      "path": "illustrative icons",
+      "states": [],
+      "props": {
+        "type": {
+          "name": "type",
+          "values": ["ribbon", "heart", "thumbsUp", "eMailOpen", "rocket", "handsHeart", "donation", "plus10Heart"],
+          "required": true,
+          "type": []
+        }
+      },
+      "variants": {
+        "106:342": { "name": "Type=Ribbon" },
+        "106:344": { "name": "Type=Heart" },
+        "106:366": { "name": "Type=Thumbs up" },
+        "106:380": { "name": "Type=E-mail open" },
+        "106:403": { "name": "Type=Rocket" },
+        "106:469": { "name": "Type=Hands Heart" },
+        "469:2309": { "name": "Type=donation" },
+        "469:2337": { "name": "Type=plus-10-heart" }
+      }
+    },
+    "sharing": {
+      "id": "204:2170",
+      "name": "Sharing",
+      "frameId": "469:2215",
+      "frameName": "illustrative icon/present",
+      "canvasName": "05. Icons",
+      "path": "sharing",
+      "states": [],
+      "props": {},
+      "variants": {
+        "204:2169": { "name": "Property 1=twitter" },
+        "204:2168": { "name": "Property 1=email" },
+        "204:2167": { "name": "Property 1=link" },
+        "204:2166": { "name": "Property 1=facebook" },
+        "204:2164": { "name": "Property 1=messenger" },
+        "204:2165": { "name": "Property 1=whatsapp" },
+        "204:2163": { "name": "Property 1=instagram" }
+      }
+    },
+    "illustrative icon/home": {
+      "id": "487:2357",
+      "name": "IllustrativeIcon",
+      "frameId": "469:2215",
+      "frameName": "illustrative icon/present",
+      "canvasName": "05. Icons",
+      "path": "illustrative icon/home",
+      "states": [],
+      "props": {},
+      "variants": {}
+    },
+    "illustrative icon/tools": {
+      "id": "487:2356",
+      "name": "IllustrativeIcon",
+      "frameId": "469:2215",
+      "frameName": "illustrative icon/present",
+      "canvasName": "05. Icons",
+      "path": "illustrative icon/tools",
+      "states": [],
+      "props": {},
+      "variants": {}
+    },
+    "illustrative icon/information": {
+      "id": "487:2375",
+      "name": "IllustrativeIcon",
+      "frameId": "469:2215",
+      "frameName": "illustrative icon/present",
+      "canvasName": "05. Icons",
+      "path": "illustrative icon/information",
+      "states": [],
+      "props": {},
+      "variants": {}
+    },
+    "illustrative icon/crown": {
+      "id": "487:2359",
+      "name": "IllustrativeIcon",
+      "frameId": "469:2215",
+      "frameName": "illustrative icon/present",
+      "canvasName": "05. Icons",
+      "path": "illustrative icon/crown",
+      "states": [],
+      "props": {},
+      "variants": {}
+    },
+    "illustrative icon/printer": {
+      "id": "487:2373",
+      "name": "IllustrativeIcon",
+      "frameId": "469:2215",
+      "frameName": "illustrative icon/present",
+      "canvasName": "05. Icons",
+      "path": "illustrative icon/printer",
+      "states": [],
+      "props": {},
+      "variants": {}
+    },
+    "illustrative icon/newspaper": {
+      "id": "487:2371",
+      "name": "IllustrativeIcon",
+      "frameId": "469:2215",
+      "frameName": "illustrative icon/present",
+      "canvasName": "05. Icons",
+      "path": "illustrative icon/newspaper",
+      "states": [],
+      "props": {},
+      "variants": {}
+    },
+    "illustrative icon/search": {
+      "id": "487:2361",
+      "name": "IllustrativeIcon",
+      "frameId": "469:2215",
+      "frameName": "illustrative icon/present",
+      "canvasName": "05. Icons",
+      "path": "illustrative icon/search",
+      "states": [],
+      "props": {},
+      "variants": {}
+    },
+    "illustrative icon/location-map": {
+      "id": "487:2363",
+      "name": "IllustrativeIcon",
+      "frameId": "469:2215",
+      "frameName": "illustrative icon/present",
+      "canvasName": "05. Icons",
+      "path": "illustrative icon/location-map",
+      "states": [],
+      "props": {},
+      "variants": {}
+    },
+    "illustrative icon/chat": {
+      "id": "487:2365",
+      "name": "IllustrativeIcon",
+      "frameId": "469:2215",
+      "frameName": "illustrative icon/present",
+      "canvasName": "05. Icons",
+      "path": "illustrative icon/chat",
+      "states": [],
+      "props": {},
+      "variants": {}
+    },
+    "illustrative icon/calendar": {
+      "id": "487:2367",
+      "name": "IllustrativeIcon",
+      "frameId": "469:2215",
+      "frameName": "illustrative icon/present",
+      "canvasName": "05. Icons",
+      "path": "illustrative icon/calendar",
+      "states": [],
+      "props": {},
+      "variants": {}
+    },
+    "illustrative icon/document": {
+      "id": "487:2369",
+      "name": "IllustrativeIcon",
+      "frameId": "469:2215",
+      "frameName": "illustrative icon/present",
+      "canvasName": "05. Icons",
+      "path": "illustrative icon/document",
+      "states": [],
+      "props": {},
+      "variants": {}
+    },
+    "illustrative icon/fail-negative": {
+      "id": "487:2379",
+      "name": "IllustrativeIcon",
+      "frameId": "469:2215",
+      "frameName": "illustrative icon/present",
+      "canvasName": "05. Icons",
+      "path": "illustrative icon/fail-negative",
+      "states": [],
+      "props": {},
+      "variants": {}
+    },
+    "illustrative icon/newsletter": {
+      "id": "487:2377",
+      "name": "IllustrativeIcon",
+      "frameId": "469:2215",
+      "frameName": "illustrative icon/present",
+      "canvasName": "05. Icons",
+      "path": "illustrative icon/newsletter",
+      "states": [],
+      "props": {},
+      "variants": {}
+    },
+    "button/primary": {
+      "id": "105:93",
+      "name": "Button",
+      "frameId": "361:1874",
+      "frameName": "Buttons",
+      "canvasName": "08. Buttons",
+      "path": "button/primary",
+      "themes": { "at": { "id": "105:93", "theme": "at" }, "me": { "id": "194:1556", "theme": "me" } },
+      "states": ["default", "hover", "focus", "active", "disabled"],
+      "props": {
+        "type": { "name": "type", "values": ["primary", "delete", "secondary"], "required": true, "type": [] },
+        "size": { "name": "size", "values": ["large", "small"], "required": true, "type": [] },
+        "icon": { "name": "icon", "values": [], "required": false, "type": [] }
+      },
+      "variants": {
+        "105:83": { "name": "State=Default, Type=Primary, Size=Large, Icon=False" },
+        "303:1875": { "name": "State=Default, Type=Primary, Size=Large, Icon=True" },
+        "106:167": { "name": "State=Default, Type=Primary, Size=Small, Icon=Default" },
+        "106:51": { "name": "State=Default, Type=Delete, Size=Large, Icon=Default" },
+        "106:170": { "name": "State=Default, Type=Delete, Size=Small, Icon=Default" },
+        "106:19": { "name": "State=Default, Type=Secondary, Size=Large, Icon=Default" },
+        "106:173": { "name": "State=Default, Type=Secondary, Size=Small, Icon=Default" },
+        "105:94": { "name": "State=Hover, Type=Primary, Size=Large, Icon=Default" },
+        "106:176": { "name": "State=Hover, Type=Primary, Size=Small, Icon=Default" },
+        "106:54": { "name": "State=Hover, Type=Delete, Size=Large, Icon=Default" },
+        "106:179": { "name": "State=Hover, Type=Delete, Size=Small, Icon=Default" },
+        "106:22": { "name": "State=Hover, Type=Secondary, Size=Large, Icon=Default" },
+        "106:182": { "name": "State=Hover, Type=Secondary, Size=Small, Icon=Default" },
+        "105:99": { "name": "State=Focused, Type=Primary, Size=Large, Icon=Default" },
+        "106:185": { "name": "State=Focused, Type=Primary, Size=Small, Icon=Default" },
+        "106:57": { "name": "State=Focused, Type=Delete, Size=Large, Icon=Default" },
+        "106:188": { "name": "State=Focused, Type=Delete, Size=Small, Icon=Default" },
+        "106:25": { "name": "State=Focused, Type=Secondary, Size=Large, Icon=Default" },
+        "106:191": { "name": "State=Focused, Type=Secondary, Size=Small, Icon=Default" },
+        "105:102": { "name": "State=Pressed, Type=Primary, Size=Large, Icon=Default" },
+        "106:194": { "name": "State=Pressed, Type=Primary, Size=Small, Icon=Default" },
+        "106:60": { "name": "State=Pressed, Type=Delete, Size=Large, Icon=Default" },
+        "106:197": { "name": "State=Pressed, Type=Delete, Size=Small, Icon=Default" },
+        "106:28": { "name": "State=Pressed, Type=Secondary, Size=Large, Icon=Default" },
+        "106:200": { "name": "State=Pressed, Type=Secondary, Size=Small, Icon=Default" },
+        "105:105": { "name": "State=Disabled, Type=Primary, Size=Large, Icon=Default" },
+        "106:203": { "name": "State=Disabled, Type=Primary, Size=Small, Icon=Default" },
+        "106:63": { "name": "State=Disabled, Type=Delete, Size=Large, Icon=Default" },
+        "106:206": { "name": "State=Disabled, Type=Delete, Size=Small, Icon=Default" },
+        "106:31": { "name": "State=Disabled, Type=Secondary, Size=Large, Icon=Default" },
+        "106:209": { "name": "State=Disabled, Type=Secondary, Size=Small, Icon=Default" },
+        "194:1557": { "name": "State=Default, Type=Primary, Size=Large" },
+        "194:1560": { "name": "State=Default, Type=Primary, Size=Small" },
+        "194:1563": { "name": "State=Default, Type=Delete, Size=Large" },
+        "194:1566": { "name": "State=Default, Type=Delete, Size=Small" },
+        "194:1569": { "name": "State=Default, Type=Secondary, Size=Large" },
+        "194:1572": { "name": "State=Default, Type=Secondary, Size=Small" },
+        "194:1575": { "name": "State=Hover, Type=Primary, Size=Large" },
+        "194:1578": { "name": "State=Hover, Type=Primary, Size=Small" },
+        "194:1581": { "name": "State=Hover, Type=Delete, Size=Large" },
+        "194:1584": { "name": "State=Hover, Type=Delete, Size=Small" },
+        "194:1587": { "name": "State=Hover, Type=Secondary, Size=Large" },
+        "194:1590": { "name": "State=Hover, Type=Secondary, Size=Small" },
+        "194:1593": { "name": "State=Focused, Type=Primary, Size=Large" },
+        "194:1596": { "name": "State=Focused, Type=Primary, Size=Small" },
+        "194:1599": { "name": "State=Focused, Type=Delete, Size=Large" },
+        "194:1602": { "name": "State=Focused, Type=Delete, Size=Small" },
+        "194:1605": { "name": "State=Focused, Type=Secondary, Size=Large" },
+        "194:1608": { "name": "State=Focused, Type=Secondary, Size=Small" },
+        "194:1611": { "name": "State=Pressed, Type=Primary, Size=Large" },
+        "194:1614": { "name": "State=Pressed, Type=Primary, Size=Small" },
+        "194:1617": { "name": "State=Pressed, Type=Delete, Size=Large" },
+        "194:1620": { "name": "State=Pressed, Type=Delete, Size=Small" },
+        "194:1623": { "name": "State=Pressed, Type=Secondary, Size=Large" },
+        "194:1626": { "name": "State=Pressed, Type=Secondary, Size=Small" },
+        "194:1629": { "name": "State=Disabled, Type=Primary, Size=Large" },
+        "194:1632": { "name": "State=Disabled, Type=Primary, Size=Small" },
+        "194:1635": { "name": "State=Disabled, Type=Delete, Size=Large" },
+        "194:1638": { "name": "State=Disabled, Type=Delete, Size=Small" },
+        "194:1641": { "name": "State=Disabled, Type=Secondary, Size=Large" },
+        "194:1644": { "name": "State=Disabled, Type=Secondary, Size=Small" }
+      }
+    },
+    "_admin-box": {
+      "id": "411:2962",
+      "name": "AdminBox",
+      "frameId": "361:1874",
+      "frameName": "Buttons",
+      "canvasName": "Header Components",
+      "path": "_admin-box",
+      "states": ["default", "newPage"],
+      "props": {},
+      "variants": { "411:2960": { "name": "State=Default" }, "411:2963": { "name": "State=New Page" } }
+    },
+    "header": {
+      "id": "106:742",
+      "name": "Header",
+      "frameId": "411:2972",
+      "frameName": "Frame 151",
+      "canvasName": "Header Components",
+      "path": "header",
+      "states": [],
+      "props": {
+        "user": { "name": "user", "values": [], "required": false, "type": [] },
+        "icons": { "name": "icons", "values": ["yesPlusLabel"], "required": true, "type": [] },
+        "adminState": { "name": "adminState", "values": [], "required": false, "type": [] }
+      },
+      "variants": {
+        "243:2038": { "name": "Property 1=desktop, User=Default, Icons=Yes plus Label, Admin State=Default" },
+        "411:2725": { "name": "Property 1=mobile, User=Default, Icons=Yes, Admin State=Default" },
+        "411:2747": { "name": "Property 1=mobile, User=Default, Icons=No, Admin State=Default" }
+      }
+    },
+    "header-admin": {
+      "id": "437:2089",
+      "name": "HeaderAdmin",
+      "frameId": "I411:3024;411:3139",
+      "frameName": "Frame 157",
+      "canvasName": "Header Components",
+      "path": "header-admin",
+      "states": [],
+      "props": {},
+      "variants": {
+        "243:1780": { "name": "Property 1=adminbox, Property 2=at, Property 3=desktop" },
+        "437:2090": { "name": "Property 1=adminbox, Property 2=at, Property 3=mobile" }
+      }
+    },
+    "Note": {
+      "id": "358:3090",
+      "name": "Note",
+      "frameId": "358:3089",
+      "frameName": "Notifications",
+      "canvasName": "File Components",
+      "path": "Note",
+      "states": [],
+      "props": { "size": { "name": "size", "values": ["large", "small"], "required": true, "type": [] } },
+      "variants": { "358:3091": { "name": "Size=Large" }, "358:3094": { "name": "Size=Small" } }
+    },
+    "tokenbox": {
+      "id": "723:2069",
+      "name": "Tokenbox",
+      "frameId": "723:2073",
+      "frameName": "Color Tokens local components",
+      "canvasName": "File Components",
+      "path": "tokenbox",
+      "states": [],
+      "props": {},
+      "variants": {}
+    },
+    "colorRole": {
+      "id": "768:2301",
+      "name": "ColorRole",
+      "frameId": "747:2512",
+      "frameName": "specs",
+      "canvasName": "File Components",
+      "path": "colorRole",
+      "tokens": { "background": "Global/Neutrals/Gray 100" },
+      "states": [],
+      "props": {},
+      "variants": {}
+    },
+    "color swatch": {
+      "id": "927:3470",
+      "name": "ColorSwatch",
+      "frameId": "747:2512",
+      "frameName": "specs",
+      "canvasName": "File Components",
+      "path": "color swatch",
+      "tokens": { "background": "Global/Primary/Green 500" },
+      "states": [],
+      "props": {},
+      "variants": {}
+    },
+    "component naming table": {
+      "id": "1029:5348",
+      "name": "ComponentNamingTable",
+      "frameId": "747:2512",
+      "frameName": "specs",
+      "canvasName": "File Components",
+      "path": "component naming table",
+      "states": [],
+      "props": {},
+      "variants": {}
+    },
+    "Page Header": {
+      "id": "358:3080",
+      "name": "PageHeader",
+      "frameId": "377:1863",
+      "frameName": "Page Heading",
+      "canvasName": "File Components",
+      "path": "Page Header",
+      "states": [],
+      "props": { "darkMode": { "name": "darkMode", "values": [], "required": false, "type": ["boolean"] } },
+      "variants": { "358:3081": { "name": "Dark Mode=Off" }, "358:3085": { "name": "Dark Mode=On" } }
+    },
+    "Tablerow-tokens": {
+      "id": "1089:2903",
+      "name": "TablerowTokens",
+      "frameId": "1109:5090",
+      "frameName": "Table",
+      "canvasName": "File Components",
+      "path": "Tablerow-tokens",
+      "states": [],
+      "props": {},
+      "variants": {
+        "1089:2822": { "name": "Property 1=first row" },
+        "1089:2904": { "name": "Property 1=second row" },
+        "1089:2907": { "name": "Property 1=third row" }
+      }
+    }
+  }
+}

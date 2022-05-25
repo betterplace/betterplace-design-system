@@ -1,24 +1,10 @@
+import { ReactFramework, StoryContext } from '@storybook/react'
 import React, { ReactNode, useState } from 'react'
-import tokens from '../../config/tokens.json'
 import '../../build/css/globals.css'
-
-export const AVAILABLE_THEMES = [
-  {
-    key: 'org',
-    title: 'betterplace.org',
-  },
-  {
-    key: 'at',
-    title: 'betterplace.at',
-  },
-  {
-    key: 'me',
-    title: 'betterplace.me',
-  },
-] as const
-
-const keys = AVAILABLE_THEMES.map((theme) => theme.key)
-type Theme = typeof keys[number]
+import tokens from '../../config/tokens.json'
+import AVAILABLE_THEMES from '../lib/shared/themes'
+const ThemeKeys = AVAILABLE_THEMES.map((theme) => theme.key)
+type Theme = typeof ThemeKeys[number]
 
 type ThemeProviderProps = {
   theme: Theme
@@ -59,11 +45,11 @@ export const ThemeProvider = (props: ThemeProviderProps) => {
   )
 }
 
-export type ThemeDecoratorContext = { globals: { theme: Theme } }
-
 export const withThemeProvider = (
-  Story: React.ComponentType<ThemeDecoratorContext>,
-  context: ThemeDecoratorContext
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Story: React.ComponentType<StoryContext<ReactFramework, any>>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  context: StoryContext<ReactFramework, any>
 ) => {
   return (
     <ThemeProvider theme={context.globals.theme}>
