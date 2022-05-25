@@ -1,8 +1,17 @@
 import Generator from 'yeoman-generator'
 import { ComponentInfo, FileInfo, getComponentSpecUrl, PropData, Props, PropType } from '../figma/lib/fetch_components'
-import { camelize, objToArr, snakeify } from '../figma/lib/helpers'
+import { camelize, kebabCase, objToArr, snakeify } from '../figma/lib/helpers'
 import Fuse from 'fuse.js'
 import { prettierTransform } from './transforms'
+// until we simplify the dir structure we have to do it like this
+// import SDConfig from '../config/sd.config'
+const SDConfig = {
+  platforms: {
+    css: {
+      prefix: 'betterplace',
+    },
+  },
+}
 
 interface GeneratorOpts {
   name: string
@@ -11,11 +20,13 @@ interface GeneratorOpts {
   story?: boolean
   test?: boolean
 }
+
 type Opts = GeneratorOpts &
   ComponentInfo & {
     camelizedName: string
     snakifiedName: string
   }
+
 type VariantPropValue = { name: string; value: string; required: boolean }
 type Variant = { name: string; values: Array<VariantPropValue> }
 function getStringifiedValue(type?: PropType | string): string {
@@ -116,7 +127,7 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
     if (!this.options.figma || !this.options.story) return Promise.resolve()
     const res = (await import('../config/components.json').then((d) => d.data)) as Record<string, ComponentInfo>
     const list = objToArr(res)
-    let figma: ComponentInfo
+    let figma: ComponentInfo | undefined
     const figmaPath = `${this.componentPath}/figma.lock.ts`
     if (this.fs.exists(figmaPath)) {
       const id: string = await import(figmaPath).then((module) => module.default.id)
@@ -139,7 +150,7 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
       ] as const)
       figma = answers.figma
     }
-    this.options = { ...this.options, ...figma }
+    this.options = { ...this.options, ...figma, name: this.options.name }
   }
 
   writing() {
@@ -212,12 +223,18 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
         }
       )
     }
+    const tokens = this.options.tokens ?? {}
     this.fs.copyTpl(
       this.templatePath('component.module.css.ejs'),
       this.destinationPath(`${this.componentPath}/${cssFileName}`),
       {
         states: (this.options.states ?? []).filter((s) => s !== 'default'),
         mainClassName,
+        tokens: Object.keys(tokens).map((key) => ({
+          key,
+          name: `--${camelize(`${compName} ${key}`)}`,
+          value: `--${SDConfig.platforms.css.prefix}-${kebabCase((tokens as Record<string, string>)[key])}`,
+        })),
       }
     )
     this.fs.copyTpl(this.templatePath('index.ts.ejs'), this.destinationPath(`${this.componentPath}/index.ts`), {

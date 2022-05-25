@@ -7,8 +7,12 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "strict": true,
+    "allowJs": true
   },
+
+  "exclude": ["node_modules", "dist"],
   "include": ["figma/**/*", "generator/**/*", "src/lib/shared/themes.ts", "config/components.json", "src/**/*.lock.ts"],
   "ts-node": {
     "transpileOnly": true,

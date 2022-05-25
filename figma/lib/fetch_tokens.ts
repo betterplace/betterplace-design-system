@@ -5,7 +5,8 @@ type DataType = string | TypeStyle
 type Output = Record<string, { type: string; name: string; description: string; value: DataType; frameName: string }>
 const getColorData: ExtractorFn<string> = (node) => {
   if (!('styles' in node)) return
-  const nodeId = node.styles?.['fill'] as unknown as StylesMap['FILL'] // #bug in typings
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const nodeId = (node.styles as any)?.['fill'] as unknown as StylesMap['FILL'] // #bug in typings
   if (!nodeId) return
   if (!('fills' in node)) return
   const color = node.fills[0]?.color
@@ -16,7 +17,8 @@ const getColorData: ExtractorFn<string> = (node) => {
 
 const getTextData: ExtractorFn<TypeStyle> = (node: Node) => {
   if (!('styles' in node)) return
-  const nodeId = node.styles?.['text'] as unknown as StylesMap['TEXT'] // #bug in typings
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const nodeId = (node.styles as any)?.['text'] as unknown as StylesMap['TEXT'] // #bug in typings
   if (!nodeId) return
   if (!('characters' in node)) return
   if (!node.style || !Object.keys(node.style).length) return
@@ -26,7 +28,8 @@ const getTextData: ExtractorFn<TypeStyle> = (node: Node) => {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getGridData = (node: Node) => {
   if (!('styles' in node)) return
-  const nodeId = node.styles?.['grid'] as unknown as StylesMap['GRID'] // #bug in typings
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const nodeId = (node.styles as any)?.['grid'] as unknown as StylesMap['GRID'] // #bug in typings
   if (!nodeId) return
   if (!('???' in node)) return
   return undefined
@@ -42,6 +45,7 @@ export default async function fetchTokens(fileId: string) {
 
   topLevelCanvas.forEach((topLevel) =>
     getWalk(extractors)((data) => {
+      if (!data) return
       const [nodeId, type, value] = data
       const style = styles[nodeId]
       if (!style || !style.name) return

@@ -25,26 +25,26 @@ export function camelize(str: string, capitalizeInitial?: boolean): string {
   return res
 }
 
+export function kebabCase(str: string) {
+  return str.replace(/([\W_])/g, '-').toLowerCase()
+}
+
 export function snakeify(str: string) {
-  return str
-    .replace(/([A-Z])/g, ' $1')
-    .split(' ')
-    .join('_')
-    .toLowerCase()
+  return str.replace(/([\W_])/g, '_').toLowerCase()
 }
 
 export type DataTuple<T, K extends string = string> = readonly [string, K, T]
 
 export type ExtractorFn<T, K extends string = string> = (node: Node) => DataTuple<T, K> | undefined
 export type Output<T> = Record<string, { type: string; name: string; description: string; value: T }>
-export type OnDataFoundCb<T extends DataTuple<unknown, string>> = (data: T, parent?: Node) => void
+export type OnDataFoundCb<T extends DataTuple<any, string>> = (data: T, parent?: Node) => void
 
-export function getWalk<F extends ExtractorFn<unknown, string>>(extractors: readonly F[]) {
-  return (onDataFound: OnDataFoundCb<ReturnType<F>>) => {
+export function getWalk<F extends ExtractorFn<any, any>>(extractors: readonly F[]) {
+  return (onDataFound: OnDataFoundCb<Exclude<ReturnType<F>, undefined>>) => {
     return function walk(children: Array<Node>, parent?: Node) {
       children.forEach((child) => {
         extractors.forEach((fn) => {
-          const res = fn(child) as ReturnType<F>
+          const res = fn(child) as any
           if (!res) return
           onDataFound(res, parent)
         })
@@ -63,7 +63,7 @@ export function getFileTopLevelChildren(file: Node<'DOCUMENT'>): Array<Node<'CAN
 
 type OperatorFunction<T, T1> = (arg: T) => T1
 
-export function pipe<T>(): (arg: T) => T
+export function pipe(): () => void
 export function pipe<T, A>(op1: OperatorFunction<T, A>): (arg: T) => A
 export function pipe<T, A, B>(op1: OperatorFunction<T, A>, op2: OperatorFunction<A, B>): (arg: T) => B
 export function pipe<T, A, B, C>(
@@ -139,5 +139,5 @@ export function pipe(...args: Array<OperatorFunction<any, any>>) {
 }
 
 export function objToArr<T extends Record<string | number | symbol, unknown>>(obj: T) {
-  return Object.values(obj) as T[keyof T][]
+  return Object.values(obj).filter(Boolean) as Exclude<T[keyof T], undefined | '' | false | 0 | null>[]
 }
