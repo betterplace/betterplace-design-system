@@ -1,11 +1,10 @@
 import { ReactFramework, StoryContext } from '@storybook/react'
 import React, { ReactNode, useState } from 'react'
 import '../../build/css/globals.css'
-
 import tokens from '../../config/tokens.json'
 import AVAILABLE_THEMES from '../lib/shared/themes'
-const keys = AVAILABLE_THEMES.map((theme) => theme.key)
-type Theme = typeof keys[number]
+const ThemeKeys = AVAILABLE_THEMES.map((theme) => theme.key)
+type Theme = typeof ThemeKeys[number]
 
 type ThemeProviderProps = {
   theme: Theme
