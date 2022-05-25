@@ -23,7 +23,7 @@
     "setup": "./script/setup",
     "test": "jest",
     "dev": "vite",
-    "build": "tsc -p tsconfig.base.json  && vite build",
+    "build": "tsc -p tsconfig.base.json  && vite build && yarn build-tokens && cp -r ./build/* ./dist/ && cp ./dist/style.css ./dist/css/",
     "preview": "vite preview",
     "storybook": "start-storybook -p 6006",
     "figma::tokens": "ts-node -r dotenv/config --project ./tsconfig.tsnode.json figma/fetch_tokens.ts PJ7OUutWRrSHW6qgaPNW1l",
@@ -32,8 +32,9 @@
     "component::add::local": "ts-node --project ./tsconfig.tsnode.json  node_modules/.bin/yo ./generator --root",
     "build-storybook": "export BASE_URL='/betterplace-design-system/'; build-storybook",
     "build-tokens": "style-dictionary build --config config/sd.config.js",
-    "lint": "tsc && eslint . && stylelint src/**/*.css",
-    "prepare": "husky install"
+    "lint": "tsc -p tsconfig.base.json && eslint . && stylelint src/**/*.css",
+    "prepare": "husky install",
+    "postinstall": "yarn build-tokens"
   },
   "dependencies": {
     "react": "^17.0.2",
