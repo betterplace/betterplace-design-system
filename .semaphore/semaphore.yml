@@ -19,6 +19,8 @@ blocks:
             - cache clear
             - yarn
             - cache store
+            - yarn build-tokens
+            - cache store tokens build
       prologue:
         commands:
           - checkout
@@ -35,6 +37,7 @@ blocks:
           commands:
             - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
             - cache restore
+            - cache restore tokens
             - yarn
             - yarn test
   - name: Lint
@@ -49,6 +52,7 @@ blocks:
           commands:
             - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
             - cache restore
+            - cache restore tokens
             - yarn
             - yarn lint
   - name: 'Build '
@@ -66,6 +70,7 @@ blocks:
           commands:
             - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
             - cache restore
+            - cache restore tokens
             - yarn
             - yarn build
             - cache store npm-package dist
@@ -74,6 +79,7 @@ blocks:
           commands:
             - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
             - cache restore
+            - cache restore tokens
             - yarn
             - yarn build-storybook
             - cache store storybook storybook-static

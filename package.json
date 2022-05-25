@@ -33,8 +33,7 @@
     "build-storybook": "export BASE_URL='/betterplace-design-system/'; build-storybook",
     "build-tokens": "style-dictionary build --config config/sd.config.js",
     "lint": "tsc -p tsconfig.base.json && eslint . && stylelint src/**/*.css",
-    "prepare": "husky install",
-    "postinstall": "yarn build-tokens"
+    "prepare": "husky install"
   },
   "dependencies": {
     "react": "^17.0.2",
