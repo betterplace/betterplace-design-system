@@ -1,0 +1,11 @@
+.<%=mainClassName%> {
+<% tokens.forEach(function(token) { %>
+  <%=token.name%>: var(<%=token.value%>);
+  <% if (token.key === 'background') { %><%=token.key%>: var(<%=token.name%>);<% } %>
+ <%})  %>
+<% states.forEach(function(state) {%>
+    &:<%=state%> {
+
+    }
+<%})%>
+}
