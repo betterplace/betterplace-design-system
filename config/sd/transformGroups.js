@@ -5,6 +5,7 @@ StyleDictionary.registerTransformGroup({
   transforms: [
     ...StyleDictionary.transformGroup['web'],
     'name/theme',
+    'name/tokenType',
     'size/pxToRem',
     'value/quote',
     'value/boxShadow',
@@ -17,6 +18,7 @@ StyleDictionary.registerTransformGroup({
     ...StyleDictionary.transformGroup['js'],
     'name/cti/kebab',
     'name/theme',
+    'name/tokenType',
     'size/pxToRem',
     'value/boxShadow',
   ],

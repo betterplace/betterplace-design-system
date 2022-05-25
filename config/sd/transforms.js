@@ -50,6 +50,18 @@ StyleDictionary.registerTransform({
   },
 })
 
+// add token type to name
+StyleDictionary.registerTransform({
+  name: 'name/tokenType',
+  type: 'name',
+  matcher: function (token) {
+    return token.type
+  },
+  transformer: function (token) {
+    return token.name.replace('betterplace-', `betterplace-${token.type}-`)
+  },
+})
+
 // TODO: output typography styles as mixin
 StyleDictionary.registerTransform({
   name: 'value/typography',
