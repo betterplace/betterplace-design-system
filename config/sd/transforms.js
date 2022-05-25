@@ -58,7 +58,8 @@ StyleDictionary.registerTransform({
     return token.type
   },
   transformer: function (token) {
-    return token.name.replace('betterplace-', `betterplace-${token.type}-`)
+    const prefix = token.name.split('-')[0]
+    return token.name.replace(prefix, `${prefix}-${token.type}`)
   },
 })
 
