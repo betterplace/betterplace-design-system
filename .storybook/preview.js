@@ -1,13 +1,18 @@
 import { withDesign } from 'storybook-addon-designs'
 import { withThemeProvider } from '../src/helpers'
 import AVAILABLE_THEMES from '../src/lib/shared/themes'
-
+import order from './order.json'
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
   controls: {
     matchers: {
       color: /(background|color)$/i,
       date: /Date$/,
+    },
+  },
+  options: {
+    storySort: {
+      order,
     },
   },
 }
