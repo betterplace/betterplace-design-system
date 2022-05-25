@@ -46,8 +46,6 @@ export const ThemeProvider = (props: ThemeProviderProps) => {
   )
 }
 
-export type ThemeDecoratorContext = { globals: { theme: Theme } }
-
 export const withThemeProvider = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Story: React.ComponentType<StoryContext<ReactFramework, any>>,

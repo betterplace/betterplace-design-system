@@ -85,31 +85,31 @@ function cleanStateValues(states: string[]) {
 
 function cleanOutput<T extends RawOutput>(output: T): T {
   const res: T = {} as T
-  Object.keys(output).forEach((key: Extract<string, keyof T>) => {
-    const comp = output[key]
-    if (key.match(/Group\s[0-9]+/g)) return
-    res[key] = comp
+  Object.keys(output).forEach((componentKey: Extract<string, keyof T>) => {
+    const component = output[componentKey]
+    if (componentKey.match(/Group\s[0-9]+/g)) return
+    res[componentKey] = component
   })
   return res
 }
 
 function combineThemes(output: RawOutput): RawOutput<MergedComponentType> {
-  let compKeys = Object.keys(output)
-  const components = compKeys.reduce((agg, compKey) => {
-    const cmp = output[compKey]
-    const theme = cmp.theme ?? 'global'
-    if (agg[cmp.path]) {
-      agg[cmp.path].variants = { ...agg[cmp.path].variants, ...cmp.variants }
+  let componentKeys = Object.keys(output)
+  const components = componentKeys.reduce((agg, componentKey) => {
+    const component = output[componentKey]
+    const theme = component.theme ?? 'global'
+    if (agg[component.path]) {
+      agg[component.path].variants = { ...agg[component.path].variants, ...component.variants }
     } else {
-      agg[cmp.path] = cmp
-      agg[cmp.path].themes = {}
+      agg[component.path] = component
+      agg[component.path].themes = {}
     }
-    agg[cmp.path].themes[theme] = { id: cmp.id, theme }
-    delete cmp.theme
+    agg[component.path].themes[theme] = { id: component.id, theme }
+    delete component.theme
     return agg
   }, {} as RawOutput<MergedComponentType>)
-  compKeys = Object.keys(components)
-  compKeys.forEach((compKey) => {
+  componentKeys = Object.keys(components)
+  componentKeys.forEach((compKey) => {
     const cmp = components[compKey]
     if ((Object.keys(cmp.themes)?.length ?? 0) < 2) delete cmp.themes
   })
@@ -120,16 +120,10 @@ function variantNameToKeyValues(variantName: string) {
   return variantName
     .split(',')
     .filter(Boolean)
-    .map((keyValue) =>
-      keyValue
-        .trim()
-        .split('=')
-        .reduce((_, __, ___, [key, value]) => ({ key: camelize(key.trim()), value: camelize((value ?? '').trim()) }), {
-          key: '',
-          value: '',
-        })
-    )
+    .map((keyValueStr) => keyValueStr.trim().split('=') as [string, string?])
+    .map(([key, value]) => ({ key: camelize(key.trim()), value: camelize((value ?? '').trim()) }))
 }
+
 function isStateKey(key: string) {
   return ['state'].includes(key.toLowerCase())
 }
