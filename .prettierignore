@@ -4,4 +4,5 @@ coverage
 .history
 app/javascript/gql/generated.ts
 app/javascript/shared/i18n.ts
+*.ejs
 build
