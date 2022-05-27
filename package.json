@@ -30,7 +30,7 @@
     "figma::components": "ts-node -r dotenv/config --project ./tsconfig.tsnode.json figma/fetch_components.ts PJ7OUutWRrSHW6qgaPNW1l",
     "component::add::main": "ts-node --project ./tsconfig.tsnode.json  node_modules/.bin/yo ./generator --figma --test --story --root src/lib",
     "component::add::local": "ts-node --project ./tsconfig.tsnode.json  node_modules/.bin/yo ./generator --root",
-    "build-storybook": "build-storybook",
+    "build-storybook": "export BASE_URL='/betterplace-design-system/'; build-storybook",
     "build-tokens": "style-dictionary build --config config/sd.config.js",
     "lint": "tsc -p tsconfig.base.json && eslint . && stylelint src/**/*.css",
     "prepare": "husky install"
