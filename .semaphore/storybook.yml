@@ -1,0 +1,24 @@
+version: v1.0
+name: Deployment
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2004
+blocks:
+  - name: Deploy Storybook
+    task:
+      secrets:
+        - name: betterplace-design-system
+      jobs:
+        - name: Publish to GitHub Pages
+          commands:
+            - checkout
+            - git config --global user.email "developers@betterplace.org"
+            - git config --global user.name "betterplace"
+            - ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+            - chmod 600 ~/.ssh/id_rsa_semaphore
+            - ssh-add ~/.ssh/id_rsa_semaphore
+            - cache restore
+            - npm i gh-pages -g
+            - cache restore storybook-$SEMAPHORE_GIT_BRANCH
+            - gh-pages --dist storybook-static --no-history --dotfiles --message "[skip ci] Updates"

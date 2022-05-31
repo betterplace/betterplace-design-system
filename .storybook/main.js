@@ -12,4 +12,11 @@ module.exports = {
   core: {
     builder: '@storybook/builder-vite',
   },
+  async viteFinal(config, { configType }) {
+    console.log('env', process.env.BASE_URL, process.env.STORYBOOK_FIGMA_ACCESS_TOKEN)
+    config.base = process.env.BASE_URL || config.base
+
+    // return the customized config
+    return config
+  },
 }

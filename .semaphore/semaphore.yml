@@ -1,0 +1,94 @@
+version: v1.0
+name: Test & Build
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2004
+auto_cancel:
+  running:
+    when: "branch != 'main'"
+blocks:
+  - name: Install dependencies
+    skip:
+      when: "branch = 'gh-pages'"
+    task:
+      jobs:
+        - name: Install
+          commands:
+            - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
+            - cache clear
+            - yarn
+            - cache store
+            - yarn build-tokens
+            - cache store tokens-$SEMAPHORE_GIT_BRANCH build
+      prologue:
+        commands:
+          - checkout
+    dependencies: []
+  - name: Test
+    dependencies:
+      - Install dependencies
+    task:
+      prologue:
+        commands:
+          - checkout
+      jobs:
+        - name: Jest
+          commands:
+            - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
+            - cache restore
+            - cache restore tokens-$SEMAPHORE_GIT_BRANCH
+            - yarn
+            - yarn test
+  - name: Lint
+    dependencies:
+      - Install dependencies
+    task:
+      prologue:
+        commands:
+          - checkout
+      jobs:
+        - name: ESlint & TSC
+          commands:
+            - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
+            - cache restore
+            - cache restore tokens-$SEMAPHORE_GIT_BRANCH
+            - yarn
+            - yarn lint
+  - name: 'Build '
+    dependencies:
+      - Lint
+      - Test
+    task:
+      secrets:
+        - name: betterplace-design-system
+      prologue:
+        commands:
+          - checkout
+      jobs:
+        - name: Build NPM Package
+          commands:
+            - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
+            - cache restore
+            - cache restore tokens-$SEMAPHORE_GIT_BRANCH
+            - yarn
+            - yarn build
+            - cache store npm-package-$SEMAPHORE_GIT_BRANCH dist
+            - cache store package-$SEMAPHORE_GIT_BRANCH package.json
+        - name: Build Storybook
+          commands:
+            - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
+            - cache restore
+            - cache restore tokens-$SEMAPHORE_GIT_BRANCH
+            - yarn
+            - yarn build-storybook
+            - cache store storybook-$SEMAPHORE_GIT_BRANCH storybook-static
+promotions:
+  - name: Deploy to NPM
+    pipeline_file: npm.yml
+    auto_promote:
+      when: branch = 'main' AND result = 'passed' AND tag =~ '.*'
+  - name: Deploy Storybook
+    pipeline_file: storybook.yml
+    auto_promote:
+      when: branch = 'main' AND result = 'passed' AND tag =~ '.*'
