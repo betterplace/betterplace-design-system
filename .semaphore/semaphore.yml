@@ -20,7 +20,7 @@ blocks:
             - yarn
             - cache store
             - yarn build-tokens
-            - cache store tokens build
+            - cache store tokens-$SEMAPHORE_GIT_BRANCH build
       prologue:
         commands:
           - checkout
@@ -37,7 +37,7 @@ blocks:
           commands:
             - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
             - cache restore
-            - cache restore tokens
+            - cache restore tokens-$SEMAPHORE_GIT_BRANCH
             - yarn
             - yarn test
   - name: Lint
@@ -52,7 +52,7 @@ blocks:
           commands:
             - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
             - cache restore
-            - cache restore tokens
+            - cache restore tokens-$SEMAPHORE_GIT_BRANCH
             - yarn
             - yarn lint
   - name: 'Build '
@@ -70,19 +70,19 @@ blocks:
           commands:
             - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
             - cache restore
-            - cache restore tokens
+            - cache restore tokens-$SEMAPHORE_GIT_BRANCH
             - yarn
             - yarn build
-            - cache store npm-package dist
-            - cache store package package.json
+            - cache store npm-package-$SEMAPHORE_GIT_BRANCH dist
+            - cache store package-$SEMAPHORE_GIT_BRANCH package.json
         - name: Build Storybook
           commands:
             - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
             - cache restore
-            - cache restore tokens
+            - cache restore tokens-$SEMAPHORE_GIT_BRANCH
             - yarn
             - yarn build-storybook
-            - cache store storybook storybook-static
+            - cache store storybook-$SEMAPHORE_GIT_BRANCH storybook-static
 promotions:
   - name: Deploy to NPM
     pipeline_file: npm.yml

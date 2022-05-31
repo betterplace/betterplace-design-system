@@ -20,5 +20,5 @@ blocks:
             - ssh-add ~/.ssh/id_rsa_semaphore
             - cache restore
             - npm i gh-pages -g
-            - cache restore storybook
-            - gh-pages --dist storybook-static --dotfiles --message "[skip ci] Updates"
+            - cache restore storybook-$SEMAPHORE_GIT_BRANCH
+            - gh-pages --dist storybook-static --no-history --dotfiles --message "[skip ci] Updates"
