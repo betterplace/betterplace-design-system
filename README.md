@@ -1,6 +1,6 @@
 # Betterplace Design System
 
-This is the repository for [betterplace](https://www.betterplace.org/)'s design system.
+This is the repository for [betterplace](https://www.betterplace.org/)'s design system: https://betterplace.github.io/betterplace-design-system
 
 The system uses [Storybook](https://storybook.js.org/) as a tool for developing a component library, guidelines and documentation, that work across all betterplace platforms.
 
