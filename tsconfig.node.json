@@ -8,5 +8,5 @@
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "include": ["vite.config.ts"]
+  "include": ["vite.config.ts", ".storybook/**/*", ".storybook/order.json", "src/lib/shared/themes.ts", "src/helpers"]
 }

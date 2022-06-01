@@ -1,8 +1,9 @@
 import { withDesign } from 'storybook-addon-designs'
 import { withThemeProvider } from '../src/helpers'
-import AVAILABLE_THEMES from '../src/lib/shared/themes'
+import AvailableThemes from '../src/lib/shared/themes'
+import { Parameters } from '@storybook/addons'
 import order from './order.json'
-export const parameters = {
+export const parameters: Parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
   controls: {
     matchers: {
@@ -21,9 +22,9 @@ export const globalTypes = {
   theme: {
     name: 'Theme',
     description: 'Switch theme for preview',
-    defaultValue: AVAILABLE_THEMES[0].key,
+    defaultValue: AvailableThemes[0].key,
     toolbar: {
-      items: AVAILABLE_THEMES.map((theme) => {
+      items: AvailableThemes.map((theme) => {
         return {
           value: theme.key,
           title: theme.title,
