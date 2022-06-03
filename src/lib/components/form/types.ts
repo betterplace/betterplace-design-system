@@ -1,7 +1,10 @@
 import { Observable } from 'rxjs'
-
+export type Values = Record<string, unknown>
 export type Action = { type: string; payload?: unknown }
-export type Reducer<S extends Record<string, unknown>, A extends Action> = (state: S | undefined, action: A) => S
-export type Effect<S extends Record<string, unknown>, A extends Action> = <A1 extends A>(
-  input: Observable<[A, S, S]>
-) => Observable<A1>
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ActionCreator = (payload?: any) => Action
+export type Reducer<S extends {}, A extends Action> = (state: S, action: A) => S
+export type Effect<S extends {}, A extends Action> = (input: Observable<[A, S, S]>) => Observable<Action>
+
+export type ActionType<AC extends ActionCreator> = ReturnType<AC>
