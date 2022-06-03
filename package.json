@@ -35,10 +35,7 @@
     "lint": "tsc -p tsconfig.base.json && eslint . && stylelint src/**/*.css",
     "prepare": "husky install"
   },
-  "dependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
@@ -88,6 +85,9 @@
     "lint-staged": ">=10",
     "postcss-apply": "^0.12.0",
     "postcss-nesting": "^10.1.7",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "rxjs": "^7.5.5",
     "storybook-addon-designs": "^6.2.1",
     "style-dictionary": "^3.7.0",
     "stylelint": "^14.8.1",
