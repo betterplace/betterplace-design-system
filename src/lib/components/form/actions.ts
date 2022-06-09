@@ -1,4 +1,4 @@
-import { catchError, from, mergeMap, of, switchMap } from 'rxjs'
+import { catchError, debounceTime, delay, filter, from, mergeMap, Observable, of, switchMap } from 'rxjs'
 import { FormState, UseFormProps } from './form'
 import { createActionCreator, isActionOf } from './store'
 import { ActionType, Effect, Values } from './types'
@@ -14,6 +14,8 @@ const ActionTypes = {
   SetValue: 'Form/SetValue',
   SetValues: 'Form/SetValues',
   SetTouched: 'Form/SetTouched',
+  RegisterField: 'Form/RegisterField',
+  UnregisterField: 'Form/UnregisterField',
 } as const
 
 export class Actions<T extends Values> {
@@ -32,36 +34,57 @@ export class Actions<T extends Values> {
 
   SetValue = createActionCreator(ActionTypes.SetValue)<{ key: keyof T; value: T[keyof T]; internal?: boolean }>()
 
-  SetValues = createActionCreator(ActionTypes.SetValues)<T>()
+  SetValues = createActionCreator(ActionTypes.SetValues)<Partial<T>>()
 
-  SetTouched = createActionCreator(ActionTypes.SetTouched)<{ key: keyof T; value: boolean }>()
+  SetTouched = createActionCreator(ActionTypes.SetTouched)<{ key: keyof T; touched: boolean }>()
+
+  RegisterField = createActionCreator(ActionTypes.RegisterField)<{ key: keyof T }>()
+  UnregisterField = createActionCreator(ActionTypes.UnregisterField)<{ key: keyof T }>()
 }
 
 export type FormActions<T extends Values> = ActionType<Actions<T>[keyof Actions<T>]>
-
+export type GetFormEffectsProps<T extends Values> = Omit<UseFormProps<T>, 'onValidate'> & {
+  onValidate: (values: T) => Observable<{ [key in keyof T]?: string | undefined }>
+}
 export const getFormEffects = <T extends Values>(
   actions: Actions<T>,
-  props: UseFormProps<T>
+  propsRef: React.RefObject<GetFormEffectsProps<T>>
 ): Array<Effect<FormState<T>, FormActions<T>>> => [
-  (stream$) =>
-    stream$.pipe(
+  (action$) =>
+    action$.pipe(
+      filter(() => typeof propsRef.current?.onSubmit === 'function'),
       isActionOf(actions.Submit),
       switchMap(([_, __, { values }]) => {
-        return from(props.onSubmit(values)).pipe(
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return from(propsRef.current!.onSubmit!(values)).pipe(
           mergeMap((values) => of(actions.SubmitSuccess(values))),
           catchError((err) => of(actions.SubmitError(err)))
         )
       })
     ),
-  (stream$) =>
-    stream$.pipe(
+  (action$) =>
+    action$.pipe(
       isActionOf(actions.Validate),
       switchMap(([_, __, { values }]) => {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        return from(props.onValidate!(values)).pipe(
+        return from(propsRef.current!.onValidate!(values)).pipe(
           mergeMap((values) => of(actions.ValidateSuccess(values))),
           catchError((err) => of(actions.ValidateError(err)))
         )
       })
+    ),
+  (action$) =>
+    action$.pipe(
+      isActionOf(actions.SetValue),
+      debounceTime(33),
+      delay(33),
+      switchMap((_) => of(actions.Validate(undefined)))
+    ),
+  (action$) =>
+    action$.pipe(
+      isActionOf(actions.RegisterField),
+      debounceTime(33),
+      delay(33),
+      switchMap((_) => of(actions.Validate(undefined)))
     ),
 ]

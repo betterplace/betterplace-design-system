@@ -6,19 +6,19 @@ import { Values } from './types'
 const FormReducer = <T extends Values>(state: FormState<T>, action: FormActions<T>): FormState<T> => {
   switch (action.type) {
     case 'Form/Submit':
-      return { ...state, isSubmitting: true, generalError: undefined }
+      return { ...state, isSubmitting: true, error: undefined }
     case 'Form/SubmitError':
       return {
         ...state,
         isSubmitting: false,
-        generalError: action.payload,
+        error: action.payload,
       }
     case 'Form/SubmitSuccess':
     case 'Form/SetValues':
       return {
         ...state,
         isSubmitting: false,
-        generalError: undefined,
+        error: undefined,
         values: { ...state.values, ...action.payload },
         touched: {},
         dirty: false,
@@ -37,46 +37,57 @@ const FormReducer = <T extends Values>(state: FormState<T>, action: FormActions<
       return {
         ...state,
         isValidating: true,
-        generalError: undefined,
-        errors: {},
+        error: undefined,
+        fieldErrors: {},
       }
     case 'Form/ValidateSuccess':
       return {
         ...state,
         isValidating: false,
-        generalError: undefined,
-        errors: action.payload,
-        isValid: !!Object.keys(action.payload).length,
+        error: undefined,
+        fieldErrors: action.payload,
+        isValid: !Object.values(action.payload).filter(Boolean).length,
       }
     case 'Form/ValidateError':
       return {
         ...state,
         isValidating: false,
-        generalError: action.payload,
+        error: action.payload,
       }
     case 'Form/SetTouched':
       return {
         ...state,
         touched: {
           ...state.touched,
-          [action.payload.key]: action.payload.value,
+          [action.payload.key]: action.payload.touched,
         },
-        dirty: action.payload.value || state.dirty,
+        dirty: action.payload.touched || state.dirty,
       }
+    case 'Form/UnregisterField': {
+      const values = { ...state.values }
+      delete values[action.payload.key]
+      return {
+        ...state,
+        values,
+      }
+    }
     default:
       return state
   }
 }
 
-export const getInitialState = <T extends Record<string, unknown>>(): FormState<T> => ({
+export const getInitialState = <T extends Record<string, unknown>>(
+  initialiseWith: Partial<FormState<T>> = {}
+): FormState<T> => ({
   isValidating: false,
   isSubmitting: false,
   values: {} as any,
-  errors: {} as any,
-  generalError: undefined,
+  fieldErrors: {} as any,
+  error: undefined,
   touched: {} as any,
   dirty: false,
   isValid: true,
+  ...initialiseWith,
 })
 
 export default FormReducer
