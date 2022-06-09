@@ -8,6 +8,7 @@ module.exports = {
     '@storybook/addon-a11y', // TODO: vite fix https://github.com/storybookjs/storybook/pull/17997
     'storybook-addon-designs',
   ],
+  staticDirs: ['../public'],
   framework: '@storybook/react',
   core: {
     builder: '@storybook/builder-vite',
