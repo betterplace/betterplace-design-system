@@ -9,8 +9,11 @@ export default create({
   brandTarget: '_self',
 
     // Text colors
-  textColor: 'red',
+  textColor: '#292929',
 
+  // Typography
+    fontBase: '"Fira Sans", sans-serif',
 
-
+    colorPrimary: '#9ecb0a',
+      colorSecondary: '#6d2c64',
 })
