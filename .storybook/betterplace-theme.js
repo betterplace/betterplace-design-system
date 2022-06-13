@@ -7,4 +7,10 @@ export default create({
   brandUrl: '/',
   brandImage: '/bp-logo.svg',
   brandTarget: '_self',
+
+    // Text colors
+  textColor: 'red',
+
+
+
 })
