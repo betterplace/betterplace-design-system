@@ -8,12 +8,17 @@ export default create({
   brandImage: '/bp-logo.svg',
   brandTarget: '_self',
 
-    // Text colors
   textColor: '#292929',
+  fontBase: '"Fira Sans", sans-serif',
+  textSize: '20rem'
 
-  // Typography
-    fontBase: '"Fira Sans", sans-serif',
+  colorPrimary: '#9ecb0a',
+  colorSecondary: '#6d2c64',
 
-    colorPrimary: '#9ecb0a',
-      colorSecondary: '#6d2c64',
+  appBorderRadius: 4,
+
+  // Toolbar default and active colors
+  barTextColor: '#292929',
+  barSelectedColor: 'black',
+  barBg: '#9ecb0a',
 })
