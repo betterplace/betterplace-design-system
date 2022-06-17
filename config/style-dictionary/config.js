@@ -1,7 +1,7 @@
-const themes = require('./themes.json')
-require('./sd/transforms.js')
-require('./sd/transformGroups.js')
-require('./sd/parsers.js')
+const themes = require('../themes.json')
+require('./transforms.js')
+require('./transformGroups.js')
+require('./parsers.js')
 
 const getFileConfig = (platform, format) => {
   const themeFiles = themes.map((theme) => ({
