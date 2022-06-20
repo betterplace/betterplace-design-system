@@ -1,5 +1,4 @@
 import { Observable } from 'rxjs'
-export type Values = Record<string, unknown>
 export type Action = { type: string; payload?: unknown }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

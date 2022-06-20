@@ -1,7 +1,7 @@
 import { catchError, debounceTime, delay, filter, from, mergeMap, Observable, of, switchMap } from 'rxjs'
-import { FormState, UseFormProps } from './form'
-import { createActionCreator, isActionOf } from './store'
-import { ActionType, Effect, Values } from './types'
+import { createActionCreator, isActionOf } from '../store'
+import { ActionType, Effect } from '../store/types'
+import { Values, UseFormProps, FormState } from './types'
 
 const ActionTypes = {
   Submit: 'Form/Submit',

@@ -1,28 +1,28 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { FormProvider, useForm, useFormContext } from './form'
-import { Values } from './types'
-type MyFormValues = { foo: string }
+import { FormProvider, useFieldProps, useForm } from './form'
+import { Values, FieldValidatorFn } from './types'
+type MyFormValues = { foo: string; bar: Date }
 const MyForm = (_: {}) => {
   const onSubmit = useCallback((values: MyFormValues) => {
     return new Promise<MyFormValues>((resolve) => {
       setTimeout(() => resolve(values), 1000)
     })
   }, [])
-  const form = useForm<MyFormValues>({ onSubmit })
+  const form = useForm<MyFormValues>({ onSubmit, initialValues: { foo: '', bar: new Date() } })
   return (
     <FormProvider {...form}>
       <form onSubmit={form.submit}>
         <MyField<MyFormValues> name="foo" />
+        <MyDateField<MyFormValues> name="bar" />
         <input disabled={!form.isValid || form.isSubmitting} type="submit" value="Click me!" />
       </form>
     </FormProvider>
   )
 }
 
-const MyField_ = <T extends Values>({ name }: { name: keyof T }) => {
-  const { register, getValue } = useFormContext<T>()
-  const validate: (value: T[keyof T], values: T) => Promise<string | undefined> = useCallback(
+const MyField = <T extends Values>({ name }: { name: keyof T }) => {
+  const validate: FieldValidatorFn<T, keyof T> = useCallback(
     (value, _) =>
       new Promise((resolve) =>
         setTimeout(
@@ -32,13 +32,27 @@ const MyField_ = <T extends Values>({ name }: { name: keyof T }) => {
       ),
     []
   )
-  const props = useMemo(() => register({ type: 'text', name, validate }), [name, register, validate])
-  const value = useMemo(() => getValue({ type: 'text', name, validate }), [getValue, name, validate])
-  console.log(value)
-  return <input {...props} value={value} />
+  const props = useFieldProps({ name, validate, type: 'text' })
+  return <input {...props} />
 }
 
-const MyField = React.memo(MyField_) as typeof MyField_
+const MyDateField = <T extends Values>({ name }: { name: keyof T }) => {
+  const validate: FieldValidatorFn<T, keyof T> = useCallback(
+    (value, _) =>
+      new Promise((resolve) =>
+        setTimeout(() => resolve((value as Date).getMilliseconds() < 1000000 ? 'Invalid' : undefined), 300)
+      ),
+    []
+  )
+  const props = useFieldProps<T>({
+    name,
+    validate,
+    type: 'date',
+    fromString: (v) => new Date(v) as any,
+    asString: (v: any) => v?.toISOString(),
+  })
+  return <input {...props} />
+}
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

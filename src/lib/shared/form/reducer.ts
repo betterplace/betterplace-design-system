@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormActions } from './actions'
-import { FormState } from './form'
-import { Values } from './types'
+import { Values, FormState } from './types'
 
 const FormReducer = <T extends Values>(state: FormState<T>, action: FormActions<T>): FormState<T> => {
   switch (action.type) {
@@ -63,6 +62,12 @@ const FormReducer = <T extends Values>(state: FormState<T>, action: FormActions<
         },
         dirty: action.payload.touched || state.dirty,
       }
+    case 'Form/RegisterField': {
+      const value = state.values[action.payload.key]
+      if (typeof value !== 'undefined') return state
+      const values = { ...state.values, [action.payload.key]: null }
+      return { ...state, values }
+    }
     case 'Form/UnregisterField': {
       const values = { ...state.values }
       delete values[action.payload.key]
