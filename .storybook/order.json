@@ -6,7 +6,7 @@
   "Design",
   ["Logo", "Colors", "Typography", "Illustrations", "Icons", "Images"],
   "Accessibility",
-  ["Accessibility"],
+  ["About the Standard", "Accessibility in Design", "Accessibility in Code", "Testing Accessibility"],
   "Design Tokens",
   ["Colors"]
 ]
