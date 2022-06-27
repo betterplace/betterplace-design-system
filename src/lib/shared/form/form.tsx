@@ -55,21 +55,18 @@ export function useValidator<T extends Values>(
 }
 
 export function useForm<T extends Values>(props: UseFormProps<T>): UseFormReturn<T> {
-  const validatorsRef = useRef<{ [K in keyof T]?: FieldValidatorFn<T, keyof T> }>({})
-  const validatorEnabledRef = useRef<{ [K in keyof T]?: boolean }>({})
+  const [validators, setValidator_] = useState<{ [K in keyof T]?: FieldValidatorFn<T, keyof T> }>({})
   const setValidator = useCallback((key: keyof T, validate?: FieldValidatorFn<T, keyof T>) => {
-    if (validatorsRef.current[key] === validate) return
-    validatorsRef.current[key] = validate
+    setValidator_((old) => {
+      if (old[key] === validate) return old
+      return { ...old, [key]: validate }
+    })
   }, [])
+
   const { onValidate: onValidate_, ...props_ } = props
-  const onValidate = useValidator(validatorsRef.current, validatorEnabledRef.current, props.onValidate)
 
   const initialRef = useRef(getInitialState<T>({ values: { ...((props.initialValues ?? {}) as T) } }))
   const actionsRef = useRef(new Actions<T>())
-  const propsRef = useRef({ ...props_, onValidate })
-  useEffect(() => {
-    propsRef.current = { ...props_, onValidate }
-  }, [onValidate, props_])
 
   const effects = useMemo(() => getFormEffects(actionsRef.current, propsRef), [])
   const store = useMemo(() => new Store<FormState<T>, FormActions<T>>(initialRef.current, reducer, effects), [effects])
@@ -77,13 +74,16 @@ export function useForm<T extends Values>(props: UseFormProps<T>): UseFormReturn
   const storeRef = useRef(store)
 
   const [state, setState] = useState(initialRef.current)
+  const onValidate = useValidator(validators, state.enabled, props.onValidate)
+  const propsRef = useRef({ ...props_, onValidate })
+  useEffect(() => {
+    propsRef.current = { ...props_, onValidate }
+  }, [onValidate, props_])
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onInstanceChange = useCallback((key: keyof T, instance: any) => {
     if (!instance) {
-      validatorEnabledRef.current[key] = true
       return storeRef.current.next(actionsRef.current.UnregisterField({ key }))
     }
-    validatorEnabledRef.current[key] = false
     storeRef.current.next(actionsRef.current.RegisterField({ key }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

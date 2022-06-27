@@ -22,6 +22,7 @@ export interface FormState<T extends Values> {
   values: T
   isValid: boolean
   touched: { [key in keyof T]?: boolean }
+  enabled: { [key in keyof T]?: boolean }
   fieldErrors: Errors<T>
   dirty: boolean
   isSubmitting: boolean

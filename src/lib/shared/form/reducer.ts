@@ -64,16 +64,20 @@ const FormReducer = <T extends Values>(state: FormState<T>, action: FormActions<
       }
     case 'Form/RegisterField': {
       const value = state.values[action.payload.key]
+      const enabled = { ...state.enabled, [action.payload.key]: true }
       if (typeof value !== 'undefined') return state
       const values = { ...state.values, [action.payload.key]: null }
-      return { ...state, values }
+      return { ...state, values, enabled }
     }
     case 'Form/UnregisterField': {
       const values = { ...state.values }
+      const enabled = { ...state.enabled, [action.payload.key]: false }
+
       delete values[action.payload.key]
       return {
         ...state,
         values,
+        enabled,
       }
     }
     default:
@@ -90,6 +94,7 @@ export const getInitialState = <T extends Record<string, unknown>>(
   fieldErrors: {} as any,
   error: undefined,
   touched: {} as any,
+  enabled: {} as any,
   dirty: false,
   isValid: true,
   ...initialiseWith,
