@@ -25,7 +25,7 @@ const getFileConfig = (platform, format) => {
 }
 
 module.exports = {
-  source: ['config/tokens/**/*.json'],
+  source: ['config/tokens.json'],
   platforms: {
     css: {
       transformGroup: 'custom/css',
