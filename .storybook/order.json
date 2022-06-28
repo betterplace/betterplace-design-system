@@ -8,7 +8,7 @@
   "Development",
   ["Engineering Rules", "Breakpoints"],
   "Accessibility",
-  ["Accessibility"],
+  ["About the Standard", "Accessibility in Design", "Accessibility in Code", "Testing Accessibility"],
   "Design Tokens",
   ["Colors"]
 ]
