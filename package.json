@@ -31,7 +31,7 @@
     "component::add::main": "ts-node --project ./tsconfig.tsnode.json  node_modules/.bin/yo ./generator --figma --test --story --root src/lib",
     "component::add::local": "ts-node --project ./tsconfig.tsnode.json  node_modules/.bin/yo ./generator --root",
     "build-storybook": "export BASE_URL='/betterplace-design-system/'; build-storybook",
-    "build-tokens": "style-dictionary build --config config/sd.config.js",
+    "build-tokens": "style-dictionary build --config config/style-dictionary/config.js",
     "lint": "tsc -p tsconfig.base.json && eslint . && stylelint src/**/*.css",
     "prepare": "husky install"
   },

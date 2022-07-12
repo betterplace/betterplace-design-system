@@ -12,7 +12,7 @@ StyleDictionary.registerParser({
     // strip away the global key for global token set but keep the themes nested
     // this is necessary, because the references from Figma Tokens do not include the token set key
     // e.g. {Primary.Green 800} would not work
-    let transformedTokens = tokens['global']
+    let transformedTokens = tokens['global'] || {}
 
     Object.keys(tokens).forEach((set) => {
       // only add the token set if it is defined as a valid theme
