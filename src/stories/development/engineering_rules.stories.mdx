@@ -2,18 +2,58 @@ import { Meta } from '@storybook/addon-docs'
 
 <Meta title="Development/Engineering Rules" />
 
-# Engineering rules (!!!WIP!!!)
+# Engineering rules
 
-#### How do we write our custom components?
+🚧 This is where we note down our agreements and rules as a developers team. Sor far, this is
+rather a notepad. And its content is very much subject to change.
 
-- We use CSS Modules.
-- We do not use Sass/SCSS for the Design System
-  - because we don’t need it for variables and nesting anymore. PostCSS allows us to do nesting.
-  - because it will reduce bundle sizes.
-  - because we want to have so many dependencies.
-- We don't use a CSS Framework, we build our own
+## Foundation
 
-### CSS class splitting
+### CSS Framework
+
+**We don’t rely on any existing CSS framework, we build our own.** After having worked with
+and evaluated a couple of well-established CSS/UI frameworks (like Bootstrap, Foundation,
+Tailwind, Bulma, Semantic, Chakra) we have learned and decided that our best bet is to build
+our design system, and accordingly, our CSS system completely from scratch.
+
+Our main reasons for this decision:
+
+1. We won’t depend on framework maintainers and their decisions.
+2. We will be flexible enough to meet any specific need of a large platform like ours.
+3. **Because we can. And we ❤️ CSS.** We are confident enough to write our stylesheets on our own.
+  CSS is _not_ some obscure, secret science that needs to be handled somewhere under the hood
+  of a 3rd-party framework. It’s a great technology that we’ve grown up with over the last
+  two decades. It’s a language we love.
+
+### CSS methodologies
+
+Not using a 3rd-party framework does not mean completely re-inventing the wheel. We are eager to
+learn what the community knows and to build upon great ideas that others brought up.
+
+#### ITCSS
+…
+
+#### BEM
+…
+
+## Tooling
+
+### CSS preprocessor
+- We use [PostCSS](https://postcss.org/).
+- We do no longer need any other (traditional) preprocessor like Sass or LESS, because:
+  - PostCSS allows for the same things we used to achieve with Sass/LESS:
+    - variables,
+    - nesting,
+    - mix-ins, functions …
+  - Relying only on PostCSS spares us some dependencies.
+  - It will reduce bundle sizes (?)
+
+### CSS-in-JS
+- For component-specific styles we employ CSS-in-JS, namely [CSS Modules](https://github.com/css-modules/css-modules).
+
+## CSS coding conventions
+
+### CSS class splitting (debatable!)
 
 CSS classes must always be written in one piece, as well in Slim as in JS.
 
