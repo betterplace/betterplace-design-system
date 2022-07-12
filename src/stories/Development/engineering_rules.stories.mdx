@@ -1,0 +1,24 @@
+import { Meta } from '@storybook/addon-docs'
+
+<Meta title="Development/Engineering Rules" />
+
+# Engineering rules (!!!WIP!!!)
+
+#### How do we write our custom components?
+
+- We use CSS Modules.
+- We do not use Sass/SCSS for the Design System
+  - because we don’t need it for variables and nesting anymore. PostCSS allows us to do nesting.
+  - because it will reduce bundle sizes.
+  - because we want to have so many dependencies.
+- We don't use a CSS Framework, we build our own
+
+### CSS class splitting
+
+CSS classes must always be written in one piece, as well in Slim as in JS.
+
+- bad: `label-${success ? 'success' : 'error'}`
+- good: `success ? 'label-success' : 'label-error'`
+- bad: [https://css-tricks.com/the-sass-ampersand/#article-header-id-10](https://css-tricks.com/the-sass-ampersand/#article-header-id-10)
+
+This helps to find all occurrences of classes while developing and, more importantly, [PurgeCSS](https://purgecss.com/) can detect used classes and purge the correct classes.

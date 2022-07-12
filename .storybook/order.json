@@ -5,8 +5,10 @@
   ["Tone and Voice", "Accessible and Inclusive Language", "Grammar", "Vocabulary"],
   "Design",
   ["Logo", "Colors", "Typography", "Illustrations", "Icons", "Images"],
+  "Development",
+  ["Engineering Rules", "Breakpoints"],
   "Accessibility",
-  ["Accessibility"],
+  ["About the Standard", "Accessibility in Design", "Accessibility in Code", "Testing Accessibility"],
   "Design Tokens",
   ["Colors"]
 ]
