@@ -21,9 +21,9 @@ Our main reasons for this decision:
 1. We won’t depend on framework maintainers and their decisions.
 2. We will be flexible enough to meet any specific need of a large platform like ours.
 3. **Because we can. And we ❤️ CSS.** We are confident enough to write our stylesheets on our own.
-  CSS is _not_ some obscure, secret science that needs to be handled somewhere under the hood
-  of a 3rd-party framework. It’s a great technology that we’ve grown up with over the last
-  two decades. It’s a language we love.
+   CSS is _not_ some obscure, secret science that needs to be handled somewhere under the hood
+   of a 3rd-party framework. It’s a great technology that we’ve grown up with over the last
+   two decades. It’s a language we love.
 
 ### CSS methodologies
 
@@ -31,14 +31,17 @@ Not using a 3rd-party framework does not mean completely re-inventing the wheel.
 learn what the community knows and to build upon great ideas that others brought up.
 
 #### ITCSS
+
 …
 
 #### BEM
+
 …
 
 ## Tooling
 
 ### CSS preprocessor
+
 - We use [PostCSS](https://postcss.org/).
 - We do no longer need any other (traditional) preprocessor like Sass or LESS, because:
   - PostCSS allows for the same things we used to achieve with Sass/LESS:
@@ -49,6 +52,7 @@ learn what the community knows and to build upon great ideas that others brought
   - It will reduce bundle sizes (?)
 
 ### CSS-in-JS
+
 - For component-specific styles we employ CSS-in-JS, namely [CSS Modules](https://github.com/css-modules/css-modules).
 
 ## CSS coding conventions
@@ -78,8 +82,7 @@ label-${success ? 'success' : 'error'}
 success ? 'label-success' : 'label-error'
 ```
 
-Avoid [using preprocessors’ parent scope operators (like Sass ampersand) to concatenate classnames](
-  https://css-tricks.com/the-sass-ampersand/#aa-modifying-the-ampersand):
+Avoid [using preprocessors’ parent scope operators (like Sass ampersand) to concatenate classnames](https://css-tricks.com/the-sass-ampersand/#aa-modifying-the-ampersand):
 
 ```css
 /* ⛔️ don’t: */
