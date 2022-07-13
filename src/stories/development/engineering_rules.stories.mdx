@@ -4,7 +4,7 @@ import { Meta } from '@storybook/addon-docs'
 
 # Engineering rules
 
-🚧 This is where we note down our agreements and rules as a developers team. Sor far, this is
+🚧 This is where we note down our agreements and rules as a developers team. So far, this is
 rather a notepad. And its content is very much subject to change.
 
 ## Foundation
@@ -43,11 +43,13 @@ learn what the community knows and to build upon great ideas that others brought
 ### CSS preprocessor
 
 - We use [PostCSS](https://postcss.org/).
-- We do no longer need any other (traditional) preprocessor like Sass or LESS, because:
+- We no longer need any other preprocessor like Sass or LESS, because:
   - PostCSS allows for the same things we used to achieve with Sass/LESS:
     - variables,
     - nesting,
-    - mix-ins, functions …
+    - mix-ins,
+    - functions,
+    - …
   - Relying only on PostCSS spares us some dependencies.
   - It will reduce bundle sizes (?)
 
@@ -103,7 +105,7 @@ Avoid [using preprocessors’ parent scope operators (like Sass ampersand) to co
 }
 ```
 
-The reason for this rule is that splitting and “crafting” classnames can make it difficult to find
+The reason for this rule is that splitting classnames can make it difficult to find
 all usages of a certain class in code—which we want to avoid.
 
 However, if you effectively limit the scope of a classname (by using CSS Modules or just scoped CSS
