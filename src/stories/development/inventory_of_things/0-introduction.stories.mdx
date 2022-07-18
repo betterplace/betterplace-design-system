@@ -4,45 +4,73 @@ import { Meta } from '@storybook/addon-docs'
 
 # Inventory of Things
 
-This is our inventory of _things_. It aims to list every_thing_ design system.
+This is our inventory of _things_. It aims to list every*thing* design system.
 
-## What is a thing?
+## Rationale
 
-Here, a “thing” is any_thing_ that has _some meaning_ and needs _some consideration_ in the
+Although design systems mostly center on UI _components_ their complete scope ranges far beyond those.
+Therefore, having just a “component inventory” is not enough for a design system.
+
+### What is a thing?
+
+Here, a “thing” is any*thing* that has _some meaning_ and needs _some consideration_ in the
 context of a design system.
 
-## Why call it “thing”?
+### Why call it “thing”?
 
-This idea behind it is that not everything is complex enough to be a _“component”_,
-or atomic enough to be an _“element”_. Some things are subatomic: _“tokens”_, and some are somewhere in between
-elements and components: _“objects”_. (If you find these classifications familiar you probably have heard of
-[ITCSS](?path=/story/development-foundations-itcss--page).
-Yes, we borrow its wording due to its elaborateness.)
+The main reason for talking of “things” rather than any less general term referring to a wide range of entities
+is that most common terms are already commonly used with specific meaning in the context of design systems,
+especially by stylesheet management methodologies, such as BEM, OOCSS, or
+[ITCSS](?path=/story/development-foundations-itcss--page). We cannot use “block”, “element”, “object”, nor
+“component” because neither of these terms would describe all the entities we need to consider.
 
-Therefore, having just a “component inventory” is not enough for a design system.
+Not everything is complex enough to be a _“component”_, or atomic enough to be an _“element”_.
+Some things are subatomic: _“tokens”_, and some are somewhere in between elements and components: _“objects”_.
+That’s why we call everything a _thing_.
+
+## Classification Guidelines
+
+How do we classify things?
+
+### High Level: ITCSS
+
+The above taxonomy of _element_, _object_, _component_ etc. might sound familiar: For high-level categorization
+of things we borrow most of the wording from [ITCSS](?path=/story/development-foundations-itcss--page) as it is
+a really elaborate (while natural) and well-proven approach.
+
+### Elements: Adhere to Standards
+
+For the classification of elements we follow
+[the HTML elements reference at MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element)
+(which is also the knowledge base [recommended by the W3C](https://www.w3.org/wiki/Open_Web_Platform#HTML_Elements)).
+
+### Objects
+
+- [Every Layout](https://every-layout.dev/)
+- [SmolCSS](https://smolcss.dev/)
 
 ## Index
 
-* [Elements](?path=/story/development-inventory-of-things-elements-index--page)
-  * [Unique Document Elements](?path=/story/development-inventory-of-things-elements-document--page)
-  * [Sectioning](?path=/story/development-inventory-of-things-elements-sectioning-index--page)
-    * [Sections](?path=/story/development-inventory-of-things-elements-sectioning-sections--page)
-    * [Heading Content](?path=/story/development-inventory-of-things-elements-sectioning-heading--page)
-    * [Sectioning Scope Specific Elements](?path=/story/development-inventory-of-things-elements-sectioning-scope--page)
-  * [Text content](?path=/story/development-inventory-of-things-elements-text-index--page)
-    * [Block-level Text Content](?path=/story/development-inventory-of-things-elements-text-block--page)
-    * [Inline Text Semantics](?path=/story/development-inventory-of-things-elements-text-inline--page)
-  * [Embedding](?path=/story/development-inventory-of-things-elements-embedding-index--page)
-    * [Multimedia Content](?path=/story/development-inventory-of-things-elements-embedding-media--page)
-    * [Embedding Containers](?path=/story/development-inventory-of-things-elements-embedding-containers--page)
-    * [Embedded Fragments of Other Markup Languages](?path=/story/development-inventory-of-things-elements-embedding-other-ml--page)
-  * [Scripting](?path=/story/development-inventory-of-things-elements-scripting--page)
-  * [Demarcating Edits](?path=/story/development-inventory-of-things-elements-edits--page)
-  * [Tabular Content](?path=/story/development-inventory-of-things-elements-tables--page)
-  * [Form-associated Content](?path=/story/development-inventory-of-things-elements-forms--page)
-  * [Interactive Elements](?path=/story/development-inventory-of-things-elements-interactive--page)
-* [Objects](?path=/story/development-inventory-of-things-objects-index--page)
-    * [Navigation Menu](?path=/story/development-inventory-of-things-objects-nav-menu--page)
-      * Levelable Nav
-      * Foldable Nav
-      * Sticky Nav
+- [Elements](?path=/story/development-inventory-of-things-elements-index--page)
+  - [Unique Document Elements](?path=/story/development-inventory-of-things-elements-document--page)
+  - [Sectioning](?path=/story/development-inventory-of-things-elements-sectioning-index--page)
+    - [Sections](?path=/story/development-inventory-of-things-elements-sectioning-sections--page)
+    - [Heading Content](?path=/story/development-inventory-of-things-elements-sectioning-heading--page)
+    - [Sectioning Scope Specific Elements](?path=/story/development-inventory-of-things-elements-sectioning-scope--page)
+  - [Text content](?path=/story/development-inventory-of-things-elements-text-index--page)
+    - [Block-level Text Content](?path=/story/development-inventory-of-things-elements-text-block--page)
+    - [Inline Text Semantics](?path=/story/development-inventory-of-things-elements-text-inline--page)
+  - [Embedding](?path=/story/development-inventory-of-things-elements-embedding-index--page)
+    - [Multimedia Content](?path=/story/development-inventory-of-things-elements-embedding-media--page)
+    - [Embedding Containers](?path=/story/development-inventory-of-things-elements-embedding-containers--page)
+    - [Embedded Fragments of Other Markup Languages](?path=/story/development-inventory-of-things-elements-embedding-other-ml--page)
+  - [Scripting](?path=/story/development-inventory-of-things-elements-scripting--page)
+  - [Demarcating Edits](?path=/story/development-inventory-of-things-elements-edits--page)
+  - [Tabular Content](?path=/story/development-inventory-of-things-elements-tables--page)
+  - [Form-associated Content](?path=/story/development-inventory-of-things-elements-forms--page)
+  - [Interactive Elements](?path=/story/development-inventory-of-things-elements-interactive--page)
+- [Objects](?path=/story/development-inventory-of-things-objects-index--page)
+  - [Navigation Menu](?path=/story/development-inventory-of-things-objects-nav-menu--page)
+    - Levelable Nav
+    - Foldable Nav
+    - Sticky Nav
