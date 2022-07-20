@@ -1,0 +1,76 @@
+import { Meta } from '@storybook/addon-docs'
+
+<Meta title="Accessibility/Accessibility in Code" />
+
+# Accessibility in Code
+
+General remark: Use these rules thoughtfully. Always keep in mind that accessibility is not only about following rules, but about the best way to serve the needs of users.
+
+## Markup
+
+Use native HTML elements wherever it makes semantically sense. Most HTML elements convey a semantic meaning and provide additional functionality, that users can benefit from or even depend on.
+
+### Examples
+
+- use a `button`, when an interaction triggers some action on the page, e.g. opening a modal, submitting a form, loading data, swiping a slider, etc.
+- use an `a` tag with an `href` attribute for links, i.e. when the interaction navigates the user to a different page (or a different part of the page).
+- use a `ul` or `ol`, whenever you want to group some items together in a list and want the user to know how many items the list contains. This does not only apply to "regular" text items, but can be anything, e.g. a gallery of images, a list of teasers, navigation items, etc.
+- use headline tags (`h1`, `h2`, etc.) for headlines and use them in a logical order.
+
+Complete [list of HTML elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element).
+
+## Images
+
+### Alternative text
+
+Make sure _every_ image has an `alt` attribute, either with
+
+- a descriptive text (think of how you would describe the image to someone on the phone) or
+- an empty string. This only applies to images that are purely decorative and don't contribute anything to the content.
+
+If it's an image uploaded by the user, decide whether
+
+- we can define a general rule, e.g. "avatar of _name of the user_". (Keep in mind that this is usually less valuable of an information. You should also be careful not to create redundancy.) Or
+- we should give the user the possibility to enter their own alternative text.
+
+More information about [writing good alt text](https://webaim.org/techniques/alttext/).
+
+### Responsive Images
+
+Make sure images are served only as big as necessary.
+
+## Interactive components
+
+- Make sure every form element has an associated `label`.
+- Make sure every interactive element can be reached by using only the keyboard and the tab order is logical.
+- Use an appropriate native element if possible (see [Markup](#Markup)).
+- Use ARIA roles, properties and states if there is no such component provided by HTML out of the box.
+- Use [React Aria](https://react-spectrum.adobe.com/react-aria/) for helper methods and the [ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/patterns/) as a reference for common component patterns.
+
+## Zooming and font size
+
+- Don't use pixels values unless you explicitly want the value to stay consistent no matter the font size (which might be the case for borders and shadows for example).
+- Use `rem` for most of the things and `em` when it makes sense (font sizes, line-height).
+
+## Content structure and order
+
+- Make sure every page has a title. There should only be one `h1` per page.
+- Make sure heading levels are in a logical order.
+- Use [landmarks](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/landmark_role), such as `nav`, `main`, `section`, etc. It helps users navigate the page quicker.
+- Don't move around items arbitrarily with CSS (be careful with `order`, `float` or `grid` for example). It can result in a [confusing experience for keyboard users](https://www.matuzo.at/blog/the-dark-side-of-the-grid-part-2/).
+
+## Hiding content
+
+Depending on the use case there are several [ways to hide content](https://kittygiraudel.com/2021/02/17/hiding-content-responsibly/). Think about whether the content should be
+
+- visible
+- machine readable (announced by a screen reader)
+
+and based on that decide which approach is most appropriate.
+
+### Examples
+
+- Visible but not machine readable (example: decorative icons)
+- Invisible but machine readable (example: context for icon-only buttons)
+- Invisible and not machine readable (example: offscreen content such as a closed modal window)
+- Visible and machine readable (example: most stuff)
