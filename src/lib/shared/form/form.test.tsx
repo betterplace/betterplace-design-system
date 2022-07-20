@@ -4,6 +4,7 @@
 import React from 'react'
 import { renderHook } from '@testing-library/react-hooks'
 import '@testing-library/jest-dom'
+import '@testing-library/jest-dom/extend-expect'
 import { promisify } from './utils'
 import { useValidator } from './form'
 import { firstValueFrom } from 'rxjs'
@@ -19,7 +20,7 @@ describe('Form', () => {
       it('should return a promise value as is', () => {
         const value = Promise.resolve('value')
         const res = promisify(value)
-        expect(res === value).toBeTruthy()
+        expect(res).toBe(value)
       })
     })
   })
