@@ -1,4 +1,4 @@
 {
-  "extends": "./tsconfig.base",
-  "references": [{ "path": "./tsconfig.node.json" }, { "path": "./tsconfig.tsnode.json" }]
+  "extends": "./tsconfig.base.json",
+  "references": [{ "path": "./tsconfig.tsnode.json" }]
 }
