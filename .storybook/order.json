@@ -1,12 +1,11 @@
 [
   "Foundations",
-  ["Design System", "Design Principles", "Experience Values"],
-  "Content",
-  ["Tone and Voice", "Accessible and Inclusive Language", "Grammar", "Vocabulary"],
-  "Design",
-  ["Logo", "Colors", "Typography", "Illustrations", "Icons", "Images"],
-  "Accessibility",
-  ["Accessibility"],
-  "Design Tokens",
-  ["Colors"]
+  ["About the Design System", "Design Principles", "Experience Values"],
+  "Guides",
+  ["Content Guide", "Accessibility Guide", "UX Design Guide", "Development Guide", "Testing Guide"],
+  "Design Tokens (Settings)",
+  ["Introduction", "Colors", "Typography", "Spacing", "Grid", "Breakpoints"],
+  "Elements",
+  "Objects",
+  "Components"
 ]

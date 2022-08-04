@@ -33,6 +33,12 @@ The tokens input file is located in [config/tokens.json](config/tokens.json) (th
 
 To re-generate tokens with style-dictionary, run the following command: `yarn build-tokens`
 
+### Customizing Storybook UI
+
+- you can adjust theme options in `.storybook/betterplace-theme.js`
+- if you need more control, write your CSS in `.storybook/manager-head.html`
+- static assets (images, fonts, ...) are located in the `public` folder
+
 ### 📦 Data model
 
 ### 🧪 Tests
