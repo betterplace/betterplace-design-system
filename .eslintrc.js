@@ -2,7 +2,8 @@ module.exports = {
   globals: {},
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: './tsconfig.json',
+    project: ['./tsconfig.base.json', './tsconfig.tsnode.json'],
+    files: ['src/**/*', 'config/**/*'],
     extraFileExtensions: ['.md', '.mdx'],
   },
   root: true,
