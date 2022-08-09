@@ -65,15 +65,20 @@ const FormReducer = <T extends Values>(state: FormState<T>, action: FormActions<
     case 'Form/RegisterField': {
       const value = state.values[action.payload.key]
       const enabled = { ...state.enabled, [action.payload.key]: true }
-      if (typeof value !== 'undefined') return state
-      const values = { ...state.values, [action.payload.key]: null }
-      return { ...state, values, enabled }
+      const removeValueOnUnmount = {
+        ...state.removeValueOnUnmount,
+        [action.payload.key]: action.payload.removeValueOnUnmount,
+      }
+      const values = typeof value !== 'undefined' ? state.values : { ...state.values, [action.payload.key]: null }
+      return { ...state, values, enabled, removeValueOnUnmount }
     }
     case 'Form/UnregisterField': {
       const values = { ...state.values }
+      if (state.enabled[action.payload.key] && state.removeValueOnUnmount[action.payload.key]) {
+        delete values[action.payload.key]
+      }
       const enabled = { ...state.enabled, [action.payload.key]: false }
 
-      delete values[action.payload.key]
       return {
         ...state,
         values,
@@ -95,6 +100,7 @@ export const getInitialState = <T extends Record<string, unknown>>(
   error: undefined,
   touched: {} as any,
   enabled: {} as any,
+  removeValueOnUnmount: {} as any,
   dirty: false,
   isValid: true,
   ...initialiseWith,

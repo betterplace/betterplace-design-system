@@ -1,6 +1,11 @@
-import { HTMLInputTypeAttribute } from 'react'
+import React, { HTMLInputTypeAttribute } from 'react'
 
 export type Values = Record<string, unknown>
+
+export type UnpackRef<T> = T extends React.MutableRefObject<infer R> ? R : T
+export type UnpackRefFields<T extends {}> = { [K in keyof T]: UnpackRef<T[K]> }
+
+export type KeysMatching<T, V> = { [K in keyof T]-?: T[K] extends V ? K : never }[keyof T]
 
 export type FieldValidatorFn<T extends Values, K extends keyof T> = (
   value: T[K],
@@ -23,6 +28,7 @@ export interface FormState<T extends Values> {
   isValid: boolean
   touched: { [key in keyof T]?: boolean }
   enabled: { [key in keyof T]?: boolean }
+  removeValueOnUnmount: { [key in keyof T]?: boolean }
   fieldErrors: Errors<T>
   dirty: boolean
   isSubmitting: boolean
@@ -35,8 +41,22 @@ export interface UseFormProps<T extends Values> {
   onSubmit?: (values: T) => Promise<T>
   initialValues?: Partial<T> | undefined
 }
+interface RegisterFnOptions<T extends Values, K extends keyof T> {
+  name: K
+  type: HTMLInputTypeAttribute
+  fromStringRef: React.MutableRefObject<((value: string) => T[K]) | undefined>
+  validate?: FieldValidatorFn<T, K>
+}
 
-export type RegisterFn<T extends Values> = (props: UseFieldProps<T, keyof T>) => {
+export interface UseFieldProps<T extends Values, K extends keyof T> {
+  name: K
+  type: HTMLInputTypeAttribute
+  fromString?: (value: string) => T[K]
+  asString?: (value: T[K]) => string
+  validate?: FieldValidatorFn<T, K>
+  removeValueOnUnmount?: boolean
+}
+export type RegisterFn<T extends Values> = (props: RegisterFnOptions<T, keyof T>) => {
   name: string
   onChange: React.ChangeEventHandler
   onBlur: React.FocusEventHandler
@@ -45,13 +65,5 @@ export type RegisterFn<T extends Values> = (props: UseFieldProps<T, keyof T>) =>
 }
 
 export type GetValueFn<T extends Values> = (props: UseFieldProps<T, keyof T>) => string
-
-export interface UseFieldProps<T extends Values, K extends keyof T> {
-  name: K
-  type: HTMLInputTypeAttribute
-  fromString?: (value: string) => T[K]
-  asString?: (value: T[K]) => string
-  validate?: FieldValidatorFn<T, K>
-}
 
 export type UseFormReturn<T extends Values> = FormState<T> & FormDispatch<T>

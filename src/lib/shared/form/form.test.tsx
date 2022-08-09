@@ -8,6 +8,8 @@ import '@testing-library/jest-dom/extend-expect'
 import { promisify } from './utils'
 import { useValidator } from './form'
 import { firstValueFrom } from 'rxjs'
+import FormReducer, { getInitialState } from './reducer'
+import { Actions } from './actions'
 
 describe('Form', () => {
   describe('Utils', () => {
@@ -72,6 +74,54 @@ describe('Form', () => {
       expect(res.foo).toBe('Too long')
       expect(res.bar).toBe('Error2')
       expect(res.baz).toBe('Too small')
+    })
+  })
+  describe('Reducer', () => {
+    describe('Register Field', () => {
+      it('should enable fields that are registered', () => {
+        const dispatch = new Actions<{ foo: string }>()
+        let next = FormReducer<{ foo: string }>(getInitialState(), dispatch.RegisterField({ key: 'foo' }))
+        expect(next.enabled.foo).toBeTruthy()
+        next = FormReducer<{ foo: string }>(
+          getInitialState({ values: { foo: 'bar' } }),
+          dispatch.RegisterField({ key: 'foo', removeValueOnUnmount: true })
+        )
+        expect(next.enabled.foo).toBeTruthy()
+        expect(next.removeValueOnUnmount.foo).toBeTruthy()
+      })
+      it('should initialise field value if it does not exist', () => {
+        const dispatch = new Actions<{ foo: string }>()
+        const next = FormReducer<{ foo: string }>(getInitialState(), dispatch.RegisterField({ key: 'foo' }))
+        expect(next.values.foo).toBe(null)
+      })
+      it('should not reset value if it already exists ', () => {
+        const dispatch = new Actions<{ foo: string }>()
+        const next = FormReducer<{ foo: string }>(
+          getInitialState({ values: { foo: '' } }),
+          dispatch.RegisterField({ key: 'foo' })
+        )
+        expect(next.values.foo).toBe('')
+      })
+    })
+    describe('Unregister field', () => {
+      it('should remove field value if it was enabled (aka registered) and the removeValueOnUnmount flag is set', () => {
+        const dispatch = new Actions<{ foo: string }>()
+        let next = FormReducer<{ foo: string }>(
+          getInitialState({ values: { foo: '' }, enabled: { foo: true } }),
+          dispatch.UnregisterField({ key: 'foo' })
+        )
+        expect(next.values.foo).toBe('')
+        next = FormReducer<{ foo: string }>(
+          getInitialState({ values: { foo: '' }, enabled: { foo: false } }),
+          dispatch.UnregisterField({ key: 'foo' })
+        )
+        expect(next.values.foo).toBe('')
+        next = FormReducer<{ foo: string }>(
+          getInitialState({ values: { foo: '' }, enabled: { foo: true }, removeValueOnUnmount: { foo: true } }),
+          dispatch.UnregisterField({ key: 'foo' })
+        )
+        expect(next.values.foo).toBe(undefined)
+      })
     })
   })
 })

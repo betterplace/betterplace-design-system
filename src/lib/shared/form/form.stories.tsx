@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { FormProvider, useFieldProps, useForm } from './form'
-import { Values, FieldValidatorFn } from './types'
+import { Values, FieldValidatorFn, KeysMatching } from './types'
 type MyFormValues = { foo: string; bar: Date }
 const MyForm = (_: {}) => {
   const onSubmit = useCallback((values: MyFormValues) => {
@@ -11,6 +11,12 @@ const MyForm = (_: {}) => {
     })
   }, [])
   const form = useForm<MyFormValues>({ onSubmit, initialValues: { foo: '', bar: new Date() } })
+  useEffect(() => {
+    console.log('Form Story mounted')
+    return () => {
+      console.log('Form Story unmounted')
+    }
+  }, [])
   return (
     <FormProvider {...form}>
       <form onSubmit={form.submit}>
@@ -37,7 +43,7 @@ const MyField = <T extends Values>({ name }: { name: keyof T }) => {
   return <input {...props} />
 }
 
-const MyDateField = <T extends Values>({ name }: { name: keyof T }) => {
+const MyDateField = <T extends Values>({ name }: { name: KeysMatching<T, Date | undefined> }) => {
   const validate: FieldValidatorFn<T, keyof T> = useCallback(
     (value, _) =>
       new Promise((resolve) =>
@@ -49,8 +55,8 @@ const MyDateField = <T extends Values>({ name }: { name: keyof T }) => {
     name,
     validate,
     type: 'date',
-    fromString: (v) => new Date(v) as any,
-    asString: (v: any) => v?.toISOString(),
+    fromString: (v: any) => new Date(v) as any,
+    asString: (v: any) => v?.toISOString().split('T')[0],
   })
   return <input {...props} />
 }

@@ -16,17 +16,25 @@ import {
 import { Action, Effect, Reducer } from './types'
 
 class Store<S extends {}, A extends Action> implements Subscribable<S>, Observer<A> {
-  protected _complete$: Subject<void> = new Subject()
+  protected complete$: Subject<void> = new Subject()
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  protected _error$: Subject<any> = new Subject()
-  protected _state$: Observable<S>
+  protected error$: Subject<any> = new Subject()
+  protected state$: Observable<S>
   protected _action$: Subject<A> = new Subject()
+
+  protected action$: Observable<A>
+
   protected _sideEffect$: Subject<[A, S, S]> = new Subject()
-  pipe: typeof this._state$.pipe
+  pipe: typeof this.state$.pipe
   constructor(initialState: S, reducer: Reducer<S, A>, effects: Array<Effect<S, A>>) {
     console.log('Store created', initialState)
-    this._state$ = this._action$.pipe(
+    this.action$ = merge(
+      this._action$,
+      merge<A[]>(...effects.map((effect) => effect(this._sideEffect$))).pipe(delay(33))
+    )
+
+    this.state$ = this.action$.pipe(
       observeOn(queueScheduler),
       scan((state, action) => {
         const newState = reducer(state, action)
@@ -36,25 +44,41 @@ class Store<S extends {}, A extends Action> implements Subscribable<S>, Observer
       }, initialState),
       shareReplay(1)
     )
-    this.pipe = this._state$.pipe
+    this.pipe = this.state$.pipe
 
-    merge(...effects.map((effect) => effect(this._sideEffect$)))
-      .pipe(delay(33))
-      .subscribe((action) => this._action$.next(action as A))
     this._action$.next({ type: '@@init', payload: undefined } as A)
   }
 
-  subscribe(observer: Partial<Observer<S>>): Unsubscribable {
-    return this._state$.subscribe(observer)
+  subscribe = (observer: Partial<Observer<S>>): Unsubscribable => {
+    console.log('Subscribed to store')
+    const sub = this.state$.subscribe({
+      ...observer,
+      complete: () => {
+        observer.complete?.()
+        console.log('Observable Completed')
+        this._sideEffect$.complete()
+        this._action$.complete()
+      },
+    })
+    return {
+      unsubscribe: () => {
+        console.log('Unsubscribe')
+        sub.unsubscribe()
+      },
+    }
   }
   next: (value: A) => void = (value) => {
+    console.log('Dispatch', value)
     this._action$.next(value)
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: (err: any) => void = (err) => {
     this._action$.next(err)
   }
-  complete: () => void = () => this._action$.complete()
+  complete: () => void = () => {
+    this._action$.complete()
+    this._sideEffect$.complete()
+  }
 }
 
 export default Store
