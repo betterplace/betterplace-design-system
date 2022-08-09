@@ -177,7 +177,7 @@ export function useAsStringRef<T extends Values, K extends keyof T>(
   }, [asString])
   return ref
 }
-export function useFieldProps<T extends Values, K extends keyof T>({
+export function useFieldProps<T extends Values, K extends keyof T, V = T[K]>({
   validate,
   fromString,
   asString,

@@ -39,20 +39,20 @@ const MyField = <T extends Values>({ name }: { name: keyof T }) => {
 }
 const old = Date.now()
 
-const MyDateField = <T extends Values>({ name }: { name: KeysMatching<T, Date | undefined> }) => {
-  const validate: FieldValidatorFn<T, KeysMatching<T, Date | undefined>> = useCallback(
+const MyDateField = <T extends Values>({ name }: { name: KeysMatching<T, Date> }) => {
+  const validate: FieldValidatorFn<T, KeysMatching<T, Date>> = useCallback(
     (value, _) =>
       new Promise((resolve) =>
         setTimeout(() => resolve((value as Date)?.getTime() < old ? 'Invalid' : undefined), 300)
       ),
     []
   )
-  const props = useFieldProps<T, KeysMatching<T, Date | undefined>>({
+  const props = useFieldProps<T, KeysMatching<T, Date>>({
     name,
     validate,
     type: 'date',
-    fromString: (v: any) => new Date(v) as any,
-    asString: (v: any) => v?.toISOString().split('T')[0],
+    fromString: (v) => new Date(v) as T[KeysMatching<T, Date>],
+    asString: (v) => (v as Date)?.toISOString().split('T')[0],
   })
   return <input {...props} />
 }
