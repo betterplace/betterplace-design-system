@@ -92,18 +92,19 @@ const FormReducer = <T extends Values>(state: FormState<T>, action: FormActions<
 
 export const getInitialState = <T extends Record<string, unknown>>(
   initialiseWith: Partial<FormState<T>> = {}
-): FormState<T> => ({
-  isValidating: false,
-  isSubmitting: false,
-  values: {} as any,
-  fieldErrors: {} as any,
-  error: undefined,
-  touched: {} as any,
-  enabled: {} as any,
-  removeValueOnUnmount: {} as any,
-  dirty: false,
-  isValid: true,
-  ...initialiseWith,
-})
+): FormState<T> =>
+  ({
+    isValidating: false,
+    isSubmitting: false,
+    values: {},
+    fieldErrors: {},
+    error: undefined,
+    touched: {},
+    enabled: {},
+    removeValueOnUnmount: {},
+    dirty: false,
+    isValid: true,
+    ...initialiseWith,
+  } as FormState<T>)
 
 export default FormReducer

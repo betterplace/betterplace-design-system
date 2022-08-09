@@ -28,7 +28,6 @@ class Store<S extends {}, A extends Action> implements Subscribable<S>, Observer
   protected _sideEffect$: Subject<[A, S, S]> = new Subject()
   pipe: typeof this.state$.pipe
   constructor(initialState: S, reducer: Reducer<S, A>, effects: Array<Effect<S, A>>) {
-    console.log('Store created', initialState)
     this.action$ = merge(
       this._action$,
       merge<A[]>(...effects.map((effect) => effect(this._sideEffect$))).pipe(delay(33))
@@ -50,25 +49,21 @@ class Store<S extends {}, A extends Action> implements Subscribable<S>, Observer
   }
 
   subscribe = (observer: Partial<Observer<S>>): Unsubscribable => {
-    console.log('Subscribed to store')
     const sub = this.state$.subscribe({
       ...observer,
       complete: () => {
         observer.complete?.()
-        console.log('Observable Completed')
         this._sideEffect$.complete()
         this._action$.complete()
       },
     })
     return {
       unsubscribe: () => {
-        console.log('Unsubscribe')
         sub.unsubscribe()
       },
     }
   }
   next: (value: A) => void = (value) => {
-    console.log('Dispatch', value)
     this._action$.next(value)
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

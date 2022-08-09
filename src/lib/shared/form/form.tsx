@@ -59,7 +59,6 @@ export function useForm<T extends Values>(props: UseFormProps<T>): UseFormReturn
   const [validators, setValidator_] = useState<{ [K in keyof T]?: FieldValidatorFn<T, keyof T> }>({})
   const setValidator = useCallback((key: keyof T, validate?: FieldValidatorFn<T, keyof T>) => {
     setValidator_((old) => {
-      console.log(old, key, validate)
       if (old[key] === validate) return old
       return { ...old, [key]: validate }
     })
@@ -67,15 +66,15 @@ export function useForm<T extends Values>(props: UseFormProps<T>): UseFormReturn
 
   const { onValidate: onValidate_, ...props_ } = props
 
-  const initialRef = useRef(getInitialState<T>({ values: { ...((props.initialValues ?? {}) as T) } }))
+  const initialFormValueRef = useRef(getInitialState<T>({ values: { ...((props.initialValues ?? {}) as T) } }))
   const actionsRef = useRef(new Actions<T>())
 
-  const [state, setState] = useState(initialRef.current)
+  const [state, setState] = useState(initialFormValueRef.current)
   const onValidate = useValidator(validators, state.enabled, props.onValidate)
   const propsRef = useRef({ ...props_, onValidate })
   const effects = useMemo(() => getFormEffects(actionsRef.current, propsRef), [])
 
-  const storeRef = useRef(new Store<FormState<T>, FormActions<T>>(initialRef.current, reducer, effects))
+  const storeRef = useRef(new Store<FormState<T>, FormActions<T>>(initialFormValueRef.current, reducer, effects))
 
   useEffect(() => {
     propsRef.current = { ...props_, onValidate }
@@ -93,7 +92,7 @@ export function useForm<T extends Values>(props: UseFormProps<T>): UseFormReturn
 
   const register: RegisterFn<T> = useCallback(
     ({ name: key, validate, fromStringRef: fromString, type }) => {
-      setValidator(key, validate as FieldValidatorFn<T, keyof T>)
+      setTimeout(() => setValidator(key, validate as FieldValidatorFn<T, keyof T>), 0)
       return {
         ref: onInstanceChange.bind(undefined, key),
         onChange: (evt) =>
@@ -113,17 +112,10 @@ export function useForm<T extends Values>(props: UseFormProps<T>): UseFormReturn
 
   useEffect(() => {
     const sub = storeRef.current.subscribe({
-      next: (value) => {
-        console.log('updating value', value)
-        setState(value)
-      },
+      next: setState,
       error: console.error,
-      complete: () => console.log('Stream ended'),
     })
-    return () => {
-      console.log('Unmount')
-      sub.unsubscribe()
-    }
+    return sub.unsubscribe
   }, [])
 
   const statics = useMemo<UseFormReturn<T>>(
@@ -163,6 +155,7 @@ export function FormProvider<T extends Values>(props: UseFormReturn<T> & { child
 export function useFormContext<T extends Values>(): UseFormReturn<T> {
   return React.useContext(FormContext) as unknown as UseFormReturn<T>
 }
+
 export function useFromStringRef<T extends Values>(fromString: UnpackRef<UseFieldProps<T, keyof T>['fromString']>) {
   const ref = useRef<UnpackRef<UseFieldProps<T, keyof T>['fromString']>>(fromString)
   useEffect(() => {
@@ -189,7 +182,7 @@ export function useFieldProps<T extends Values>({
   const asStringRef = useAsStringRef<T>(asString)
   const { register, values } = useFormContext<T>()
 
-  const ret_ = useMemo(
+  const fieldProps_ = useMemo(
     () => register({ name, validate, type, fromStringRef }),
     [register, name, validate, type, fromStringRef]
   )
@@ -202,6 +195,6 @@ export function useFieldProps<T extends Values>({
     [asStringRef, name, values]
   )
 
-  const ret = useMemo(() => ({ ...ret_, value }), [ret_, value])
-  return ret
+  const fieldProps = useMemo(() => ({ ...fieldProps_, value }), [fieldProps_, value])
+  return fieldProps
 }
