@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { FormProvider, useFieldProps, useForm } from './form'
 import { Values, FieldValidatorFn, KeysMatching } from './types'
@@ -11,12 +11,7 @@ const MyForm = (_: {}) => {
     })
   }, [])
   const form = useForm<MyFormValues>({ onSubmit, initialValues: { foo: '', bar: new Date() } })
-  useEffect(() => {
-    console.log('Form Story mounted')
-    return () => {
-      console.log('Form Story unmounted')
-    }
-  }, [])
+
   return (
     <FormProvider {...form}>
       <form onSubmit={form.submit}>
@@ -45,12 +40,14 @@ const MyField = <T extends Values>({ name }: { name: keyof T }) => {
 const old = Date.now()
 
 const MyDateField = <T extends Values>({ name }: { name: KeysMatching<T, Date | undefined> }) => {
-  const validate: FieldValidatorFn<T, keyof T> = useCallback(
+  const validate: FieldValidatorFn<T, KeysMatching<T, Date | undefined>> = useCallback(
     (value, _) =>
-      new Promise((resolve) => setTimeout(() => resolve((value as Date).getTime() < old ? 'Invalid' : undefined), 300)),
+      new Promise((resolve) =>
+        setTimeout(() => resolve((value as Date)?.getTime() < old ? 'Invalid' : undefined), 300)
+      ),
     []
   )
-  const props = useFieldProps<T>({
+  const props = useFieldProps<T, KeysMatching<T, Date | undefined>>({
     name,
     validate,
     type: 'date',

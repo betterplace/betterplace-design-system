@@ -14,12 +14,13 @@ import {
   GlobalValidatorFn,
   Errors,
   UnpackRef,
+  RegisterFnOptions,
 } from './types'
 import { promisify } from './utils'
 type ObservableValidatorFn<T extends Values> = (values: T) => Observable<Errors<T>>
 
-function mergeErrors<V extends Values, T extends Record<keyof V, unknown>>(source: T, origin: T): T {
-  const res = { ...origin }
+function mergeErrors<V extends Values, T extends Record<keyof V, unknown>>(source: T, target: T): T {
+  const res = { ...target }
   Object.entries(source).forEach(([key, error]) => {
     const k = key as keyof T
     if (res[k] !== undefined && res[k] !== null) return
@@ -91,7 +92,7 @@ export function useForm<T extends Values>(props: UseFormProps<T>): UseFormReturn
   }, [])
 
   const register: RegisterFn<T> = useCallback(
-    ({ name: key, validate, fromStringRef: fromString, type }) => {
+    <K extends keyof T>({ name: key, validate, fromStringRef: fromString, type }: RegisterFnOptions<T, K>) => {
       setTimeout(() => setValidator(key, validate as FieldValidatorFn<T, keyof T>), 0)
       return {
         ref: onInstanceChange.bind(undefined, key),
@@ -149,48 +150,53 @@ const FormContext = React.createContext<UseFormReturn<any> | null>(null)
 
 export function FormProvider<T extends Values>(props: UseFormReturn<T> & { children?: React.ReactNode }) {
   const { children, ...data } = props
-  return <FormContext.Provider value={data as unknown as UseFormReturn<T>}>{props.children}</FormContext.Provider>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return <FormContext.Provider value={data as unknown as UseFormReturn<any>}>{props.children}</FormContext.Provider>
 }
 
 export function useFormContext<T extends Values>(): UseFormReturn<T> {
   return React.useContext(FormContext) as unknown as UseFormReturn<T>
 }
 
-export function useFromStringRef<T extends Values>(fromString: UnpackRef<UseFieldProps<T, keyof T>['fromString']>) {
-  const ref = useRef<UnpackRef<UseFieldProps<T, keyof T>['fromString']>>(fromString)
+export function useFromStringRef<T extends Values, K extends keyof T>(
+  fromString: UnpackRef<UseFieldProps<T, K>['fromString']>
+) {
+  const ref = useRef<UnpackRef<UseFieldProps<T, K>['fromString']>>(fromString)
   useEffect(() => {
     ref.current = fromString
   }, [fromString])
   return ref
 }
 
-export function useAsStringRef<T extends Values>(asString: UnpackRef<UseFieldProps<T, keyof T>['asString']>) {
-  const ref = useRef<UnpackRef<UseFieldProps<T, keyof T>['asString']>>(asString)
+export function useAsStringRef<T extends Values, K extends keyof T>(
+  asString: UnpackRef<UseFieldProps<T, K>['asString']>
+) {
+  const ref = useRef<UnpackRef<UseFieldProps<T, K>['asString']>>(asString)
   useEffect(() => {
     ref.current = asString
   }, [asString])
   return ref
 }
-export function useFieldProps<T extends Values>({
+export function useFieldProps<T extends Values, K extends keyof T>({
   validate,
   fromString,
   asString,
   type,
   name,
-}: UseFieldProps<T, keyof T>) {
-  const fromStringRef = useFromStringRef<T>(fromString)
-  const asStringRef = useAsStringRef<T>(asString)
+}: UseFieldProps<T, K>) {
+  const fromStringRef = useFromStringRef<T, K>(fromString)
+  const asStringRef = useAsStringRef<T, K>(asString)
   const { register, values } = useFormContext<T>()
 
   const fieldProps_ = useMemo(
-    () => register({ name, validate, type, fromStringRef }),
+    () => register<K>({ name, validate, type, fromStringRef }),
     [register, name, validate, type, fromStringRef]
   )
 
   const value = useMemo(
     () =>
       values[name] !== null && values[name] !== undefined
-        ? (asStringRef.current ?? String)((values[name] ?? null) as T[keyof T])
+        ? (asStringRef.current ?? String)((values[name] ?? null) as T[K])
         : undefined,
     [asStringRef, name, values]
   )

@@ -30,7 +30,7 @@ export interface FormState<T extends Values> {
   enabled: { [key in keyof T]?: boolean }
   removeValueOnUnmount: { [key in keyof T]?: boolean }
   fieldErrors: Errors<T>
-  dirty: boolean
+  isDirty: boolean
   isSubmitting: boolean
   isValidating: boolean
   error?: Error
@@ -41,22 +41,24 @@ export interface UseFormProps<T extends Values> {
   onSubmit?: (values: T) => Promise<T>
   initialValues?: Partial<T> | undefined
 }
-interface RegisterFnOptions<T extends Values, K extends keyof T> {
+export interface RegisterFnOptions<T extends Values, K extends keyof T = keyof T> {
   name: K
-  type: HTMLInputTypeAttribute
+  type?: HTMLInputTypeAttribute
   fromStringRef: React.MutableRefObject<((value: string) => T[K]) | undefined>
   validate?: FieldValidatorFn<T, K>
 }
 
 export interface UseFieldProps<T extends Values, K extends keyof T> {
   name: K
-  type: HTMLInputTypeAttribute
+  type?: HTMLInputTypeAttribute
   fromString?: (value: string) => T[K]
   asString?: (value: T[K]) => string
   validate?: FieldValidatorFn<T, K>
   removeValueOnUnmount?: boolean
 }
-export type RegisterFn<T extends Values> = (props: RegisterFnOptions<T, keyof T>) => {
+export type RegisterFn<T extends Values> = <K extends keyof T>(
+  props: RegisterFnOptions<T, K>
+) => {
   name: string
   onChange: React.ChangeEventHandler
   onBlur: React.FocusEventHandler

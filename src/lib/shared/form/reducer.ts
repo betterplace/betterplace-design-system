@@ -20,7 +20,7 @@ const FormReducer = <T extends Values>(state: FormState<T>, action: FormActions<
         error: undefined,
         values: { ...state.values, ...action.payload },
         touched: {},
-        dirty: false,
+        isDirty: false,
       }
     case 'Form/SetValue':
       return {
@@ -30,7 +30,8 @@ const FormReducer = <T extends Values>(state: FormState<T>, action: FormActions<
           ...state.touched,
           [action.payload.key]: action.payload.internal && action.payload.value !== state.values[action.payload.key],
         },
-        dirty: (action.payload.internal && action.payload.value !== state.values[action.payload.key]) || state.dirty,
+        isDirty:
+          (action.payload.internal && action.payload.value !== state.values[action.payload.key]) || state.isDirty,
       }
     case 'Form/Validate':
       return {
@@ -60,7 +61,7 @@ const FormReducer = <T extends Values>(state: FormState<T>, action: FormActions<
           ...state.touched,
           [action.payload.key]: action.payload.touched,
         },
-        dirty: action.payload.touched || state.dirty,
+        isDirty: action.payload.touched || state.isDirty,
       }
     case 'Form/RegisterField': {
       const value = state.values[action.payload.key]
@@ -102,7 +103,7 @@ export const getInitialState = <T extends Record<string, unknown>>(
     touched: {},
     enabled: {},
     removeValueOnUnmount: {},
-    dirty: false,
+    isDirty: false,
     isValid: true,
     ...initialiseWith,
   } as FormState<T>)

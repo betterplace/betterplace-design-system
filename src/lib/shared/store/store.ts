@@ -1,5 +1,4 @@
 import {
-  BehaviorSubject,
   merge,
   Observer,
   scan,
