@@ -67,6 +67,7 @@ const MyCheckboxField = <T extends Values>({ name }: { name: KeysMatching<T, boo
     validate,
     type: 'checkbox',
   })
+
   return <input {...props} />
 }
 
@@ -87,6 +88,21 @@ const MySelectField = <T extends Values>({ name }: { name: KeysMatching<T, strin
     </select>
   )
 }
+
+// const MyMultipleCheckbox = <T extends Values>({ name }: { name: KeysMatching<T, string> }) => {
+
+//   const { ref, onChange } = useFieldProps<T, keyof T, string[], string[]>({
+//     name,
+//     fromSource: () =>
+//   })
+//   return (
+//     <fieldset onChange={onChange} ref={ref}>
+//       <input name={name} value="A" type="checkbox" />
+//       <input name={name} value="B" type="checkbox" />
+//       <input name={name} value="C" type="checkbox" />
+//     </fieldset>
+//   )
+// }
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

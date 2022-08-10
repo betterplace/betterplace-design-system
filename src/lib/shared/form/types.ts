@@ -8,7 +8,7 @@ export type NullableTransformFn<V, U> = TransformFn<V | null | undefined, U | un
 export type UnpackRef<T> = T extends React.MutableRefObject<infer R> ? R : T
 export type UnpackRefFields<T extends {}> = { [K in keyof T]: UnpackRef<T[K]> }
 
-export type KeysMatching<T, V> = { [K in keyof T]-?: T[K] extends V ? K : never }[keyof T]
+export type KeysMatching<T, V> = Extract<{ [K in keyof T]-?: T[K] extends V ? K : never }[keyof T], string>
 
 export type FieldValidatorFn<T extends Values, K extends keyof T, V = T[K]> = (
   value: V,
@@ -73,3 +73,5 @@ export type RegisterFn<T extends Values> = <K extends keyof T, Source = string, 
 // export type GetValueFn<T extends Values> = (props: UseFieldProps<T, keyof T>) => string
 
 export type UseFormReturn<T extends Values> = FormState<T> & FormDispatch<T>
+
+export type SetValidatorFn<T extends Values> = (key: keyof T, validate?: FieldValidatorFn<T, keyof T>) => void
