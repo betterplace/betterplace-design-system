@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { FormProvider, useFieldProps, useForm } from './form'
 import { Values, FieldValidatorFn, KeysMatching } from './types'
-type MyFormValues = { foo: string; bar: Date }
+type MyFormValues = { foo: string; bar: Date; baz: boolean; faz: string }
 const MyForm = (_: {}) => {
   const onSubmit = useCallback((values: MyFormValues) => {
     return new Promise<MyFormValues>((resolve) => {
@@ -14,9 +14,11 @@ const MyForm = (_: {}) => {
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.submit}>
+      <form onSubmit={form.submit} noValidate>
         <MyField<MyFormValues> name="foo" />
         <MyDateField<MyFormValues> name="bar" />
+        <MyCheckboxField<MyFormValues> name="baz" />
+        <MySelectField<MyFormValues> name="faz" />
         <input disabled={!form.isValid || form.isSubmitting} type="submit" value="Click me!" />
       </form>
     </FormProvider>
@@ -53,6 +55,37 @@ const MyDateField = <T extends Values>({ name }: { name: KeysMatching<T, Date> }
     asSource: (v) => v?.toISOString().split('T')[0],
   })
   return <input {...props} />
+}
+
+const MyCheckboxField = <T extends Values>({ name }: { name: KeysMatching<T, boolean> }) => {
+  const validate: FieldValidatorFn<T, keyof T, boolean> = useCallback(
+    (value, _) => new Promise((resolve) => setTimeout(() => resolve(!value ? 'Required' : undefined), 300)),
+    []
+  )
+  const props = useFieldProps<T, keyof T, string, boolean>({
+    name,
+    validate,
+    type: 'checkbox',
+  })
+  return <input {...props} />
+}
+
+const MySelectField = <T extends Values>({ name }: { name: KeysMatching<T, string> }) => {
+  const validate: FieldValidatorFn<T, keyof T, string> = useCallback(
+    (value, _) => new Promise((resolve) => setTimeout(() => resolve(!value ? 'Required' : undefined), 300)),
+    []
+  )
+  const props = useFieldProps<T, keyof T, string, string>({
+    name,
+    validate,
+  })
+  return (
+    <select {...props}>
+      <option label="A" value="aaa"></option>
+      <option label="B" value="bbb"></option>
+      <option label="C" value="ccc"></option>
+    </select>
+  )
 }
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export

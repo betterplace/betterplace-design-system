@@ -35,7 +35,9 @@
     "lint": "tsc -p tsconfig.base.json && eslint . && stylelint src/**/*.css",
     "prepare": "husky install"
   },
-  "dependencies": {},
+  "dependencies": {
+    "classnames": "^2.3.1"
+  },
   "peerDependencies": {
     "react": "^17.0.2",
     "react-dom": "^17.0.2"

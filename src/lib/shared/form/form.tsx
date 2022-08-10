@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { MutableRefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { from, map, forkJoin, Observable } from 'rxjs'
 import { Actions, FormActions, getFormEffects } from './actions'
 import reducer, { getInitialState } from './reducer'
@@ -191,6 +191,28 @@ export function useAsSourceRef<T extends Values, K extends keyof T, Source = str
   }, [asString])
   return ref
 }
+
+export function useFieldValue<T extends Values, K extends keyof T, Source = string, V = T[K]>(
+  { name, type }: Pick<UseFieldProps<T, K, Source, V>, 'type' | 'name'>,
+  asSourceRef: MutableRefObject<NullableTransformFn<V, Source> | undefined>
+) {
+  const { values } = useFormContext<T>()
+  const value = useMemo(() => {
+    const value = values[name]
+    if (typeof value === 'undefined' || value === null) return
+    const defaultCtor = (type === 'checkbox' ? Boolean : String) as unknown as NullableTransformFn<V, Source>
+
+    return (asSourceRef.current ?? defaultCtor)((values[name] ?? null) as V)
+  }, [values, name, type, asSourceRef])
+  return value
+}
+
+export function useFieldError<T extends Values, K extends keyof T>({ name }: Pick<UseFieldProps<T, K>, 'name'>) {
+  const { fieldErrors: errors } = useFormContext<T>()
+  const error = useMemo(() => errors[name], [errors, name])
+  return error
+}
+
 export function useFieldProps<T extends Values, K extends keyof T, Source = string, V = T[K]>({
   validate,
   fromSource,
@@ -200,21 +222,23 @@ export function useFieldProps<T extends Values, K extends keyof T, Source = stri
 }: UseFieldProps<T, K, Source, V>) {
   const fromSourceRef = useFromSourceRef<T, K, Source, V>(fromSource)
   const asSourceRef = useAsSourceRef<T, K, Source, V>(asSource)
-  const { register, values } = useFormContext<T>()
+  const { register } = useFormContext<T>()
 
   const fieldProps_ = useMemo(
     () => register<K, Source, V>({ name, validate, type, fromSource: fromSourceRef }),
     [register, name, validate, type, fromSourceRef]
   )
+  const error = useFieldError<T, K>({ name })
+  const value = useFieldValue<T, K, Source, V>({ name, type }, asSourceRef)
 
-  const value = useMemo(
-    () =>
-      values[name] !== null && values[name] !== undefined
-        ? (asSourceRef.current ?? (String as unknown as NullableTransformFn<V, Source>))((values[name] ?? null) as V)
-        : undefined,
-    [asSourceRef, name, values]
+  const fieldProps = useMemo(
+    () => ({
+      ...fieldProps_,
+      ...(type === 'checkbox' ? { checked: !!value as boolean } : { value }),
+      type,
+      ...(error ? { ['aria-errormessage']: error, ['aria-invalid']: !!error } : {}),
+    }),
+    [fieldProps_, value, type, error]
   )
-
-  const fieldProps = useMemo(() => ({ ...fieldProps_, value }), [fieldProps_, value])
   return fieldProps
 }

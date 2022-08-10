@@ -37,6 +37,7 @@ export interface FormState<T extends Values> {
   isSubmitting: boolean
   isValidating: boolean
   error?: Error
+  className?: string
 }
 
 export interface UseFormProps<T extends Values> {
