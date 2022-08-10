@@ -15,6 +15,7 @@ import {
   Errors,
   UnpackRef,
   RegisterFnOptions,
+  NullableTransformFn,
 } from './types'
 import { promisify } from './utils'
 type ObservableValidatorFn<T extends Values> = (values: T) => Observable<Errors<T>>
@@ -92,17 +93,29 @@ export function useForm<T extends Values>(props: UseFormProps<T>): UseFormReturn
   }, [])
 
   const register: RegisterFn<T> = useCallback(
-    <K extends keyof T>({ name: key, validate, fromStringRef: fromString, type }: RegisterFnOptions<T, K>) => {
+    <K extends keyof T, Source = string, V = T[K]>({
+      name: key,
+      validate,
+      fromSource,
+      type,
+    }: RegisterFnOptions<T, K, Source, V>) => {
       setTimeout(() => setValidator(key, validate as FieldValidatorFn<T, keyof T>), 0)
       return {
         ref: onInstanceChange.bind(undefined, key),
-        onChange: (evt) =>
+        onChange: (evt) => {
+          const value =
+            type !== 'checkbox'
+              ? (fromSource.current ?? (String as unknown as NullableTransformFn<Source, V>))(
+                  (evt.target as HTMLInputElement).value as Source
+                )
+              : ((evt.target as HTMLInputElement).checked as V)
           storeRef.current.next(
             actionsRef.current.SetValue({
               key,
-              value: (fromString.current ?? String)((evt.target as HTMLInputElement).value) as T[typeof key],
+              value: value as T[K],
             })
-          ),
+          )
+        },
         onBlur: () => storeRef.current.next(actionsRef.current.SetTouched({ key, touched: true })),
         name: key as string,
         type,
@@ -128,7 +141,8 @@ export function useForm<T extends Values>(props: UseFormProps<T>): UseFormReturn
         },
         validate: () => storeRef.current.next(actionsRef.current.Validate(undefined)),
         setTouched: (key, touched) => storeRef.current.next(actionsRef.current.SetTouched({ key, touched })),
-        setValue: (key, value) => storeRef.current.next(actionsRef.current.SetValue({ key, value })),
+        setValue: (key, value) =>
+          storeRef.current.next(actionsRef.current.SetValue({ key, value: value as T[keyof T] })),
         setValues: (values) => storeRef.current.next(actionsRef.current.SetValues(values)),
         reset: () => storeRef.current.next(actionsRef.current.Reset(undefined)),
       } as UseFormReturn<T>),
@@ -158,47 +172,47 @@ export function useFormContext<T extends Values>(): UseFormReturn<T> {
   return React.useContext(FormContext) as unknown as UseFormReturn<T>
 }
 
-export function useFromStringRef<T extends Values, K extends keyof T>(
-  fromString: UnpackRef<UseFieldProps<T, K>['fromString']>
+export function useFromSourceRef<T extends Values, K extends keyof T, Source = string, V = T[K]>(
+  fromString: UnpackRef<UseFieldProps<T, K, Source, V>['fromSource']>
 ) {
-  const ref = useRef<UnpackRef<UseFieldProps<T, K>['fromString']>>(fromString)
+  const ref = useRef<UnpackRef<UseFieldProps<T, K, Source, V>['fromSource']>>(fromString)
   useEffect(() => {
     ref.current = fromString
   }, [fromString])
   return ref
 }
 
-export function useAsStringRef<T extends Values, K extends keyof T>(
-  asString: UnpackRef<UseFieldProps<T, K>['asString']>
+export function useAsSourceRef<T extends Values, K extends keyof T, Source = string, V = T[K]>(
+  asString: UnpackRef<UseFieldProps<T, K, Source, V>['asSource']>
 ) {
-  const ref = useRef<UnpackRef<UseFieldProps<T, K>['asString']>>(asString)
+  const ref = useRef<UnpackRef<UseFieldProps<T, K, Source, V>['asSource']>>(asString)
   useEffect(() => {
     ref.current = asString
   }, [asString])
   return ref
 }
-export function useFieldProps<T extends Values, K extends keyof T, V = T[K]>({
+export function useFieldProps<T extends Values, K extends keyof T, Source = string, V = T[K]>({
   validate,
-  fromString,
-  asString,
+  fromSource,
+  asSource,
   type,
   name,
-}: UseFieldProps<T, K>) {
-  const fromStringRef = useFromStringRef<T, K>(fromString)
-  const asStringRef = useAsStringRef<T, K>(asString)
+}: UseFieldProps<T, K, Source, V>) {
+  const fromSourceRef = useFromSourceRef<T, K, Source, V>(fromSource)
+  const asSourceRef = useAsSourceRef<T, K, Source, V>(asSource)
   const { register, values } = useFormContext<T>()
 
   const fieldProps_ = useMemo(
-    () => register<K>({ name, validate, type, fromStringRef }),
-    [register, name, validate, type, fromStringRef]
+    () => register<K, Source, V>({ name, validate, type, fromSource: fromSourceRef }),
+    [register, name, validate, type, fromSourceRef]
   )
 
   const value = useMemo(
     () =>
       values[name] !== null && values[name] !== undefined
-        ? (asStringRef.current ?? String)((values[name] ?? null) as T[K])
+        ? (asSourceRef.current ?? (String as unknown as NullableTransformFn<V, Source>))((values[name] ?? null) as V)
         : undefined,
-    [asStringRef, name, values]
+    [asSourceRef, name, values]
   )
 
   const fieldProps = useMemo(() => ({ ...fieldProps_, value }), [fieldProps_, value])
