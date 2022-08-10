@@ -15,7 +15,7 @@ export type ThemeProviderContext = {
   theme?: Theme
   tokens?: {
     global: Tokens['global']
-    theme: Tokens[Exclude<keyof Tokens, 'globals'>]
+    theme: Tokens[Exclude<keyof Tokens, 'global'>]
   }
 }
 

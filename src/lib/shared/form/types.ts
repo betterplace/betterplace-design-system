@@ -39,7 +39,7 @@ export interface FormState<T extends Values> {
 export interface UseFormProps<T extends Values> {
   onValidate?: GlobalValidatorFn<T>
   onSubmit?: (values: T) => Promise<T>
-  initialValues?: Partial<T> | undefined
+  initialValues?: Partial<T>
 }
 export interface RegisterFnOptions<T extends Values, K extends keyof T = keyof T> {
   name: K
