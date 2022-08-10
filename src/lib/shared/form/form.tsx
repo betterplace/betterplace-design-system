@@ -106,9 +106,9 @@ export function useForm<T extends Values>(props: UseFormProps<T>): UseFormReturn
           const value =
             type !== 'checkbox'
               ? (fromSource.current ?? (String as unknown as NullableTransformFn<Source, V>))(
-                  (evt.target as HTMLInputElement).value as Source
+                  (evt.target as HTMLInputElement).value as unknown as Source
                 )
-              : ((evt.target as HTMLInputElement).checked as V)
+              : ((evt.target as HTMLInputElement).checked as unknown as V)
           storeRef.current.next(
             actionsRef.current.SetValue({
               key,
@@ -236,7 +236,7 @@ export function useFieldProps<T extends Values, K extends keyof T, Source = stri
       ...fieldProps_,
       ...(type === 'checkbox' ? { checked: !!value as boolean } : { value }),
       type,
-      ...(error ? { ['aria-errormessage']: error, ['aria-invalid']: !!error } : {}),
+      ...(error ? { ['data-error']: error, ['data-invalid']: !!error } : {}),
     }),
     [fieldProps_, value, type, error]
   )
