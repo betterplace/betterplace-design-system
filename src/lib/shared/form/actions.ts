@@ -18,7 +18,7 @@ const ActionTypes = {
   UnregisterField: 'Form/UnregisterField',
 } as const
 
-export class Actions<T extends Values> {
+export class ActionFactory<T extends Values> {
   Submit = createActionCreator(ActionTypes.Submit)<void>()
   SubmitSuccess = createActionCreator(ActionTypes.SubmitSuccess)<T>()
 
@@ -42,12 +42,14 @@ export class Actions<T extends Values> {
   UnregisterField = createActionCreator(ActionTypes.UnregisterField)<{ key: keyof T }>()
 }
 
-export type FormActions<T extends Values> = ActionType<Actions<T>[keyof Actions<T>]>
+export type FormActions<T extends Values> = ActionType<ActionFactory<T>[keyof ActionFactory<T>]>
+export type ActionDispatch<T extends Values> = (value: FormActions<T>) => void
+
 export type GetFormEffectsProps<T extends Values> = Omit<UseFormProps<T>, 'onValidate'> & {
   onValidate: (values: T) => Observable<{ [key in keyof T]?: string | undefined }>
 }
 export const getFormEffects = <T extends Values>(
-  actions: Actions<T>,
+  actions: ActionFactory<T>,
   propsRef: React.RefObject<GetFormEffectsProps<T>>
 ): Array<Effect<FormState<T>, FormActions<T>>> => [
   (action$) =>

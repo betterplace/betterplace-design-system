@@ -1,6 +1,6 @@
 import React, { MutableRefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { from, map, forkJoin, Observable } from 'rxjs'
-import { Actions, FormActions, getFormEffects } from './actions'
+import { ActionDispatch, ActionFactory, FormActions, getFormEffects } from './actions'
 import reducer, { getInitialState } from './reducer'
 import Store from '../store'
 import {
@@ -60,19 +60,19 @@ export function useValidator<T extends Values>(
 
 function useRegisterFn<T extends Values>(
   setValidator: SetValidatorFn<T>,
-  storeRef: MutableRefObject<Store<FormState<T>, FormActions<T>>>,
-  actionsRef: MutableRefObject<Actions<T>>
+  dispatch: ActionDispatch<T>,
+  actionFactory: ActionFactory<T>
 ) {
   const onInstanceChange = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (key: keyof T, instance: any) => {
       setTimeout(() => {
-        if (!instance) return storeRef.current.next(actionsRef.current.UnregisterField({ key }))
-        storeRef.current.next(actionsRef.current.RegisterField({ key }))
+        if (!instance) return dispatch(actionFactory.UnregisterField({ key }))
+        dispatch(actionFactory.RegisterField({ key }))
         // eslint-disable-next-line react-hooks/exhaustive-deps
       }, 0)
     },
-    [actionsRef, storeRef]
+    [actionFactory, dispatch]
   )
 
   const register: RegisterFn<T> = useCallback(
@@ -92,44 +92,40 @@ function useRegisterFn<T extends Values>(
                   (evt.target as HTMLInputElement).value as unknown as Source
                 )
               : ((evt.target as HTMLInputElement).checked as unknown as V)
-          storeRef.current.next(
-            actionsRef.current.SetValue({
+          dispatch(
+            actionFactory.SetValue({
               key,
               value: value as T[K],
             })
           )
         },
-        onBlur: () => storeRef.current.next(actionsRef.current.SetTouched({ key, touched: true })),
+        onBlur: () => dispatch(actionFactory.SetTouched({ key, touched: true })),
         name: key as string,
         type,
       }
     },
-    [actionsRef, onInstanceChange, setValidator, storeRef]
+    [actionFactory, onInstanceChange, setValidator, dispatch]
   )
   return register
 }
 
-function useStoreDispatch<T extends Values>(
-  storeRef: MutableRefObject<Store<FormState<T>, FormActions<T>>>,
-  actionsRef: MutableRefObject<Actions<T>>
-) {
-  const dispatch = useMemo<UseFormReturn<T>>(
+function useMappedStoreDispatch<T extends Values>(dispatch: ActionDispatch<T>, actionFactory: ActionFactory<T>) {
+  const mapped = useMemo<UseFormReturn<T>>(
     () =>
       ({
         submit: (evt) => {
           evt?.preventDefault()
-          storeRef.current.next(actionsRef.current.Submit(undefined))
+          dispatch(actionFactory.Submit(undefined))
         },
-        validate: () => storeRef.current.next(actionsRef.current.Validate(undefined)),
-        setTouched: (key, touched) => storeRef.current.next(actionsRef.current.SetTouched({ key, touched })),
-        setValue: (key, value) =>
-          storeRef.current.next(actionsRef.current.SetValue({ key, value: value as T[keyof T] })),
-        setValues: (values) => storeRef.current.next(actionsRef.current.SetValues(values)),
-        reset: () => storeRef.current.next(actionsRef.current.Reset(undefined)),
+        validate: () => dispatch(actionFactory.Validate(undefined)),
+        setTouched: (key, touched) => dispatch(actionFactory.SetTouched({ key, touched })),
+        setValue: (key, value) => dispatch(actionFactory.SetValue({ key, value: value as T[keyof T] })),
+        setValues: (values) => dispatch(actionFactory.SetValues(values)),
+        reset: () => dispatch(actionFactory.Reset(undefined)),
       } as UseFormReturn<T>),
-    [actionsRef, storeRef]
+    [actionFactory, dispatch]
   )
-  return dispatch
+  return mapped
 }
 
 export function useForm<T extends Values>(props: UseFormProps<T>): UseFormReturn<T> {
@@ -144,12 +140,12 @@ export function useForm<T extends Values>(props: UseFormProps<T>): UseFormReturn
   const { onValidate: onValidate_, ...props_ } = props
 
   const initialFormValueRef = useRef(getInitialState<T>({ values: { ...((props.initialValues ?? {}) as T) } }))
-  const actionsRef = useRef(new Actions<T>())
+  const actionFactoryRef = useRef(new ActionFactory<T>())
 
   const [state, setState] = useState(initialFormValueRef.current)
   const onValidate = useValidator(validators, state.enabled, props.onValidate)
   const propsRef = useRef({ ...props_, onValidate })
-  const effects = useMemo(() => getFormEffects(actionsRef.current, propsRef), [])
+  const effects = useMemo(() => getFormEffects(actionFactoryRef.current, propsRef), [])
 
   const storeRef = useRef(new Store<FormState<T>, FormActions<T>>(initialFormValueRef.current, reducer, effects))
 
@@ -165,8 +161,8 @@ export function useForm<T extends Values>(props: UseFormProps<T>): UseFormReturn
     return sub.unsubscribe
   }, [])
 
-  const register = useRegisterFn(setValidator, storeRef, actionsRef)
-  const dispatch = useStoreDispatch(storeRef, actionsRef)
+  const register = useRegisterFn(setValidator, storeRef.current.next, actionFactoryRef.current)
+  const dispatch = useMappedStoreDispatch(storeRef.current.next, actionFactoryRef.current)
   const res = useMemo<UseFormReturn<T>>(
     () => ({
       ...state,
