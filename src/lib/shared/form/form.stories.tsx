@@ -10,7 +10,7 @@ const MyForm = (_: {}) => {
       setTimeout(() => resolve(values), 1000)
     })
   }, [])
-  const form = useForm<MyFormValues>({ onSubmit, initialValues: { foo: '', bar: new Date() } })
+  const form = useForm<MyFormValues>({ onSubmit, initialValues: { foo: '' } })
 
   return (
     <FormProvider {...form}>
@@ -25,7 +25,7 @@ const MyForm = (_: {}) => {
   )
 }
 
-const MyField = <T extends Values>({ name }: { name: keyof T }) => {
+const MyField = <T extends Values>({ name }: { name: Extract<keyof T, string> }) => {
   const validate: FieldValidatorFn<T, keyof T> = useCallback(
     (value, _) =>
       new Promise((resolve) =>
@@ -51,8 +51,8 @@ const MyDateField = <T extends Values>({ name }: { name: KeysMatching<T, Date> }
     name,
     validate,
     type: 'date',
-    fromSource: (v) => (v ? new Date(v) : undefined),
-    asSource: (v) => v?.toISOString().split('T')[0],
+    parse: (v) => (v ? new Date(v) : undefined),
+    format: (v) => v?.toISOString().split('T')[0] ?? '',
   })
   return <input {...props} />
 }
@@ -82,6 +82,7 @@ const MySelectField = <T extends Values>({ name }: { name: KeysMatching<T, strin
   })
   return (
     <select {...props}>
+      <option> -- select an option -- </option>
       <option label="A" value="aaa"></option>
       <option label="B" value="bbb"></option>
       <option label="C" value="ccc"></option>
@@ -93,7 +94,7 @@ const MySelectField = <T extends Values>({ name }: { name: KeysMatching<T, strin
 
 //   const { ref, onChange } = useFieldProps<T, keyof T, string[], string[]>({
 //     name,
-//     fromSource: () =>
+//     parse: () =>
 //   })
 //   return (
 //     <fieldset onChange={onChange} ref={ref}>

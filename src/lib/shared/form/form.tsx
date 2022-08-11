@@ -1,4 +1,12 @@
-import React, { MutableRefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, {
+  HTMLInputTypeAttribute,
+  MutableRefObject,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { from, map, forkJoin, Observable } from 'rxjs'
 import { ActionDispatch, ActionFactory, FormActions, getFormEffects } from './actions'
 import reducer, { getInitialState } from './reducer'
@@ -17,6 +25,7 @@ import {
   RegisterFnOptions,
   NullableTransformFn,
   SetValidatorFn,
+  UseFieldArrayProps,
 } from './types'
 import { promisify } from './utils'
 type ObservableValidatorFn<T extends Values> = (values: T) => Observable<Errors<T>>
@@ -65,10 +74,15 @@ function useRegisterFn<T extends Values>(
 ) {
   const onInstanceChange = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (key: keyof T, instance: any) => {
+    (
+      key: keyof T,
+      fieldArrayKey: string | undefined,
+      type: HTMLInputTypeAttribute | undefined,
+      instance: Element | null | undefined
+    ) => {
       setTimeout(() => {
-        if (!instance) return dispatch(actionFactory.UnregisterField({ key }))
-        dispatch(actionFactory.RegisterField({ key }))
+        if (!instance) return dispatch(actionFactory.UnregisterField({ key, fieldArrayKey, type }))
+        dispatch(actionFactory.RegisterField({ key, fieldArrayKey, type }))
         // eslint-disable-next-line react-hooks/exhaustive-deps
       }, 0)
     },
@@ -79,16 +93,17 @@ function useRegisterFn<T extends Values>(
     <K extends keyof T, Source = string, V = T[K]>({
       name: key,
       validate,
-      fromSource,
+      parse,
       type,
+      fieldArrayKey,
     }: RegisterFnOptions<T, K, Source, V>) => {
       setTimeout(() => setValidator(key, validate as FieldValidatorFn<T, keyof T>), 0)
       return {
-        ref: onInstanceChange.bind(undefined, key),
+        ref: onInstanceChange.bind(undefined, key, fieldArrayKey, type),
         onChange: (evt: React.ChangeEvent) => {
           const value =
             type !== 'checkbox'
-              ? (fromSource.current ?? (String as unknown as NullableTransformFn<Source, V>))(
+              ? (parse.current ?? (String as unknown as NullableTransformFn<Source, V>))(
                   (evt.target as HTMLInputElement).value as unknown as Source
                 )
               : ((evt.target as HTMLInputElement).checked as unknown as V)
@@ -113,10 +128,7 @@ function useMappedStoreDispatch<T extends Values>(dispatch: ActionDispatch<T>, a
   const mapped = useMemo<UseFormReturn<T>>(
     () =>
       ({
-        submit: (evt) => {
-          evt?.preventDefault()
-          dispatch(actionFactory.Submit(undefined))
-        },
+        submit: (evt) => evt?.preventDefault() && dispatch(actionFactory.Submit(undefined)),
         validate: () => dispatch(actionFactory.Validate(undefined)),
         setTouched: (key, touched) => dispatch(actionFactory.SetTouched({ key, touched })),
         setValue: (key, value) => dispatch(actionFactory.SetValue({ key, value: value as T[keyof T] })),
@@ -143,7 +155,7 @@ export function useForm<T extends Values>(props: UseFormProps<T>): UseFormReturn
   const actionFactoryRef = useRef(new ActionFactory<T>())
 
   const [state, setState] = useState(initialFormValueRef.current)
-  const onValidate = useValidator(validators, state.enabled, props.onValidate)
+  const onValidate = useValidator(validators, state.mounted, props.onValidate)
   const propsRef = useRef({ ...props_, onValidate })
   const effects = useMemo(() => getFormEffects(actionFactoryRef.current, propsRef), [])
 
@@ -187,20 +199,20 @@ export function useFormContext<T extends Values>(): UseFormReturn<T> {
   return React.useContext(FormContext) as unknown as UseFormReturn<T>
 }
 
-export function useFromSourceRef<T extends Values, K extends keyof T, Source = string, V = T[K]>(
-  fromString: UnpackRef<UseFieldProps<T, K, Source, V>['fromSource']>
+export function useParseRef<T extends Values, K extends keyof T, Source = string, V = T[K]>(
+  fromString: UnpackRef<UseFieldProps<T, K, Source, V>['parse']>
 ) {
-  const ref = useRef<UnpackRef<UseFieldProps<T, K, Source, V>['fromSource']>>(fromString)
+  const ref = useRef<UnpackRef<UseFieldProps<T, K, Source, V>['parse']>>(fromString)
   useEffect(() => {
     ref.current = fromString
   }, [fromString])
   return ref
 }
 
-function useAsSourceRef<T extends Values, K extends keyof T, Source = string, V = T[K]>(
-  asString: UnpackRef<UseFieldProps<T, K, Source, V>['asSource']>
+function useFormatRef<T extends Values, K extends keyof T, Source = string, V = T[K]>(
+  asString: UnpackRef<UseFieldProps<T, K, Source, V>['format']>
 ) {
-  const ref = useRef<UnpackRef<UseFieldProps<T, K, Source, V>['asSource']>>(asString)
+  const ref = useRef<UnpackRef<UseFieldProps<T, K, Source, V>['format']>>(asString)
   useEffect(() => {
     ref.current = asString
   }, [asString])
@@ -209,16 +221,16 @@ function useAsSourceRef<T extends Values, K extends keyof T, Source = string, V 
 
 function useFieldValue<T extends Values, K extends keyof T, Source = string, V = T[K]>(
   { name, type }: Pick<UseFieldProps<T, K, Source, V>, 'type' | 'name'>,
-  asSourceRef: MutableRefObject<NullableTransformFn<V, Source> | undefined>
+  formatRef: MutableRefObject<NullableTransformFn<V, Source> | undefined>
 ) {
   const { values } = useFormContext<T>()
   const value = useMemo(() => {
     const value = values[name]
-    if (typeof value === 'undefined' || value === null) return
+    // if (typeof value === 'undefined' || value === null) return
     const defaultCtor = (type === 'checkbox' ? Boolean : String) as unknown as NullableTransformFn<V, Source>
 
-    return (asSourceRef.current ?? defaultCtor)((values[name] ?? null) as V)
-  }, [values, name, type, asSourceRef])
+    return (formatRef.current ?? defaultCtor)((value ?? undefined) as V)
+  }, [values, name, type, formatRef])
   return value
 }
 
@@ -230,21 +242,21 @@ export function useFieldError<T extends Values, K extends keyof T>({ name }: Pic
 
 export function useFieldProps<T extends Values, K extends keyof T, Source = string, V = T[K]>({
   validate,
-  fromSource,
-  asSource,
+  parse,
+  format,
   type,
   name,
 }: UseFieldProps<T, K, Source, V>) {
-  const fromSourceRef = useFromSourceRef<T, K, Source, V>(fromSource)
-  const asSourceRef = useAsSourceRef<T, K, Source, V>(asSource)
+  const parseRef = useParseRef<T, K, Source, V>(parse)
+  const formatRef = useFormatRef<T, K, Source, V>(format)
   const { register } = useFormContext<T>()
-
+  // const setValue = useCallback((value: V) => setValue_.bind(undefined, name), [setValue_, name])
   const fieldProps_ = useMemo(
-    () => register<K, Source, V>({ name, validate, type, fromSource: fromSourceRef }),
-    [register, name, validate, type, fromSourceRef]
+    () => register<K, Source, V>({ name, validate, type, parse: parseRef }),
+    [register, name, validate, type, parseRef]
   )
   const error = useFieldError<T, K>({ name })
-  const value = useFieldValue<T, K, Source, V>({ name, type }, asSourceRef)
+  const value = useFieldValue<T, K, Source, V>({ name, type }, formatRef)
 
   const fieldProps = useMemo(
     () => ({
@@ -258,16 +270,63 @@ export function useFieldProps<T extends Values, K extends keyof T, Source = stri
   return fieldProps
 }
 
-// export function useFieldArray<T extends Values, K extends keyof T, Source = string, V = T[K]>({
-//   validate,
-//   fromSource,
-//   asSource,
-//   type,
-//   name,
-// }: UseFieldProps<T, K, Source, V>) {
-//   const fromSourceRef = useFromSourceRef<T, K, Source, V>(fromSource)
-//   const asSourceRef = useAsSourceRef<T, K, Source, V>(asSource)
-//   const { register: register_ } = useFormContext<T>()
-//     const error = useFieldError<T, K>({ name })
-//     const value = useFieldValue<T, K, Source, V>({ name, type }, asSourceRef)
-// }
+export function extractValueField<V>(
+  type: HTMLInputTypeAttribute | undefined,
+  value: V | V[] | undefined,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  fieldKeys?: Array<any>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  fieldKey?: any
+) {
+  const base = fieldKey ? { key: fieldKey } : {}
+  switch (type) {
+    case 'checkbox': {
+      if (fieldKey !== undefined && Array.isArray(value)) return { ...base, checked: !!value.includes(fieldKey) }
+      return { ...base, checked: !!value }
+    }
+    case 'radio':
+      return { ...base, checked: value === fieldKey }
+    default: {
+      if (fieldKey !== undefined && Array.isArray(value) && Array.isArray(fieldKeys))
+        return { ...base, name: fieldKey, value: value[fieldKeys.indexOf(fieldKey)] }
+      return { ...base, name: fieldKey, value }
+    }
+  }
+}
+
+export function useFieldArray<T extends Values, K extends keyof T, Source = string, V = T[K]>({
+  validate,
+  parse,
+  format,
+  name,
+  type: type_,
+}: UseFieldArrayProps<T, K, Source, V>) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const parseRef = useParseRef<T, K, Source, V>(parse as any)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const formatRef = useFormatRef<T, K, Source, V>(format as any)
+  const { register: register_, fieldKeys } = useFormContext<T>()
+  const error = useFieldError<T, K>({ name })
+  const value = useFieldValue<T, K, Source, V>({ name, type: type_ }, formatRef)
+  const registeredFieldKeys = useMemo(() => fieldKeys[name], [name, fieldKeys])
+  const register = useCallback(
+    ({ type: itemType_, name: localName }: Pick<UseFieldProps<T, K, Source, V>, 'format' | 'type' | 'name'>) => {
+      const type = type_ ?? itemType_
+      const res_ = register_<K, Source, V>({
+        name,
+        type,
+        fieldArrayKey: localName,
+        parse: parseRef,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        validate: validate as any,
+      })
+      return { ...res_, ...extractValueField(type, value, registeredFieldKeys, localName) }
+    },
+    [type_, register_, name, parseRef, validate, value, registeredFieldKeys]
+  )
+  const res = useMemo(
+    () => ({ register, ...(error ? { ['data-error']: error, ['data-invalid']: !!error } : {}) }),
+    [error, register]
+  )
+  return res
+}
