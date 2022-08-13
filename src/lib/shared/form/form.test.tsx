@@ -108,43 +108,49 @@ describe('Form', () => {
       it('should correctly register a field array', () => {
         const dispatch = new ActionFactory<{ foo: string[] }>()
         let next = FormReducer<{ foo: string[] }>(
-          getInitialState(),
+          getInitialState({ values: { foo: ['bab'] } }),
           dispatch.RegisterField({ key: 'foo', fieldArrayKey: 'baz' })
         )
         expect(next.mounted.foo).toBeTruthy()
         expect(next.values.foo).toEqual([])
-        expect(next.fieldKeys.foo).toEqual(['baz'])
+        expect(next.fieldKeys.foo).toEqual([{ key: 'baz' }])
         // duplicate handling
         next = FormReducer<{ foo: string[] }>(next, dispatch.RegisterField({ key: 'foo', fieldArrayKey: 'baz' }))
         // multiple values handling
-        expect(next.fieldKeys.foo).toEqual(['baz'])
+        expect(next.fieldKeys.foo).toEqual({ key: 'baz' })
         next = FormReducer<{ foo: string[] }>(next, dispatch.RegisterField({ key: 'foo', fieldArrayKey: 'bar' }))
-        expect(next.fieldKeys.foo).toEqual(['baz', 'bar'])
+        expect(next.fieldKeys.foo).toEqual([{ key: 'baz' }, { key: 'bar' }])
+        // selected values handling
+        next = FormReducer<{ foo: string[] }>(next, dispatch.RegisterField({ key: 'foo', fieldArrayKey: 'bab' }))
+        expect(next.fieldKeys.foo).toEqual([{ key: 'baz' }, { key: 'bar' }, { key: 'bab', fieldValueIndex: 0 }])
       })
 
       it('should correctly register radio button array', () => {
         const dispatch = new ActionFactory<{ foo: string[] }>()
         let next = FormReducer<{ foo: string[] }>(
-          getInitialState(),
+          getInitialState({ values: { foo: ['bab'] } }),
           dispatch.RegisterField({ key: 'foo', type: 'radio', fieldArrayKey: 'baz' })
         )
         expect(next.mounted.foo).toBeTruthy()
         expect(next.values.foo).toEqual(null)
-        expect(next.fieldKeys.foo).toEqual(['baz'])
+        expect(next.fieldKeys.foo).toEqual([{ key: 'baz' }])
         // duplicate handling
         next = FormReducer<{ foo: string[] }>(
           next,
           dispatch.RegisterField({ key: 'foo', type: 'radio', fieldArrayKey: 'baz' })
         )
         // multiple values handling
-        expect(next.fieldKeys.foo).toEqual(['baz'])
+        expect(next.fieldKeys.foo).toEqual([{ key: 'baz' }])
         expect(next.values.foo).toEqual(null)
         next = FormReducer<{ foo: string[] }>(
           next,
           dispatch.RegisterField({ key: 'foo', type: 'radio', fieldArrayKey: 'bar' })
         )
         expect(next.values.foo).toEqual(null)
-        expect(next.fieldKeys.foo).toEqual(['baz', 'bar'])
+        expect(next.fieldKeys.foo).toEqual([{ key: 'baz' }, { key: 'bar' }])
+        // selected values handling
+        next = FormReducer<{ foo: string[] }>(next, dispatch.RegisterField({ key: 'foo', fieldArrayKey: 'bab' }))
+        expect(next.fieldKeys.foo).toEqual([{ key: 'baz' }, { key: 'bar' }, { key: 'bab', fieldValueIndex: true }])
       })
     })
 
@@ -180,13 +186,20 @@ describe('Form', () => {
             values: { foo: ['bar', 'baz'] },
             mounted: { foo: true },
             removeValueOnUnmount: { foo: true },
-            fieldKeys: { foo: ['bar', 'baz'] },
+            fieldKeys: {
+              foo: [{ key: 'bar', fieldValueIndex: 0 }, { key: 'bab' }, { key: 'baz', fieldValueIndex: 1 }],
+            },
           }),
           dispatch.UnregisterField({ key: 'foo', fieldArrayKey: 'bar' })
         )
         expect(next.mounted.foo).toBeTruthy()
-        expect(next.fieldKeys.foo).toEqual(['baz'])
+        expect(next.fieldKeys.foo).toEqual([{ key: 'bab' }, { key: 'baz', fieldValueIndex: 0 }])
+        expect(next.values.foo).toEqual(['baz'])
         next = FormReducer<{ foo: string[] }>(next, dispatch.UnregisterField({ key: 'foo', fieldArrayKey: 'baz' }))
+        expect(next.mounted.foo).toBeTruthy()
+        expect(next.fieldKeys.foo).toEqual({ key: 'bab' })
+        expect(next.values.foo).toEqual([])
+        next = FormReducer<{ foo: string[] }>(next, dispatch.UnregisterField({ key: 'foo', fieldArrayKey: 'bab' }))
         expect(next.mounted.foo).toBe(undefined)
         expect(next.fieldKeys.foo).toBe(undefined)
         expect(next.removeValueOnUnmount.foo).toBe(undefined)
@@ -200,13 +213,15 @@ describe('Form', () => {
             values: { foo: 'bar' },
             mounted: { foo: true },
             removeValueOnUnmount: { foo: true },
-            fieldKeys: { foo: ['bar', 'baz'] },
+            fieldKeys: {
+              foo: [{ key: 'bar', fieldValueIndex: true }, { key: 'baz' }],
+            },
           }),
           dispatch.UnregisterField({ key: 'foo', fieldArrayKey: 'baz', type: 'radio' })
         )
         expect(next.mounted.foo).toBeTruthy()
         expect(next.values.foo).toEqual('bar')
-        expect(next.fieldKeys.foo).toEqual(['bar'])
+        expect(next.fieldKeys.foo).toEqual({ key: 'bar', fieldValueIndex: true })
         next = FormReducer<{ foo: string }>(
           next,
           dispatch.UnregisterField({ key: 'foo', type: 'radio', fieldArrayKey: 'bar' })
@@ -217,9 +232,29 @@ describe('Form', () => {
         expect(next.removeValueOnUnmount.foo).toBe(undefined)
       })
     })
-    // describe('Set Value', () => {
-    //   it('should update the value upon ', () => {
-    //   })
-    // })
+    describe('Set Value', () => {
+      it('should update the value', () => {
+        const dispatch = new ActionFactory<{ foo: string }>()
+
+        const next = FormReducer<{ foo: string }>(
+          getInitialState({ values: { foo: '' }, mounted: { foo: true } }),
+          dispatch.SetValue({ key: 'foo', value: 'bar' })
+        )
+        expect(next.values.foo).toBe('bar')
+        expect(next.touched.foo).toBe(undefined)
+        expect(next.isDirty).toBe(false)
+      })
+      it('should update the value and touched and isDirty state if internal flag is passed to the action ', () => {
+        const dispatch = new ActionFactory<{ foo: string }>()
+
+        const next = FormReducer<{ foo: string }>(
+          getInitialState({ values: { foo: '' }, mounted: { foo: true } }),
+          dispatch.SetValue({ key: 'foo', value: 'bar', internal: true })
+        )
+        expect(next.values.foo).toBe('bar')
+        expect(next.touched.foo).toBe(true)
+        expect(next.isDirty).toBe(true)
+      })
+    })
   })
 })

@@ -152,9 +152,10 @@ function onRegisterField<T extends Values>(
   }
   // handle fieldArray
   let fieldKeys = state.fieldKeys
-  if (fieldArrayKey && !state.fieldKeys[key]?.includes(fieldArrayKey)) {
-    let keys = (fieldKeys[key] ?? []) as Array<any>
-    if (!keys.includes(fieldArrayKey)) keys = [...keys, fieldArrayKey]
+  const keyData = state.fieldKeys[key]?.find(({ key }) => key === fieldArrayKey)
+  if (fieldArrayKey && !keyData) {
+    const keys = [...(fieldKeys[key] ?? [])] as NonNullable<typeof fieldKeys[keyof T]>
+    keys.push({ key: fieldArrayKey })
     fieldKeys = { ...state.fieldKeys, [key]: keys }
     if (!value && type !== 'radio') value = [] as any // radio buttons despite being a field Array do not produce multiple values
   }

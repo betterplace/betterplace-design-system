@@ -42,7 +42,7 @@ export interface FormState<T extends Values> {
   mounted: { [key in keyof T]?: boolean }
   removeValueOnUnmount: { [key in keyof T]?: boolean }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  fieldKeys: { [key in keyof T]?: Array<any> }
+  fieldKeys: { [key in keyof T]?: Array<{ key: string; fieldValueIndex?: number | boolean }> }
   fieldErrors: Errors<T>
   isDirty: boolean
   isSubmitting: boolean

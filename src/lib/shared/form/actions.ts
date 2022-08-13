@@ -33,7 +33,10 @@ export class ActionFactory<T extends Values> {
 
   Reset = createActionCreator(ActionTypes.Reset)<void>()
 
-  SetValue = createActionCreator(ActionTypes.SetValue)<{ key: keyof T; value: T[keyof T]; internal?: boolean }>()
+  SetValue = createActionCreator(ActionTypes.SetValue)<
+    | { key: keyof T; value: T[keyof T]; internal?: boolean }
+    | { key: keyof T; value: T[keyof T] extends Array<infer R> ? R : T[keyof T]; internal?: boolean }
+  >()
 
   SetValues = createActionCreator(ActionTypes.SetValues)<Partial<T>>()
 
@@ -44,12 +47,12 @@ export class ActionFactory<T extends Values> {
     type?: HTMLInputTypeAttribute
     removeValueOnUnmount?: boolean
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    fieldArrayKey?: any
+    fieldArrayKey?: string
   }>()
   UnregisterField = createActionCreator(ActionTypes.UnregisterField)<{
     key: keyof T
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    fieldArrayKey?: any
+    fieldArrayKey?: string
     type?: HTMLInputTypeAttribute
   }>()
 }
