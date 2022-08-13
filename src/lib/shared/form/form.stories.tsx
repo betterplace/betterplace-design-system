@@ -19,7 +19,7 @@ const MyForm = (_: {}) => {
         <MyDateField<MyFormValues> name="bar" />
         <MyCheckboxField<MyFormValues> name="baz" />
         <MySelectField<MyFormValues> name="faz" />
-        <input disabled={!form.isValid || form.isSubmitting} type="submit" value="Click me!" />
+        <input disabled={!form.isValid || form.isSubmitting} type="submit" value="Submit" />
       </form>
     </FormProvider>
   )
@@ -39,12 +39,12 @@ const MyField = <T extends Values>({ name }: { name: Extract<keyof T, string> })
   const props = useFieldProps({ name, validate, type: 'text' })
   return <input {...props} />
 }
-const old = Date.now()
+const old = new Date().getTime()
 
 const MyDateField = <T extends Values>({ name }: { name: KeysMatching<T, Date> }) => {
   const validate: FieldValidatorFn<T, keyof T, Date> = useCallback(
     (value, _) =>
-      new Promise((resolve) => setTimeout(() => resolve(value?.getTime() < old ? 'Invalid' : undefined), 300)),
+      new Promise((resolve) => setTimeout(() => resolve((value?.getTime() ?? 0) < old ? 'Invalid' : undefined), 300)),
     []
   )
   const props = useFieldProps<T, keyof T, string, Date>({

@@ -128,7 +128,10 @@ function useMappedStoreDispatch<T extends Values>(dispatch: ActionDispatch<T>, a
   const mapped = useMemo<UseFormReturn<T>>(
     () =>
       ({
-        submit: (evt) => evt?.preventDefault() && dispatch(actionFactory.Submit(undefined)),
+        submit: (evt) => {
+          evt?.preventDefault()
+          dispatch(actionFactory.Submit(undefined))
+        },
         validate: () => dispatch(actionFactory.Validate(undefined)),
         setTouched: (key, touched) => dispatch(actionFactory.SetTouched({ key, touched })),
         setValue: (key, value) => dispatch(actionFactory.SetValue({ key, value: value as T[keyof T] })),
@@ -159,7 +162,9 @@ export function useForm<T extends Values>(props: UseFormProps<T>): UseFormReturn
   const propsRef = useRef({ ...props_, onValidate })
   const effects = useMemo(() => getFormEffects(actionFactoryRef.current, propsRef), [])
 
-  const storeRef = useRef(new Store<FormState<T>, FormActions<T>>(initialFormValueRef.current, reducer, effects))
+  const storeRef = useRef(
+    new Store<FormState<T>, FormActions<T>>(initialFormValueRef.current, reducer, effects, 'Form')
+  )
 
   useEffect(() => {
     propsRef.current = { ...props_, onValidate }

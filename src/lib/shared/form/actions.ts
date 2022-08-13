@@ -82,7 +82,6 @@ export const getFormEffects = <T extends Values>(
       switchMap(([_, __, { values }]) => {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return from(propsRef.current!.onValidate!(values)).pipe(
-          tap((values) => console.log('errors', values)),
           mergeMap((values) => of(actions.ValidateSuccess(values))),
           catchError((err) => of(actions.ValidateError(err)))
         )
