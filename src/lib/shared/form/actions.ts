@@ -2,7 +2,7 @@ import { HTMLInputTypeAttribute } from 'react'
 import { catchError, debounceTime, delay, filter, from, mergeMap, Observable, of, switchMap, tap } from 'rxjs'
 import { createActionCreator, isActionOf } from '../store'
 import { ActionType, Effect } from '../store/types'
-import { Values, UseFormProps, FormState, UnpackArr } from './types'
+import { Values, UseFormProps, FormState, UnpackArr, NullableTransformFn, ValueToKeyTransform } from './types'
 
 const ActionTypes = {
   Submit: 'Form/Submit',
@@ -48,6 +48,8 @@ export class ActionFactory<T extends Values> {
     removeValueOnUnmount?: boolean
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     fieldArrayKey?: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    valueToKey: ValueToKeyTransform<T[keyof T]>
   }>()
   UnregisterField = createActionCreator(ActionTypes.UnregisterField)<{
     key: keyof T

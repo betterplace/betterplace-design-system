@@ -3,7 +3,9 @@ import React, { HTMLInputTypeAttribute } from 'react'
 export type Values = Record<string, unknown>
 
 export type TransformFn<V, U> = (input: V) => U
+
 export type NullableTransformFn<V, U> = TransformFn<V | null | undefined, U | undefined>
+export type ValueToKeyTransform<V> = NullableTransformFn<V extends Array<infer R> ? R : V, string>
 
 export type UnpackRef<T> = T extends React.MutableRefObject<infer R> ? R : T
 export type UnpackRefFields<T extends {}> = { [K in keyof T]: UnpackRef<T[K]> }

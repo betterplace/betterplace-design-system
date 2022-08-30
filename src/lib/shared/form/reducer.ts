@@ -94,6 +94,22 @@ export const getInitialState = <T extends Record<string, unknown>>(
 
 export default FormReducer
 
+export function updateFieldKeys<T extends Values>(old: FormState<T>['fieldKeys'][keyof T], removedFieldIndex: number) {
+  return old
+    ?.filter((_, index) => index !== removedFieldIndex)
+    .map((ele, i) =>
+      i >= removedFieldIndex
+        ? {
+            ...ele,
+            fieldValueIndex:
+              ele.fieldValueIndex !== undefined && !isNaN(ele.fieldValueIndex as number)
+                ? (ele.fieldValueIndex as number) - 1
+                : ele.fieldValueIndex,
+          }
+        : ele
+    )
+}
+
 function onUnregisterField<T extends Values>(
   state: FormState<T>,
   { payload: { key, fieldArrayKey, type } }: ActionType<ActionFactory<T>['UnregisterField']>
@@ -104,9 +120,10 @@ function onUnregisterField<T extends Values>(
   let removeValueOnUnmount = state.removeValueOnUnmount
   let fieldKeys = state.fieldKeys
   let keys = state.fieldKeys[key]
-  if (keys?.includes(fieldArrayKey)) {
-    keys = keys.filter((k) => k !== fieldArrayKey)
-  }
+  const keyIndex = keys?.findIndex(({ key: k }, i) => k === fieldArrayKey) ?? -1
+  const field = keys?.[keyIndex]
+  if (field) keys = updateFieldKeys(keys, keyIndex)
+
   fieldKeys = keys !== state.fieldKeys[key] ? { ...fieldKeys, [key]: keys } : fieldKeys
 
   if (!keys?.length && state.removeValueOnUnmount[key]) {
@@ -120,14 +137,14 @@ function onUnregisterField<T extends Values>(
   }
   let value = values[key]
   if (typeof value !== 'undefined') {
-    const index = state.fieldKeys[key]?.indexOf(fieldArrayKey) ?? -1
-    if (type !== 'radio' && index >= 0) {
+    const index = field?.fieldValueIndex
+    if (type !== 'radio' && index !== undefined && index >= 0) {
       const value_ = value as Array<any>
-      const fieldArrayValue = value_[index]
-      if (fieldArrayValue !== undefined) value = value_.filter((v) => v !== fieldArrayValue) as any
-    } else if (index >= 0 && value === fieldArrayKey) {
+      value = value_.filter((v, i) => i !== index) as T[keyof T]
+    } else if (type === 'radio' && index) {
       value = undefined as any
     }
+    values[key] = value
   }
 
   return {

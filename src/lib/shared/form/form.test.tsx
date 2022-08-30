@@ -8,7 +8,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { promisify } from './utils'
 import { useValidator } from './form'
 import { firstValueFrom } from 'rxjs'
-import FormReducer, { getInitialState } from './reducer'
+import FormReducer, { getInitialState, updateFieldKeys } from './reducer'
 import { ActionFactory } from './actions'
 
 describe('Form', () => {
@@ -126,9 +126,9 @@ describe('Form', () => {
       })
 
       it('should correctly register radio button array', () => {
-        const dispatch = new ActionFactory<{ foo: string[] }>()
-        let next = FormReducer<{ foo: string[] }>(
-          getInitialState({ values: { foo: ['bab'] } }),
+        const dispatch = new ActionFactory<{ foo: string | null }>()
+        let next = FormReducer<{ foo: string | null }>(
+          getInitialState({ values: { foo: null } }),
           dispatch.RegisterField({ key: 'foo', type: 'radio', fieldArrayKey: 'baz' })
         )
         expect(next.mounted.foo).toBeTruthy()
@@ -155,6 +155,13 @@ describe('Form', () => {
     })
 
     describe('Unregister field', () => {
+      describe('updateFieldKeys', () => {
+        it('should update field keys correctly', () => {
+          const initial = [{ key: 'bar', fieldValueIndex: 0 }, { key: 'bab' }, { key: 'baz', fieldValueIndex: 1 }]
+          const result = updateFieldKeys(initial, 0)
+          expect(result).toEqual([{ key: 'bab' }, { key: 'baz', fieldValueIndex: 0 }])
+        })
+      })
       it('should remove field value if it was mounted (aka registered) and the removeValueOnUnmount flag is set', () => {
         const dispatch = new ActionFactory<{ foo: string }>()
         let next = FormReducer<{ foo: string }>(
@@ -197,7 +204,7 @@ describe('Form', () => {
         expect(next.values.foo).toEqual(['baz'])
         next = FormReducer<{ foo: string[] }>(next, dispatch.UnregisterField({ key: 'foo', fieldArrayKey: 'baz' }))
         expect(next.mounted.foo).toBeTruthy()
-        expect(next.fieldKeys.foo).toEqual({ key: 'bab' })
+        expect(next.fieldKeys.foo).toEqual([{ key: 'bab' }])
         expect(next.values.foo).toEqual([])
         next = FormReducer<{ foo: string[] }>(next, dispatch.UnregisterField({ key: 'foo', fieldArrayKey: 'bab' }))
         expect(next.mounted.foo).toBe(undefined)
@@ -221,7 +228,7 @@ describe('Form', () => {
         )
         expect(next.mounted.foo).toBeTruthy()
         expect(next.values.foo).toEqual('bar')
-        expect(next.fieldKeys.foo).toEqual({ key: 'bar', fieldValueIndex: true })
+        expect(next.fieldKeys.foo).toEqual([{ key: 'bar', fieldValueIndex: true }])
         next = FormReducer<{ foo: string }>(
           next,
           dispatch.UnregisterField({ key: 'foo', type: 'radio', fieldArrayKey: 'bar' })

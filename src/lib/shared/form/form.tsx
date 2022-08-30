@@ -70,7 +70,7 @@ export function useValidator<T extends Values>(
 function useRegisterFn<T extends Values>(
   setValidator: SetValidatorFn<T>,
   dispatch: ActionDispatch<T>,
-  actionFactory: ActionFactory<T>
+  actions: ActionFactory<T>
 ) {
   const onInstanceChange = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -78,15 +78,17 @@ function useRegisterFn<T extends Values>(
       key: keyof T,
       fieldArrayKey: string | undefined,
       type: HTMLInputTypeAttribute | undefined,
-      instance: Element | null | undefined
+      instance: Element | null | undefined,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      format: React.MutableRefObject<NullableTransformFn<T[keyof T], any>>
     ) => {
       setTimeout(() => {
-        if (!instance) return dispatch(actionFactory.UnregisterField({ key, fieldArrayKey, type }))
-        dispatch(actionFactory.RegisterField({ key, fieldArrayKey, type }))
+        if (!instance) return dispatch(actions.UnregisterField({ key, fieldArrayKey, type }))
+        dispatch(actions.RegisterField({ key, fieldArrayKey, type }))
         // eslint-disable-next-line react-hooks/exhaustive-deps
       }, 0)
     },
-    [actionFactory, dispatch]
+    [actions, dispatch]
   )
 
   const register: RegisterFn<T> = useCallback(
@@ -108,18 +110,18 @@ function useRegisterFn<T extends Values>(
                 )
               : ((evt.target as HTMLInputElement).checked as unknown as V)
           dispatch(
-            actionFactory.SetValue({
+            actions.SetValue({
               key,
               value: value as T[K],
             })
           )
         },
-        onBlur: () => dispatch(actionFactory.SetTouched({ key, touched: true })),
+        onBlur: () => dispatch(actions.SetTouched({ key, touched: true })),
         name: key as string,
         type,
       }
     },
-    [actionFactory, onInstanceChange, setValidator, dispatch]
+    [actions, onInstanceChange, setValidator, dispatch]
   )
   return register
 }
