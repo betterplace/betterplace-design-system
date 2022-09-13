@@ -4,7 +4,7 @@ import { camelize, kebabCase, objToArr, snakeify } from '../figma/lib/helpers'
 import Fuse from 'fuse.js'
 import { prettierTransform } from './transforms'
 // until we simplify the dir structure we have to do it like this
-// import SDConfig from '../config/sd.config'
+// import SDConfig from '../config/style-dictionary/config'
 const SDConfig = {
   platforms: {
     css: {
