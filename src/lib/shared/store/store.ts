@@ -11,6 +11,7 @@ import {
   shareReplay,
   Observable,
 } from 'rxjs'
+import { connectViaExtension, RemoteDev } from 'remotedev'
 
 import { Action, Effect, Reducer } from './types'
 
@@ -23,10 +24,12 @@ class Store<S extends {}, A extends Action> implements Subscribable<S>, Observer
   protected _action$: Subject<A> = new Subject()
 
   protected action$: Observable<A>
+  protected remotedev: RemoteDev
 
   protected _sideEffect$: Subject<[A, S, S]> = new Subject()
   pipe: typeof this.state$.pipe
-  constructor(initialState: S, reducer: Reducer<S, A>, effects: Array<Effect<S, A>>) {
+  constructor(initialState: S, reducer: Reducer<S, A>, effects: Array<Effect<S, A>>, label = 'Store') {
+    this.remotedev = connectViaExtension({ maxAge: 30, instanceId: `${label}_${Date.now()}` })
     this.action$ = merge(
       this._action$,
       merge<A[]>(...effects.map((effect) => effect(this._sideEffect$))).pipe(delay(33))
@@ -37,7 +40,7 @@ class Store<S extends {}, A extends Action> implements Subscribable<S>, Observer
       scan((state, action) => {
         const newState = reducer(state, action)
         this._sideEffect$.next([action, state, newState])
-        console.log(action, state, newState, state === newState)
+        this.remotedev.send(action, newState)
         return newState
       }, initialState),
       shareReplay(1)

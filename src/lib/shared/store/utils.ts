@@ -13,5 +13,5 @@ export function isActionOfType<T extends string>(type: T) {
 
 export function createActionCreator<T extends string>(type: T) {
   return <P>() =>
-    <P1 extends P = P>(payload: P1) => ({ type, payload })
+    (payload: P) => ({ type, payload })
 }
