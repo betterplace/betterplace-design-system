@@ -1,6 +1,10 @@
 name: Fake deployment
 
-on: deployment
+on:
+  deployment:
+    environment:
+      - production
+      - staging
 jobs:
   confirm:
     runs-on: ubuntu-latest
