@@ -3,12 +3,23 @@ import React, { HTMLInputTypeAttribute } from 'react'
 export type Values = Record<string, unknown>
 
 export type TransformFn<V, U> = (input: V) => U
+
 export type NullableTransformFn<V, U> = TransformFn<V | null | undefined, U | undefined>
+export type ValueToKeyTransform<V> = NullableTransformFn<V extends Array<infer R> ? R : V, string>
 
 export type UnpackRef<T> = T extends React.MutableRefObject<infer R> ? R : T
 export type UnpackRefFields<T extends {}> = { [K in keyof T]: UnpackRef<T[K]> }
 
-export type KeysMatching<T, V> = Extract<{ [K in keyof T]-?: T[K] extends V ? K : never }[keyof T], string>
+export type UnpackArr<T> = T extends Array<infer V> ? V : never
+
+export type KeysMatching<T, V> = Extract<
+  NonNullable<
+    {
+      [K in keyof T]: [V] extends [T[K]] ? (T[K] extends V ? K : never) : never
+    }[keyof T]
+  >,
+  string
+>
 
 export type FieldValidatorFn<T extends Values, K extends keyof T, V = T[K]> = (
   value: V,
@@ -30,8 +41,9 @@ export interface FormState<T extends Values> {
   values: T
   isValid: boolean
   touched: { [key in keyof T]?: boolean }
-  enabled: { [key in keyof T]?: boolean }
+  mounted: { [key in keyof T]?: boolean }
   removeValueOnUnmount: { [key in keyof T]?: boolean }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fieldErrors: Errors<T>
   isDirty: boolean
   isSubmitting: boolean
@@ -46,20 +58,21 @@ export interface UseFormProps<T extends Values> {
   initialValues?: Partial<T>
 }
 export interface RegisterFnOptions<T extends Values, K extends keyof T = keyof T, Source = string, V = T[K]> {
-  name: K
+  name: Extract<K, string>
   type?: HTMLInputTypeAttribute
-  fromSource: React.MutableRefObject<NullableTransformFn<Source, V> | undefined>
+  parse: React.MutableRefObject<NullableTransformFn<Source, V> | undefined>
   validate?: FieldValidatorFn<T, K, V>
 }
 
 export interface UseFieldProps<T extends Values, K extends keyof T, Source = string, V = T[K]> {
-  name: K
-  type?: HTMLInputTypeAttribute
-  fromSource?: NullableTransformFn<Source, V>
-  asSource?: NullableTransformFn<V, Source>
+  name: Extract<K, string>
+  type?: Exclude<HTMLInputTypeAttribute, 'radio' | 'file'>
+  parse?: NullableTransformFn<Source, V>
+  format?: NullableTransformFn<V, Source>
   validate?: FieldValidatorFn<T, K, V>
   removeValueOnUnmount?: boolean
 }
+
 export type RegisterFn<T extends Values> = <K extends keyof T, Source = string, V = T[K]>(
   props: RegisterFnOptions<T, K, Source, V>
 ) => {

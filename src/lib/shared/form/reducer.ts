@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FormActions } from './actions'
+import { ActionType } from '../store/types'
+import { ActionFactory, FormActions } from './actions'
 import { Values, FormState } from './types'
 
 const FormReducer = <T extends Values>(state: FormState<T>, action: FormActions<T>): FormState<T> => {
@@ -38,7 +39,6 @@ const FormReducer = <T extends Values>(state: FormState<T>, action: FormActions<
         ...state,
         isValidating: true,
         error: undefined,
-        fieldErrors: {},
       }
     case 'Form/ValidateSuccess':
       return {
@@ -63,28 +63,10 @@ const FormReducer = <T extends Values>(state: FormState<T>, action: FormActions<
         },
         isDirty: action.payload.touched || state.isDirty,
       }
-    case 'Form/RegisterField': {
-      const value = state.values[action.payload.key]
-      const enabled = { ...state.enabled, [action.payload.key]: true }
-      const removeValueOnUnmount = {
-        ...state.removeValueOnUnmount,
-        [action.payload.key]: action.payload.removeValueOnUnmount,
-      }
-      const values = typeof value !== 'undefined' ? state.values : { ...state.values, [action.payload.key]: null }
-      return { ...state, values, enabled, removeValueOnUnmount }
-    }
+    case 'Form/RegisterField':
+      return onRegisterField<T>(state, action)
     case 'Form/UnregisterField': {
-      const values = { ...state.values }
-      if (state.enabled[action.payload.key] && state.removeValueOnUnmount[action.payload.key]) {
-        delete values[action.payload.key]
-      }
-      const enabled = { ...state.enabled, [action.payload.key]: false }
-
-      return {
-        ...state,
-        values,
-        enabled,
-      }
+      return onUnregisterField<T>(state, action)
     }
     default:
       return state
@@ -101,11 +83,53 @@ export const getInitialState = <T extends Record<string, unknown>>(
     fieldErrors: {},
     error: undefined,
     touched: {},
-    enabled: {},
+    mounted: {},
     removeValueOnUnmount: {},
     isDirty: false,
     isValid: true,
+    fieldKeys: {},
     ...initialiseWith,
   } as FormState<T>)
 
 export default FormReducer
+
+function onUnregisterField<T extends Values>(
+  state: FormState<T>,
+  { payload: { key } }: ActionType<ActionFactory<T>['UnregisterField']>
+) {
+  if (!state.mounted[key]) return state
+  let values = state.values
+  let mounted = state.mounted
+  let removeValueOnUnmount = state.removeValueOnUnmount
+
+  if (state.removeValueOnUnmount[key]) {
+    values = { ...values }
+    mounted = { ...state.mounted }
+    removeValueOnUnmount = { ...state.removeValueOnUnmount }
+    delete values[key]
+    delete mounted[key]
+    delete removeValueOnUnmount[key]
+  }
+  return {
+    ...state,
+    values,
+    mounted,
+    removeValueOnUnmount,
+  }
+}
+
+function onRegisterField<T extends Values>(
+  state: FormState<T>,
+  { payload: { key, removeValueOnUnmount: remove } }: ActionType<ActionFactory<T>['RegisterField']>
+) {
+  let value = state.values[key]
+  if (typeof value === 'undefined') value = null as any
+  const mounted = { ...state.mounted, [key]: true }
+  const removeValueOnUnmount = {
+    ...state.removeValueOnUnmount,
+    [key]: remove,
+  }
+  let values = state.values
+  values = value !== values[key] ? { ...values, [key]: value } : values
+  return { ...state, values, mounted, removeValueOnUnmount }
+}

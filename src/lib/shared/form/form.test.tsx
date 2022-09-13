@@ -62,7 +62,6 @@ describe('Form', () => {
             baz: (value) => Promise.resolve(value < 3 ? 'Too small' : undefined),
             bar: (_) => 'Error1',
           },
-
           {
             foo: true,
             baz: true,
@@ -81,19 +80,21 @@ describe('Form', () => {
       it('should enable fields that are registered', () => {
         const dispatch = new ActionFactory<{ foo: string }>()
         let next = FormReducer<{ foo: string }>(getInitialState(), dispatch.RegisterField({ key: 'foo' }))
-        expect(next.enabled.foo).toBeTruthy()
+        expect(next.mounted.foo).toBeTruthy()
         next = FormReducer<{ foo: string }>(
           getInitialState({ values: { foo: 'bar' } }),
           dispatch.RegisterField({ key: 'foo', removeValueOnUnmount: true })
         )
-        expect(next.enabled.foo).toBeTruthy()
+        expect(next.mounted.foo).toBeTruthy()
         expect(next.removeValueOnUnmount.foo).toBeTruthy()
       })
+
       it('should initialise field value if it does not exist', () => {
         const dispatch = new ActionFactory<{ foo: string }>()
         const next = FormReducer<{ foo: string }>(getInitialState(), dispatch.RegisterField({ key: 'foo' }))
         expect(next.values.foo).toBe(null)
       })
+
       it('should not reset value if it already exists ', () => {
         const dispatch = new ActionFactory<{ foo: string }>()
         const next = FormReducer<{ foo: string }>(
@@ -102,25 +103,30 @@ describe('Form', () => {
         )
         expect(next.values.foo).toBe('')
       })
-    })
-    describe('Unregister field', () => {
-      it('should remove field value if it was enabled (aka registered) and the removeValueOnUnmount flag is set', () => {
-        const dispatch = new ActionFactory<{ foo: string }>()
-        let next = FormReducer<{ foo: string }>(
-          getInitialState({ values: { foo: '' }, enabled: { foo: true } }),
-          dispatch.UnregisterField({ key: 'foo' })
-        )
-        expect(next.values.foo).toBe('')
-        next = FormReducer<{ foo: string }>(
-          getInitialState({ values: { foo: '' }, enabled: { foo: false } }),
-          dispatch.UnregisterField({ key: 'foo' })
-        )
-        expect(next.values.foo).toBe('')
-        next = FormReducer<{ foo: string }>(
-          getInitialState({ values: { foo: '' }, enabled: { foo: true }, removeValueOnUnmount: { foo: true } }),
-          dispatch.UnregisterField({ key: 'foo' })
-        )
-        expect(next.values.foo).toBe(undefined)
+
+      describe('Unregister field', () => {
+        it('should remove field value if it was mounted (aka registered) and the removeValueOnUnmount flag is set', () => {
+          const dispatch = new ActionFactory<{ foo: string }>()
+          let next = FormReducer<{ foo: string }>(
+            getInitialState({ values: { foo: '' }, mounted: { foo: true } }),
+            dispatch.UnregisterField({ key: 'foo' })
+          )
+          expect(next.values.foo).toBe('')
+          expect(next.removeValueOnUnmount.foo).toBe(undefined)
+          next = FormReducer<{ foo: string }>(
+            getInitialState({ values: { foo: '' }, mounted: { foo: false } }),
+            dispatch.UnregisterField({ key: 'foo' })
+          )
+          expect(next.values.foo).toBe('')
+          expect(next.removeValueOnUnmount.foo).toBe(undefined)
+
+          next = FormReducer<{ foo: string }>(
+            getInitialState({ values: { foo: '' }, mounted: { foo: true }, removeValueOnUnmount: { foo: true } }),
+            dispatch.UnregisterField({ key: 'foo' })
+          )
+          expect(next.values.foo).toBe(undefined)
+          expect(next.removeValueOnUnmount.foo).toBe(undefined)
+        })
       })
     })
   })

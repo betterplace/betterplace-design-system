@@ -1,4 +1,12 @@
-import React, { MutableRefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, {
+  HTMLInputTypeAttribute,
+  MutableRefObject,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { from, map, forkJoin, Observable } from 'rxjs'
 import { ActionDispatch, ActionFactory, FormActions, getFormEffects } from './actions'
 import reducer, { getInitialState } from './reducer'
@@ -61,50 +69,50 @@ export function useValidator<T extends Values>(
 function useRegisterFn<T extends Values>(
   setValidator: SetValidatorFn<T>,
   dispatch: ActionDispatch<T>,
-  actionFactory: ActionFactory<T>
+  actions: ActionFactory<T>
 ) {
   const onInstanceChange = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (key: keyof T, instance: any) => {
+    (key: keyof T, type: HTMLInputTypeAttribute | undefined, instance: Element | null | undefined) => {
       setTimeout(() => {
-        if (!instance) return dispatch(actionFactory.UnregisterField({ key }))
-        dispatch(actionFactory.RegisterField({ key }))
+        if (!instance) return dispatch(actions.UnregisterField({ key, type }))
+        dispatch(actions.RegisterField({ key, type }))
         // eslint-disable-next-line react-hooks/exhaustive-deps
       }, 0)
     },
-    [actionFactory, dispatch]
+    [actions, dispatch]
   )
 
   const register: RegisterFn<T> = useCallback(
     <K extends keyof T, Source = string, V = T[K]>({
       name: key,
       validate,
-      fromSource,
+      parse,
       type,
     }: RegisterFnOptions<T, K, Source, V>) => {
       setTimeout(() => setValidator(key, validate as FieldValidatorFn<T, keyof T>), 0)
       return {
-        ref: onInstanceChange.bind(undefined, key),
+        ref: onInstanceChange.bind(undefined, key, type),
         onChange: (evt: React.ChangeEvent) => {
           const value =
             type !== 'checkbox'
-              ? (fromSource.current ?? (String as unknown as NullableTransformFn<Source, V>))(
+              ? (parse.current ?? (String as unknown as NullableTransformFn<Source, V>))(
                   (evt.target as HTMLInputElement).value as unknown as Source
                 )
               : ((evt.target as HTMLInputElement).checked as unknown as V)
           dispatch(
-            actionFactory.SetValue({
+            actions.SetValue({
               key,
               value: value as T[K],
             })
           )
         },
-        onBlur: () => dispatch(actionFactory.SetTouched({ key, touched: true })),
+        onBlur: () => dispatch(actions.SetTouched({ key, touched: true })),
         name: key as string,
         type,
       }
     },
-    [actionFactory, onInstanceChange, setValidator, dispatch]
+    [actions, onInstanceChange, setValidator, dispatch]
   )
   return register
 }
@@ -143,11 +151,13 @@ export function useForm<T extends Values>(props: UseFormProps<T>): UseFormReturn
   const actionFactoryRef = useRef(new ActionFactory<T>())
 
   const [state, setState] = useState(initialFormValueRef.current)
-  const onValidate = useValidator(validators, state.enabled, props.onValidate)
+  const onValidate = useValidator(validators, state.mounted, props.onValidate)
   const propsRef = useRef({ ...props_, onValidate })
   const effects = useMemo(() => getFormEffects(actionFactoryRef.current, propsRef), [])
 
-  const storeRef = useRef(new Store<FormState<T>, FormActions<T>>(initialFormValueRef.current, reducer, effects))
+  const storeRef = useRef(
+    new Store<FormState<T>, FormActions<T>>(initialFormValueRef.current, reducer, effects, 'Form')
+  )
 
   useEffect(() => {
     propsRef.current = { ...props_, onValidate }
@@ -187,20 +197,20 @@ export function useFormContext<T extends Values>(): UseFormReturn<T> {
   return React.useContext(FormContext) as unknown as UseFormReturn<T>
 }
 
-export function useFromSourceRef<T extends Values, K extends keyof T, Source = string, V = T[K]>(
-  fromString: UnpackRef<UseFieldProps<T, K, Source, V>['fromSource']>
+export function useParseRef<T extends Values, K extends keyof T, Source = string, V = T[K]>(
+  fromString: UnpackRef<UseFieldProps<T, K, Source, V>['parse']>
 ) {
-  const ref = useRef<UnpackRef<UseFieldProps<T, K, Source, V>['fromSource']>>(fromString)
+  const ref = useRef<UnpackRef<UseFieldProps<T, K, Source, V>['parse']>>(fromString)
   useEffect(() => {
     ref.current = fromString
   }, [fromString])
   return ref
 }
 
-function useAsSourceRef<T extends Values, K extends keyof T, Source = string, V = T[K]>(
-  asString: UnpackRef<UseFieldProps<T, K, Source, V>['asSource']>
+function useFormatRef<T extends Values, K extends keyof T, Source = string, V = T[K]>(
+  asString: UnpackRef<UseFieldProps<T, K, Source, V>['format']>
 ) {
-  const ref = useRef<UnpackRef<UseFieldProps<T, K, Source, V>['asSource']>>(asString)
+  const ref = useRef<UnpackRef<UseFieldProps<T, K, Source, V>['format']>>(asString)
   useEffect(() => {
     ref.current = asString
   }, [asString])
@@ -209,16 +219,15 @@ function useAsSourceRef<T extends Values, K extends keyof T, Source = string, V 
 
 function useFieldValue<T extends Values, K extends keyof T, Source = string, V = T[K]>(
   { name, type }: Pick<UseFieldProps<T, K, Source, V>, 'type' | 'name'>,
-  asSourceRef: MutableRefObject<NullableTransformFn<V, Source> | undefined>
+  formatRef: MutableRefObject<NullableTransformFn<V, Source> | undefined>
 ) {
   const { values } = useFormContext<T>()
   const value = useMemo(() => {
     const value = values[name]
-    if (typeof value === 'undefined' || value === null) return
     const defaultCtor = (type === 'checkbox' ? Boolean : String) as unknown as NullableTransformFn<V, Source>
 
-    return (asSourceRef.current ?? defaultCtor)((values[name] ?? null) as V)
-  }, [values, name, type, asSourceRef])
+    return (formatRef.current ?? defaultCtor)((value ?? undefined) as V)
+  }, [values, name, type, formatRef])
   return value
 }
 
@@ -230,21 +239,21 @@ export function useFieldError<T extends Values, K extends keyof T>({ name }: Pic
 
 export function useFieldProps<T extends Values, K extends keyof T, Source = string, V = T[K]>({
   validate,
-  fromSource,
-  asSource,
+  parse,
+  format,
   type,
   name,
 }: UseFieldProps<T, K, Source, V>) {
-  const fromSourceRef = useFromSourceRef<T, K, Source, V>(fromSource)
-  const asSourceRef = useAsSourceRef<T, K, Source, V>(asSource)
+  const parseRef = useParseRef<T, K, Source, V>(parse)
+  const formatRef = useFormatRef<T, K, Source, V>(format)
   const { register } = useFormContext<T>()
-
+  // const setValue = useCallback((value: V) => setValue_.bind(undefined, name), [setValue_, name])
   const fieldProps_ = useMemo(
-    () => register<K, Source, V>({ name, validate, type, fromSource: fromSourceRef }),
-    [register, name, validate, type, fromSourceRef]
+    () => register<K, Source, V>({ name, validate, type, parse: parseRef }),
+    [register, name, validate, type, parseRef]
   )
   const error = useFieldError<T, K>({ name })
-  const value = useFieldValue<T, K, Source, V>({ name, type }, asSourceRef)
+  const value = useFieldValue<T, K, Source, V>({ name, type }, formatRef)
 
   const fieldProps = useMemo(
     () => ({
@@ -257,17 +266,3 @@ export function useFieldProps<T extends Values, K extends keyof T, Source = stri
   )
   return fieldProps
 }
-
-// export function useFieldArray<T extends Values, K extends keyof T, Source = string, V = T[K]>({
-//   validate,
-//   fromSource,
-//   asSource,
-//   type,
-//   name,
-// }: UseFieldProps<T, K, Source, V>) {
-//   const fromSourceRef = useFromSourceRef<T, K, Source, V>(fromSource)
-//   const asSourceRef = useAsSourceRef<T, K, Source, V>(asSource)
-//   const { register: register_ } = useFormContext<T>()
-//     const error = useFieldError<T, K>({ name })
-//     const value = useFieldValue<T, K, Source, V>({ name, type }, asSourceRef)
-// }

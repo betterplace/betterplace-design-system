@@ -20,6 +20,9 @@ const MyForm = (_: {}) => {
         <MyCheckboxField<MyFormValues> name="baz" />
         <MySelectField<MyFormValues> name="faz" />
         <input disabled={!form.isValid || form.isSubmitting} type="submit" value="Submit" />
+        <p style={{ border: '1px solid black', padding: '10px', marginTop: '10px' }}>
+          {JSON.stringify(form.fieldErrors)}
+        </p>
       </form>
     </FormProvider>
   )
@@ -89,21 +92,6 @@ const MySelectField = <T extends Values>({ name }: { name: KeysMatching<T, strin
     </select>
   )
 }
-
-// const MyMultipleCheckbox = <T extends Values>({ name }: { name: KeysMatching<T, string> }) => {
-
-//   const { ref, onChange } = useFieldProps<T, keyof T, string[], string[]>({
-//     name,
-//     parse: () =>
-//   })
-//   return (
-//     <fieldset onChange={onChange} ref={ref}>
-//       <input name={name} value="A" type="checkbox" />
-//       <input name={name} value="B" type="checkbox" />
-//       <input name={name} value="C" type="checkbox" />
-//     </fieldset>
-//   )
-// }
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

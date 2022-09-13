@@ -1,4 +1,5 @@
-import { catchError, debounceTime, delay, filter, from, mergeMap, Observable, of, switchMap, tap } from 'rxjs'
+import { HTMLInputTypeAttribute } from 'react'
+import { catchError, debounceTime, delay, filter, from, mergeMap, Observable, of, switchMap } from 'rxjs'
 import { createActionCreator, isActionOf } from '../store'
 import { ActionType, Effect } from '../store/types'
 import { Values, UseFormProps, FormState } from './types'
@@ -38,8 +39,12 @@ export class ActionFactory<T extends Values> {
 
   SetTouched = createActionCreator(ActionTypes.SetTouched)<{ key: keyof T; touched: boolean }>()
 
-  RegisterField = createActionCreator(ActionTypes.RegisterField)<{ key: keyof T; removeValueOnUnmount?: boolean }>()
-  UnregisterField = createActionCreator(ActionTypes.UnregisterField)<{ key: keyof T }>()
+  RegisterField = createActionCreator(ActionTypes.RegisterField)<{
+    key: keyof T
+    removeValueOnUnmount?: boolean
+    type?: HTMLInputTypeAttribute
+  }>()
+  UnregisterField = createActionCreator(ActionTypes.UnregisterField)<{ key: keyof T; type?: HTMLInputTypeAttribute }>()
 }
 
 export type FormActions<T extends Values> = ActionType<ActionFactory<T>[keyof ActionFactory<T>]>
@@ -70,7 +75,6 @@ export const getFormEffects = <T extends Values>(
       switchMap(([_, __, { values }]) => {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return from(propsRef.current!.onValidate!(values)).pipe(
-          tap((values) => console.log('errors', values)),
           mergeMap((values) => of(actions.ValidateSuccess(values))),
           catchError((err) => of(actions.ValidateError(err)))
         )
