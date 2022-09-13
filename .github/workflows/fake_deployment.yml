@@ -1,0 +1,15 @@
+
+name: Fake deployment
+
+on: deployment
+jobs:
+  confirm: 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: chrnorm/deployment-status@v2
+        name: 'confirming deployment'
+        with:
+          token: '${{ github.token }}'
+          deployment-id: ${{ github.event.deployment.deployment_id }}
+          environment: ${{ github.event.deployment.environment }}
+          state: 'success'
