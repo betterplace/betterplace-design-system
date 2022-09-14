@@ -72,7 +72,6 @@ function useRegisterFn<T extends Values>(
   actions: ActionFactory<T>
 ) {
   const onInstanceChange = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (key: keyof T, type: HTMLInputTypeAttribute | undefined, instance: Element | null | undefined) => {
       setTimeout(() => {
         if (!instance) return dispatch(actions.UnregisterField({ key, type }))
@@ -162,7 +161,6 @@ export function useForm<T extends Values>(props: UseFormProps<T>): UseFormReturn
   useEffect(() => {
     propsRef.current = { ...props_, onValidate }
   }, [onValidate, props_])
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   useEffect(() => {
     const sub = storeRef.current.subscribe({
       next: setState,

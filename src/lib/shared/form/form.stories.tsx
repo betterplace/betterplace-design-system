@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { FormProvider, useFieldProps, useForm } from './form'

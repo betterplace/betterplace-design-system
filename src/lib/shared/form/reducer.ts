@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ActionType } from '../store/types'
 import { ActionFactory, FormActions } from './actions'
 import { Values, FormState } from './types'
@@ -123,6 +122,7 @@ function onRegisterField<T extends Values>(
   { payload: { key, removeValueOnUnmount: remove } }: ActionType<ActionFactory<T>['RegisterField']>
 ) {
   let value = state.values[key]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (typeof value === 'undefined') value = null as any
   const mounted = { ...state.mounted, [key]: true }
   const removeValueOnUnmount = {
