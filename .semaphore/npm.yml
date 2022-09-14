@@ -9,6 +9,7 @@ blocks:
     task:
       secrets:
         - name: betterplace-design-system
+        - name: betterplace-secrets
       jobs:
         - name: Deploy to NPM
           commands:
@@ -25,5 +26,5 @@ blocks:
                /repos/betterplace/betterplace-design-system/deployments
               -f ref='$SEMAPHORE_GIT_SHA'
               -f description='Deployed from semaphore'
-              -f environment='staging'
+              -f environment='production'
               -f payload='{ \"deploy\": \"semaphoreci\" }'
