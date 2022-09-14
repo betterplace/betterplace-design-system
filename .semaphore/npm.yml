@@ -17,3 +17,13 @@ blocks:
             - cache restore package-$SEMAPHORE_GIT_BRANCH
             - npm set-script prepare ""
             - HUSKY=0 npm publish
+            - gh auth login
+            - |
+              gh api
+               --method POST
+               -H Accept=application/vnd.github+json
+               /repos/betterplace/betterplace-design-system/deployments
+              -f ref='$SEMAPHORE_GIT_SHA'
+              -f description='Deployed from semaphore'
+              -f environment='staging'
+              -f payload='{ \"deploy\": \"semaphoreci\" }'
