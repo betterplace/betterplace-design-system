@@ -18,7 +18,7 @@ blocks:
             - cache restore package-$SEMAPHORE_GIT_BRANCH
             - npm set-script prepare ""
             - HUSKY=0 npm publish
-            - gh auth login
+            - gh auth login --with-token
             - |
               gh api
                --method POST
