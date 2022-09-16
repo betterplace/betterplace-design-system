@@ -18,7 +18,7 @@ blocks:
             - cache restore package-$SEMAPHORE_GIT_BRANCH
             - npm set-script prepare ""
             - HUSKY=0 npm publish
-            - |
+            - >
               gh api
                --method POST
                -H Accept=application/vnd.github+json
