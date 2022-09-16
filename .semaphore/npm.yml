@@ -18,5 +18,5 @@ blocks:
             - cache restore package-$SEMAPHORE_GIT_BRANCH
             - npm set-script prepare ""
             - HUSKY=0 npm publish
-            - echo "gh api --method POST -H 'Accept: application/vnd.github+json' /repos/betterplace/betterplace-design-system/deployments -f ref='$SEMAPHORE_GIT_SHA' -f description='Deployed from semaphore' -f environment='production'"
+            - echo "ref='$SEMAPHORE_GIT_SHA'"
             - "gh api --method POST -H 'Accept: application/vnd.github+json' /repos/betterplace/betterplace-design-system/deployments -f ref='$SEMAPHORE_GIT_SHA' -f description='Deployed from semaphore' -f environment='production'"
