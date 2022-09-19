@@ -1,5 +1,5 @@
-const StyleDictionary = require('style-dictionary')
-const themes = require('../themes.json')
+import StyleDictionary from 'style-dictionary'
+const themes = require('@/config/themes.json')
 
 // remove the theme key from the alias name
 StyleDictionary.registerTransform({

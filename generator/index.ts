@@ -1,6 +1,6 @@
 import Generator from 'yeoman-generator'
-import { ComponentInfo, FileInfo, getComponentSpecUrl, PropData, Props, PropType } from '../figma/lib/fetch_components'
-import { camelize, kebabCase, objToArr, snakeify } from '../figma/lib/helpers'
+import { ComponentInfo, FileInfo, getComponentSpecUrl, PropData, Props, PropType } from '@/figma/lib/fetch_components'
+import { camelize, kebabCase, objToArr, snakeify } from '@/figma/lib/helpers'
 import Fuse from 'fuse.js'
 import { prettierTransform } from './transforms'
 // until we simplify the dir structure we have to do it like this
@@ -115,7 +115,7 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
 
   async getFileInfo() {
     return (
-      import('../config/components.json')
+      import('@/config/components.json')
         // .then((r) => r.json())
         .then((d: { meta: { file: FileInfo } }) => {
           this.fileInfo = d.meta.file
@@ -125,7 +125,7 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
 
   async prompting() {
     if (!this.options.figma || !this.options.story) return Promise.resolve()
-    const res = (await import('../config/components.json').then((d) => d.data)) as Record<string, ComponentInfo>
+    const res = (await import('@/config/components.json').then((d) => d.data)) as Record<string, ComponentInfo>
     const list = objToArr(res)
     let figma: ComponentInfo | undefined
     const figmaPath = `${this.componentPath}/figma.lock.ts`

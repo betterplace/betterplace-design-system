@@ -9,11 +9,34 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "strict": true,
-    "allowJs": true
+    "allowJs": true,
+    "noEmit": true,
+    "rootDir": "./",
+    "baseUrl": "./",
+    "paths": {
+      "@/figma/*": [
+        "figma/*"
+      ],
+      "@/generator/*": [
+        "generator/*"
+      ],
+      "@/config/*": [
+        "config/*"
+      ],
+    }
   },
-
-  "exclude": ["node_modules", "dist"],
-  "include": ["figma/**/*", "generator/**/*", "src/lib/shared/themes.ts", "config/components.json", "src/**/*.lock.ts"],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+  "include": [
+    "figma/**/*",
+    "generator/**/*",
+    "src/lib/shared/themes.ts",
+    "config/**/*",
+    "config/**/*.json",
+    "src/**/*.lock.ts"
+  ],
   "ts-node": {
     "transpileOnly": true,
     "transpiler": "ts-node/transpilers/swc"

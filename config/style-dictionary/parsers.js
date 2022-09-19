@@ -1,5 +1,5 @@
-const StyleDictionary = require('style-dictionary')
-const themes = require('../themes.json')
+import StyleDictionary from 'style-dictionary'
+import themes from '../themes.json'
 
 StyleDictionary.registerParser({
   pattern: /\.json$/,
