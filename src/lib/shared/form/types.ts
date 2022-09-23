@@ -30,13 +30,53 @@ export type FieldValidatorFn<T extends Values, K extends keyof T, V = T[K]> = (
 export type GlobalValidatorFn<T extends Values> = (values: T) => Errors<T> | undefined | Promise<Errors<T> | undefined>
 export type Errors<T> = { [key in keyof T]?: string | undefined }
 export interface FormDispatch<T extends Values> {
+  /**
+   * Triggers validation
+   */
   validate(): void
+  /**
+   *
+   * @param key field name
+   * @param value parsed value
+   */
   setValue<K extends keyof T, V = T[K]>(key: K, value: V): void
+  /**
+   *
+   * @param values partial form values
+   */
   setValues(values: Partial<T>): void
+  /**
+   *
+   * @param key field name
+   * @param touched whether the field is considered touched
+   */
   setTouched<K extends keyof T>(key: K, touched: boolean): void
+  /**
+   * Sets the auto-submit flag
+   * @param autoSubmit set autoSubmit flag.
+   * See:
+   * - {FormState.autoSubmit}
+   */
   setAutoSubmit(autoSubmit?: boolean): void
+  /**
+   * Marks form as dirty
+   * @param dirty whether to mark form as dirty
+   */
+  setDirty(dirty: boolean): void
+  /**
+   * Submits the form
+   * @param evt form event
+   */
   submit(evt?: React.FormEvent): void
+  /**
+   * Resets the form to initial values
+   * See:
+   * - {UseFormProps.initialValues}
+   */
   reset(): void
+  /**
+   * Manually register a field. Normally use `useFieldProps`
+   */
   register: RegisterFn<T>
 }
 export interface FormState<T extends Values> {

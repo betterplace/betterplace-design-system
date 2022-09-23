@@ -129,5 +129,39 @@ describe('Form', () => {
         })
       })
     })
+
+    describe('SetDirty', () => {
+      it('should set the dirty state correctly', () => {
+        const dispatch = new ActionFactory<{ foo: string; bar: string }>()
+        let next = FormReducer<{ foo: string }>(
+          getInitialState({ values: { foo: '', bar: 'smth else' } }),
+          dispatch.SetDirty(true)
+        )
+        expect(next.isDirty).toBe(true)
+        expect(next.touched).toEqual({
+          foo: true,
+          bar: true,
+        })
+        next = FormReducer<{ foo: string }>(next, dispatch.SetDirty(false))
+        expect(next.isDirty).toBe(false)
+        expect(next.touched).toEqual({
+          foo: false,
+          bar: false,
+        })
+      })
+    })
+    describe('Submit', () => {
+      it('should set the isSubmitting flag only when the form is valid', () => {
+        const dispatch = new ActionFactory<{ foo: string; bar: string }>()
+        let next = FormReducer<{ foo: string }>(
+          getInitialState({ values: { foo: '', bar: 'smth else' }, fieldErrors: { foo: 'Required' }, isValid: false }),
+          dispatch.Submit()
+        )
+        expect(next.isSubmitting).toBe(false)
+        next = FormReducer<{ foo: string }>(next, dispatch.ValidateSuccess({}))
+        next = FormReducer<{ foo: string }>(next, dispatch.Submit())
+        expect(next.isSubmitting).toBe(true)
+      })
+    })
   })
 })

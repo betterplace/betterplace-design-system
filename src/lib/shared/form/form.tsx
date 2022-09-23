@@ -124,10 +124,12 @@ function useMappedStoreDispatch<T extends Values>(dispatch: ActionDispatch<T>, a
       ({
         submit: (evt) => {
           evt?.preventDefault()
+          dispatch(actionFactory.SetDirty(true))
           dispatch(actionFactory.Submit(undefined))
         },
         validate: () => dispatch(actionFactory.Validate(undefined)),
         setAutoSubmit: (value) => dispatch(actionFactory.SetAutoSubmit(value)),
+        setDirty: (value) => dispatch(actionFactory.SetDirty(value)),
         setTouched: (key, touched) => dispatch(actionFactory.SetTouched({ key, touched })),
         setValue: (key, value) => dispatch(actionFactory.SetValue({ key, value: value as T[keyof T] })),
         setValues: (values) => dispatch(actionFactory.SetValues(values)),

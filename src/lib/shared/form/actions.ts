@@ -16,6 +16,7 @@ const ActionTypes = {
   SetValues: 'Form/SetValues',
   SetAutoSubmit: 'Form/SetAutoSubmit',
   SetTouched: 'Form/SetTouched',
+  SetDirty: 'Form/SetDirty',
   RegisterField: 'Form/RegisterField',
   UnregisterField: 'Form/UnregisterField',
 } as const
@@ -35,11 +36,14 @@ export class ActionFactory<T extends Values> {
   Reset = createActionCreator(ActionTypes.Reset)<void>()
 
   SetAutoSubmit = createActionCreator(ActionTypes.SetAutoSubmit)<boolean | undefined>()
+
+  SetDirty = createActionCreator(ActionTypes.SetDirty)<boolean>()
   SetValue = createActionCreator(ActionTypes.SetValue)<{ key: keyof T; value: T[keyof T]; internal?: boolean }>()
 
   SetValues = createActionCreator(ActionTypes.SetValues)<Partial<T>>()
 
   SetTouched = createActionCreator(ActionTypes.SetTouched)<{ key: keyof T; touched: boolean }>()
+
   RegisterField = createActionCreator(ActionTypes.RegisterField)<{
     key: keyof T
     removeValueOnUnmount?: boolean
@@ -62,7 +66,8 @@ export const getFormEffects = <T extends Values>(
     action$.pipe(
       filter(() => typeof propsRef.current?.onSubmit === 'function'),
       isActionOf(actions.Submit),
-      switchMap(([_, __, { values }]) => {
+      switchMap(([_, __, { values, isValid }]) => {
+        if (!isValid) return of()
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return from(propsRef.current!.onSubmit!(values)).pipe(
           mergeMap((values) => of(actions.SubmitSuccess(values))),

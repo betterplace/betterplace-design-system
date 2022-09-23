@@ -5,7 +5,7 @@ import { Values, FormState } from './types'
 const FormReducer = <T extends Values>(state: FormState<T>, action: FormActions<T>): FormState<T> => {
   switch (action.type) {
     case 'Form/Submit':
-      return { ...state, isSubmitting: true, error: undefined }
+      return { ...state, isSubmitting: state.isValid, error: undefined }
     case 'Form/SubmitError':
       return {
         ...state,
@@ -62,6 +62,8 @@ const FormReducer = <T extends Values>(state: FormState<T>, action: FormActions<
         },
         isDirty: action.payload.touched || state.isDirty,
       }
+    case 'Form/SetDirty':
+      return onSetDirty<T>(state, action)
     case 'Form/SetAutoSubmit':
       return {
         ...state,
@@ -96,6 +98,20 @@ export const getInitialState = <T extends Record<string, unknown>>(
   } as FormState<T>)
 
 export default FormReducer
+
+function onSetDirty<T extends Values>(
+  state: FormState<T>,
+  { payload: isDirty }: ActionType<ActionFactory<T>['SetDirty']>
+): FormState<T> {
+  const fieldNames = Object.keys(state.values) as Extract<keyof T, string>[]
+  const touched = Object.fromEntries(fieldNames.map((fieldName) => [fieldName, isDirty])) as FormState<T>['touched']
+
+  return {
+    ...state,
+    touched,
+    isDirty,
+  }
+}
 
 function onUnregisterField<T extends Values>(
   state: FormState<T>,
