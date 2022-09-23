@@ -40,12 +40,11 @@
   },
   "peerDependencies": {
     "react": "^17.0.2",
-    "rxjs": "^7.5.5",
     "react-dom": "^17.0.2",
-    "remotedev": "^0.2.9"
+    "remotedev": "^0.2.9",
+    "rxjs": "^7.5.5"
   },
   "devDependencies": {
-    "remotedev": "^0.2.9",
     "@babel/core": "^7.17.9",
     "@storybook/addon-a11y": "^6.4.22",
     "@storybook/addon-actions": "^6.4.21",
@@ -62,6 +61,7 @@
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^8.0.0",
     "@types/jest": "^27.5.1",
+    "@types/node": "^18.7.18",
     "@types/prettier": "^2.6.1",
     "@types/react": "^17.0.10",
     "@types/react-dom": "^17.0.10",
@@ -93,6 +93,7 @@
     "postcss-nesting": "^10.1.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "remotedev": "^0.2.9",
     "rxjs": "^7.5.5",
     "storybook-addon-designs": "^6.2.1",
     "style-dictionary": "^3.7.0",

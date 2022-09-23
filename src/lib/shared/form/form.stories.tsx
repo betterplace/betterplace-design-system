@@ -18,10 +18,8 @@ const MyForm = (_: {}) => {
         <MyDateField<MyFormValues> name="bar" />
         <MyCheckboxField<MyFormValues> name="baz" />
         <MySelectField<MyFormValues> name="faz" />
-        <input disabled={!form.isValid || form.isSubmitting} type="submit" value="Submit" />
-        <p style={{ border: '1px solid black', padding: '10px', marginTop: '10px' }}>
-          {JSON.stringify(form.fieldErrors)}
-        </p>
+        <input readOnly={!form.isValid || form.isSubmitting} type="submit" value="Submit" />
+        <p style={{ border: '1px solid black', padding: '10px', marginTop: '10px' }}>{JSON.stringify(form)}</p>
       </form>
     </FormProvider>
   )
