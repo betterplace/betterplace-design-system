@@ -26,7 +26,7 @@ import {
   NullableTransformFn,
   SetValidatorFn,
 } from './types'
-import { promisify } from './utils'
+import { promisify, useUpdatableRef } from './utils'
 type ObservableValidatorFn<T extends Values> = (values: T) => Observable<Errors<T>>
 
 function mergeErrors<V extends Values, T extends Record<keyof V, unknown>>(source: T, target: T): T {
@@ -88,11 +88,13 @@ function useRegisterFn<T extends Values>(
       validate,
       parse,
       type,
+      onChange,
     }: RegisterFnOptions<T, K, Source, V>) => {
       setTimeout(() => setValidator(key, validate as FieldValidatorFn<T, keyof T>), 0)
       return {
         ref: onInstanceChange.bind(undefined, key, type),
         onChange: (evt: React.ChangeEvent) => {
+          onChange.current?.(evt)
           const value =
             type !== 'checkbox'
               ? (parse.current ?? (String as unknown as NullableTransformFn<Source, V>))(
@@ -125,6 +127,7 @@ function useMappedStoreDispatch<T extends Values>(dispatch: ActionDispatch<T>, a
           dispatch(actionFactory.Submit(undefined))
         },
         validate: () => dispatch(actionFactory.Validate(undefined)),
+        setAutoSubmit: (value) => dispatch(actionFactory.SetAutoSubmit(value)),
         setTouched: (key, touched) => dispatch(actionFactory.SetTouched({ key, touched })),
         setValue: (key, value) => dispatch(actionFactory.SetValue({ key, value: value as T[keyof T] })),
         setValues: (values) => dispatch(actionFactory.SetValues(values)),
@@ -146,8 +149,11 @@ export function useForm<T extends Values>(props: UseFormProps<T>): UseFormReturn
 
   const { onValidate: onValidate_, ...props_ } = props
 
-  const initialFormValueRef = useRef(getInitialState<T>({ values: { ...((props.initialValues ?? {}) as T) } }))
+  const initialFormValueRef = useRef(
+    getInitialState<T>({ values: { ...((props.initialValues ?? {}) as T), autoSubmit: props.autoSubmit } })
+  )
   const actionFactoryRef = useRef(new ActionFactory<T>())
+  const onFormValuesChangeRef = useUpdatableRef(props.onFormValuesChange)
 
   const [state, setState] = useState(initialFormValueRef.current)
   const onValidate = useValidator(validators, state.mounted, props.onValidate)
@@ -168,6 +174,14 @@ export function useForm<T extends Values>(props: UseFormProps<T>): UseFormReturn
     })
     return sub.unsubscribe
   }, [])
+  useEffect(() => {
+    if (!onFormValuesChangeRef.current) return
+    onFormValuesChangeRef.current(state.values)
+  }, [state.values, onFormValuesChangeRef])
+
+  useEffect(() => {
+    storeRef.current.next(actionFactoryRef.current.SetAutoSubmit(props.autoSubmit))
+  }, [props.autoSubmit])
 
   const register = useRegisterFn(setValidator, storeRef.current.next, actionFactoryRef.current)
   const dispatch = useMappedStoreDispatch(storeRef.current.next, actionFactoryRef.current)
@@ -195,26 +209,6 @@ export function useFormContext<T extends Values>(): UseFormReturn<T> {
   return React.useContext(FormContext) as unknown as UseFormReturn<T>
 }
 
-export function useParseRef<T extends Values, K extends keyof T, Source = string, V = T[K]>(
-  fromString: UnpackRef<UseFieldProps<T, K, Source, V>['parse']>
-) {
-  const ref = useRef<UnpackRef<UseFieldProps<T, K, Source, V>['parse']>>(fromString)
-  useEffect(() => {
-    ref.current = fromString
-  }, [fromString])
-  return ref
-}
-
-function useFormatRef<T extends Values, K extends keyof T, Source = string, V = T[K]>(
-  asString: UnpackRef<UseFieldProps<T, K, Source, V>['format']>
-) {
-  const ref = useRef<UnpackRef<UseFieldProps<T, K, Source, V>['format']>>(asString)
-  useEffect(() => {
-    ref.current = asString
-  }, [asString])
-  return ref
-}
-
 function useFieldValue<T extends Values, K extends keyof T, Source = string, V = T[K]>(
   { name, type }: Pick<UseFieldProps<T, K, Source, V>, 'type' | 'name'>,
   formatRef: MutableRefObject<NullableTransformFn<V, Source> | undefined>
@@ -236,19 +230,21 @@ export function useFieldError<T extends Values, K extends keyof T>({ name }: Pic
 }
 
 export function useFieldProps<T extends Values, K extends keyof T, Source = string, V = T[K]>({
-  validate,
+  onValidate: validate,
   parse,
   format,
   type,
   name,
+  onChange,
 }: UseFieldProps<T, K, Source, V>) {
-  const parseRef = useParseRef<T, K, Source, V>(parse)
-  const formatRef = useFormatRef<T, K, Source, V>(format)
+  const parseRef = useUpdatableRef(parse)
+  const formatRef = useUpdatableRef(format)
+  const onChangeRef = useUpdatableRef(onChange)
   const { register } = useFormContext<T>()
   // const setValue = useCallback((value: V) => setValue_.bind(undefined, name), [setValue_, name])
   const fieldProps_ = useMemo(
-    () => register<K, Source, V>({ name, validate, type, parse: parseRef }),
-    [register, name, validate, type, parseRef]
+    () => register<K, Source, V>({ name, validate, type, parse: parseRef, onChange: onChangeRef }),
+    [register, name, validate, type, parseRef, onChangeRef]
   )
   const error = useFieldError<T, K>({ name })
   const value = useFieldValue<T, K, Source, V>({ name, type }, formatRef)

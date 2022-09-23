@@ -1,5 +1,5 @@
 import { HTMLInputTypeAttribute } from 'react'
-import { catchError, debounceTime, delay, filter, from, mergeMap, Observable, of, switchMap } from 'rxjs'
+import { catchError, debounceTime, delay, filter, from, map, mergeMap, Observable, of, switchMap, take } from 'rxjs'
 import { createActionCreator, isActionOf } from '../store'
 import { ActionType, Effect } from '../store/types'
 import { Values, UseFormProps, FormState } from './types'
@@ -14,6 +14,7 @@ const ActionTypes = {
   Reset: 'Form/Reset',
   SetValue: 'Form/SetValue',
   SetValues: 'Form/SetValues',
+  SetAutoSubmit: 'Form/SetAutoSubmit',
   SetTouched: 'Form/SetTouched',
   RegisterField: 'Form/RegisterField',
   UnregisterField: 'Form/UnregisterField',
@@ -33,12 +34,12 @@ export class ActionFactory<T extends Values> {
 
   Reset = createActionCreator(ActionTypes.Reset)<void>()
 
+  SetAutoSubmit = createActionCreator(ActionTypes.SetAutoSubmit)<boolean | undefined>()
   SetValue = createActionCreator(ActionTypes.SetValue)<{ key: keyof T; value: T[keyof T]; internal?: boolean }>()
 
   SetValues = createActionCreator(ActionTypes.SetValues)<Partial<T>>()
 
   SetTouched = createActionCreator(ActionTypes.SetTouched)<{ key: keyof T; touched: boolean }>()
-
   RegisterField = createActionCreator(ActionTypes.RegisterField)<{
     key: keyof T
     removeValueOnUnmount?: boolean
@@ -68,6 +69,24 @@ export const getFormEffects = <T extends Values>(
           catchError((err) => of(actions.SubmitError(err)))
         )
       })
+    ),
+  (action$) =>
+    action$.pipe(
+      filter(([_, __, { autoSubmit }]) => !!autoSubmit),
+      isActionOf([actions.SetValues, actions.SetValue]),
+      debounceTime(300),
+      switchMap(() =>
+        action$
+          .pipe(
+            map(
+              ([_, __, { isValid, isDirty, isValidating, isSubmitting }]) =>
+                isValid && isDirty && !isValidating && !isSubmitting
+            ),
+            filter(Boolean),
+            take(1)
+          )
+          .pipe(mergeMap(() => of(actions.Submit())))
+      )
     ),
   (action$) =>
     action$.pipe(

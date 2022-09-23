@@ -62,6 +62,11 @@ const FormReducer = <T extends Values>(state: FormState<T>, action: FormActions<
         },
         isDirty: action.payload.touched || state.isDirty,
       }
+    case 'Form/SetAutoSubmit':
+      return {
+        ...state,
+        autoSubmit: action.payload,
+      }
     case 'Form/RegisterField':
       return onRegisterField<T>(state, action)
     case 'Form/UnregisterField': {
