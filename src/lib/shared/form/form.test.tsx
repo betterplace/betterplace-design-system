@@ -1,15 +1,17 @@
 /**
  * @jest-environment jsdom
  */
-import React from 'react'
+import React, { MutableRefObject } from 'react'
 import { renderHook } from '@testing-library/react-hooks'
 import '@testing-library/jest-dom'
 import '@testing-library/jest-dom/extend-expect'
-import { promisify } from './utils'
-import { useValidator } from './form'
-import { firstValueFrom } from 'rxjs'
+import { promisify, promisifyFn } from './utils'
+import { useValidator } from './use_form'
+import { catchError, filter, firstValueFrom, from, merge, Observable, of, ReplaySubject, Subject } from 'rxjs'
 import FormReducer, { getInitialState } from './reducer'
-import { ActionFactory } from './actions'
+import { ActionFactory, ActionTypes, FormActions } from './actions'
+import { Errors, FieldValidators, FormState, GlobalValidatorFn, Values } from './types'
+import { getFormEffects, GetFormEffectsProps } from './side_effects'
 
 describe('Form', () => {
   describe('Utils', () => {
@@ -23,6 +25,21 @@ describe('Form', () => {
         const value = Promise.resolve('value')
         const res = promisify(value)
         expect(res).toBe(value)
+      })
+    })
+
+    describe('promisifyFn', () => {
+      it('should catch synchronous errors correctly', async () => {
+        const errorMsg = 'Fail'
+        const thisWillThrow = (_: string) => {
+          throw new Error(errorMsg)
+        }
+        const bound = thisWillThrow.bind(undefined, 'whatever')
+        const result = promisifyFn(bound)
+        expect(result).toBeInstanceOf(Promise)
+        const err = await result.catch((e) => e)
+        expect(err).toBeInstanceOf(Error)
+        expect(err.message).toEqual(errorMsg)
       })
     })
   })
@@ -73,6 +90,52 @@ describe('Form', () => {
       expect(res.foo).toBe('Too long')
       expect(res.bar).toBe('Error2')
       expect(res.baz).toBe('Too small')
+    })
+    it('should handle errors thrown in validators correctly', async () => {
+      const errorMsg = 'Fail'
+      const globalValidator: GlobalValidatorFn<{}> = () => {
+        throw new Error(errorMsg)
+      }
+      const { result } = renderHook(() => useValidator({}, {}, globalValidator))
+
+      const err = await firstValueFrom(result.current({}).pipe(catchError((e) => of(e as Error))))
+
+      expect(err).toBeInstanceOf(Error)
+
+      expect((err as Error)?.message).toBe(errorMsg)
+    })
+    it('should return a memoized function on re-render given identical input', () => {
+      const values = { foo: 'value', baz: 2, bar: new Date('2019-09-09') }
+      const fieldValidatorsInitial: FieldValidators<typeof values> = {
+        foo: (value) => Promise.resolve(value.length > 4 ? 'Too long' : undefined),
+        baz: (value) => Promise.resolve(value < 3 ? 'Too small' : undefined),
+        bar: (_) => 'Error1',
+      }
+      const mountedInitial = {}
+      const globalValidatorInitial: GlobalValidatorFn<typeof values> | undefined = (_) =>
+        new Promise((resolve) => setTimeout(() => resolve({ foo: 'Error', bar: 'Error2' }), 33))
+
+      const { result, rerender } = renderHook(
+        ({ globalValidator, mounted }) => useValidator<typeof values>(fieldValidatorsInitial, mounted, globalValidator),
+        { initialProps: { globalValidator: globalValidatorInitial, mounted: mountedInitial } }
+      )
+      const mountedTwo = {
+        foo: true,
+        baz: true,
+      }
+      rerender({ globalValidator: globalValidatorInitial, mounted: mountedTwo })
+
+      expect(result.all[0] === result.all[1]).toBe(false)
+      rerender({ globalValidator: globalValidatorInitial, mounted: mountedTwo })
+
+      expect(result.all[1] === result.all[2]).toBe(true)
+      // as any needed because the renderHook api strips undefined from provided initialProps
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      rerender({ globalValidator: undefined as any, mounted: mountedTwo })
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      rerender({ globalValidator: undefined as any, mounted: mountedTwo })
+
+      expect(result.all[4] === result.all[3]).toBe(true)
     })
   })
   describe('Reducer', () => {
@@ -162,6 +225,77 @@ describe('Form', () => {
         next = FormReducer<{ foo: string }>(next, dispatch.Submit())
         expect(next.isSubmitting).toBe(true)
       })
+    })
+  })
+  describe('SideEffects', () => {
+    function setupSideEffects<T extends Values>(props: GetFormEffectsProps<T>) {
+      const actions = new ActionFactory<T>()
+      const ref: MutableRefObject<GetFormEffectsProps<T>> = {
+        current: props,
+      }
+      const sideEffects = getFormEffects(actions, ref)
+      const source$ = new ReplaySubject<[FormActions<T>, FormState<T>, FormState<T>]>(1)
+      const sideEffects$ = merge(...sideEffects.map((effect) => effect(source$)))
+      return { next: source$.next.bind(source$), sideEffects$, actions }
+    }
+    it(`should trigger ${ActionTypes.Validate} action if ${ActionTypes.SetValue} is received`, async () => {
+      type FormValues = { foo: string; bar: string }
+      const { next, sideEffects$, actions } = setupSideEffects<FormValues>({ onValidate: (_) => of({}) })
+      const initialState = getInitialState({ values: { foo: '', bar: '' }, mounted: { foo: true, bar: true } })
+      const action = actions.SetValue({ key: 'foo', value: 'new value' })
+      next([action, initialState, FormReducer(initialState, action)])
+      const nextAction = await firstValueFrom(sideEffects$)
+      expect(nextAction.type).toBe(ActionTypes.Validate)
+    })
+    it(`should trigger ${ActionTypes.ValidateSuccess} action if ${ActionTypes.Validate} is received and validation does not throw`, async () => {
+      type FormValues = { foo: string; bar: string }
+      const { next, sideEffects$, actions } = setupSideEffects<FormValues>({ onValidate: (_) => of({}) })
+      const initialState = getInitialState({
+        values: { foo: '', bar: '' },
+        mounted: { foo: true, bar: true },
+      })
+      const action = actions.Validate()
+      next([action, initialState, FormReducer(initialState, action)])
+      const nextAction = await firstValueFrom(sideEffects$)
+      expect(nextAction.type).toBe(ActionTypes.ValidateSuccess)
+      expect(nextAction.payload).toEqual({})
+    })
+    it(`should trigger ${ActionTypes.ValidateError} action if ${ActionTypes.Validate} is received and validation does throw`, async () => {
+      type FormValues = { foo: string; bar: string }
+      const errorMsg = 'Fail'
+      const { next, sideEffects$, actions } = setupSideEffects<FormValues>({
+        onValidate: (_) =>
+          from(
+            promisifyFn<Errors<{}>>(() => {
+              throw new Error(errorMsg)
+            }) as Promise<Errors<{}>>
+          ),
+      })
+      const initialState = getInitialState({
+        values: { foo: '', bar: '' },
+        mounted: { foo: true, bar: true },
+      })
+      const action = actions.Validate()
+      next([action, initialState, FormReducer(initialState, action)])
+      const nextAction = await firstValueFrom(sideEffects$)
+      expect(nextAction.type).toBe(ActionTypes.ValidateError)
+      expect(nextAction.payload).toBeInstanceOf(Error)
+      expect((nextAction.payload as Error).message).toBe('Fail')
+    })
+    it(`it should trigger ${ActionTypes.Submit} if ${ActionTypes.SetValue} is dispatched and the form is valid and dirty and autoSubmitFlag is on`, async () => {
+      type FormValues = { foo: string; bar: string }
+      const { next, sideEffects$, actions } = setupSideEffects<FormValues>({ onValidate: (_) => of({}) })
+      const initialState = getInitialState({
+        values: { foo: '', bar: '' },
+        mounted: { foo: true, bar: true },
+        isDirty: true,
+        isValid: true,
+        autoSubmit: true,
+      })
+      const action = actions.SetValue({ key: 'foo', value: 'new value' })
+      next([action, initialState, FormReducer(initialState, action)])
+      const nextAction = await firstValueFrom(sideEffects$.pipe(filter((action) => action.type === ActionTypes.Submit)))
+      expect(nextAction.type).toBe(ActionTypes.Submit)
     })
   })
 })

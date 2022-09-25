@@ -10,6 +10,8 @@ import {
   queueScheduler,
   shareReplay,
   Observable,
+  tap,
+  ReplaySubject,
 } from 'rxjs'
 import { connectViaExtension, RemoteDev } from 'remotedev'
 
@@ -21,7 +23,7 @@ class Store<S extends {}, A extends Action> implements Subscribable<S>, Observer
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected error$: Subject<any> = new Subject()
   protected state$: Observable<S>
-  protected _action$: Subject<A> = new Subject()
+  protected _action$: ReplaySubject<A> = new ReplaySubject()
 
   protected action$: Observable<A>
   protected remotedev: RemoteDev
@@ -37,6 +39,7 @@ class Store<S extends {}, A extends Action> implements Subscribable<S>, Observer
 
     this.state$ = this.action$.pipe(
       observeOn(queueScheduler),
+      tap(console.log),
       scan((state, action) => {
         const newState = reducer(state, action)
         this._sideEffect$.next([action, state, newState])

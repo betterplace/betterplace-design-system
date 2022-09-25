@@ -1,10 +1,9 @@
 import { HTMLInputTypeAttribute } from 'react'
-import { catchError, debounceTime, delay, filter, from, map, mergeMap, Observable, of, switchMap, take } from 'rxjs'
-import { createActionCreator, isActionOf } from '../store'
-import { ActionType, Effect } from '../store/types'
-import { Values, UseFormProps, FormState } from './types'
+import { createActionCreator } from '../store'
+import { ActionType } from '../store/types'
+import { Values } from './types'
 
-const ActionTypes = {
+export const ActionTypes = {
   Submit: 'Form/Submit',
   SubmitSuccess: 'Form/SubmitSuccess',
   SubmitError: 'Form/SubmitError',
@@ -51,71 +50,6 @@ export class ActionFactory<T extends Values> {
   }>()
   UnregisterField = createActionCreator(ActionTypes.UnregisterField)<{ key: keyof T; type?: HTMLInputTypeAttribute }>()
 }
-
 export type FormActions<T extends Values> = ActionType<ActionFactory<T>[keyof ActionFactory<T>]>
-export type ActionDispatch<T extends Values> = (value: FormActions<T>) => void
 
-export type GetFormEffectsProps<T extends Values> = Omit<UseFormProps<T>, 'onValidate'> & {
-  onValidate: (values: T) => Observable<{ [key in keyof T]?: string | undefined }>
-}
-export const getFormEffects = <T extends Values>(
-  actions: ActionFactory<T>,
-  propsRef: React.RefObject<GetFormEffectsProps<T>>
-): Array<Effect<FormState<T>, FormActions<T>>> => [
-  (action$) =>
-    action$.pipe(
-      filter(() => typeof propsRef.current?.onSubmit === 'function'),
-      isActionOf(actions.Submit),
-      switchMap(([_, __, { values, isValid }]) => {
-        if (!isValid) return of()
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        return from(propsRef.current!.onSubmit!(values)).pipe(
-          mergeMap((values) => of(actions.SubmitSuccess(values))),
-          catchError((err) => of(actions.SubmitError(err)))
-        )
-      })
-    ),
-  (action$) =>
-    action$.pipe(
-      filter(([_, __, { autoSubmit }]) => !!autoSubmit),
-      isActionOf([actions.SetValues, actions.SetValue]),
-      debounceTime(300),
-      switchMap(() =>
-        action$
-          .pipe(
-            map(
-              ([_, __, { isValid, isDirty, isValidating, isSubmitting }]) =>
-                isValid && isDirty && !isValidating && !isSubmitting
-            ),
-            filter(Boolean),
-            take(1)
-          )
-          .pipe(mergeMap(() => of(actions.Submit())))
-      )
-    ),
-  (action$) =>
-    action$.pipe(
-      isActionOf(actions.Validate),
-      switchMap(([_, __, { values }]) => {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        return from(propsRef.current!.onValidate!(values)).pipe(
-          mergeMap((values) => of(actions.ValidateSuccess(values))),
-          catchError((err) => of(actions.ValidateError(err)))
-        )
-      })
-    ),
-  (action$) =>
-    action$.pipe(
-      isActionOf(actions.SetValue),
-      debounceTime(33),
-      delay(33),
-      switchMap((_) => of(actions.Validate(undefined)))
-    ),
-  (action$) =>
-    action$.pipe(
-      isActionOf(actions.RegisterField),
-      debounceTime(33),
-      delay(33),
-      switchMap((_) => of(actions.Validate(undefined)))
-    ),
-]
+export type ActionDispatch<T extends Values> = (value: FormActions<T>) => void

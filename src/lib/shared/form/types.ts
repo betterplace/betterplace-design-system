@@ -1,14 +1,20 @@
-import React, { HTMLInputTypeAttribute } from 'react'
-export type FormValuesChangeHandler<T extends Values> = (values: T) => void
-
+import { ChangeEventHandler, FocusEventHandler, FormEvent, HTMLInputTypeAttribute, MutableRefObject, Ref } from 'react'
+import type { Observable } from 'rxjs'
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type UnpackHTMLElement<T> = T extends React.DetailedHTMLProps<React.HTMLAttributes<infer V>, any> ? V : never
+export type HTMLNativeInput = Extract<
+  UnpackHTMLElement<JSX.IntrinsicElements[keyof JSX.IntrinsicElements]>,
+  { setCustomValidity: (validity: string) => void }
+>
 export type Values = Record<string, unknown>
 
 export type TransformFn<V, U> = (input: V) => U
 
+export type SetInstanceFn<T extends Values> = (key: keyof T, instance?: Element | null) => void
 export type NullableTransformFn<V, U> = TransformFn<V | null | undefined, U | undefined>
 export type ValueToKeyTransform<V> = NullableTransformFn<V extends Array<infer R> ? R : V, string>
 
-export type UnpackRef<T> = T extends React.MutableRefObject<infer R> ? R : T
+export type UnpackRef<T> = T extends MutableRefObject<infer R> ? R : T
 export type UnpackRefFields<T extends {}> = { [K in keyof T]: UnpackRef<T[K]> }
 
 export type UnpackArr<T> = T extends Array<infer V> ? V : never
@@ -67,7 +73,7 @@ export interface FormDispatch<T extends Values> {
    * Submits the form
    * @param evt form event
    */
-  submit(evt?: React.FormEvent): void
+  submit(evt?: FormEvent): void
   /**
    * Resets the form to initial values
    * See:
@@ -147,6 +153,42 @@ export interface FormState<T extends Values> {
   autoSubmit?: boolean
 }
 
+export interface RegisterFnOptions<T extends Values, K extends keyof T = keyof T, Source = string, V = T[K]> {
+  name: Extract<K, string>
+  type?: HTMLInputTypeAttribute
+  parse?: MutableRefObject<NullableTransformFn<Source, V> | undefined> | NullableTransformFn<Source, V>
+  validate?: FieldValidatorFn<T, K, V>
+  onChange?: MutableRefObject<ChangeEventHandler | undefined> | ChangeEventHandler
+}
+
+export interface UseFieldProps<T extends Values, K extends keyof T, Source = string, V = T[K]> {
+  name: Extract<K, string>
+  type?: Exclude<HTMLInputTypeAttribute, 'radio' | 'file'>
+  parse?: NullableTransformFn<Source, V>
+  format?: NullableTransformFn<V, Source>
+  validate?: FieldValidatorFn<T, K, V>
+  removeValueOnUnmount?: boolean
+  onChange?: ChangeEventHandler
+}
+
+export type RegisterFn<T extends Values> = <K extends keyof T, Source = string, V = T[K]>(
+  props: RegisterFnOptions<T, K, Source, V>
+) => {
+  name: string
+  onBlur: FocusEventHandler
+  onChange: ChangeEventHandler
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ref: Ref<any>
+}
+
+// export type GetValueFn<T extends Values> = (props: UseFieldProps<T, keyof T>) => string
+
+export type UseFormReturn<T extends Values> = FormState<T> & FormDispatch<T>
+
+export type SetValidatorFn<T extends Values> = (key: keyof T, validate?: FieldValidatorFn<T, keyof T>) => void
+
+export type FormValuesChangeHandler<T extends Values> = (values: T) => void
+
 export interface UseFormProps<T extends Values> {
   /**
    * Pass a global validator function that will receive all transformed form values
@@ -176,36 +218,8 @@ export interface UseFormProps<T extends Values> {
   autoSubmit?: boolean
 }
 
-export interface RegisterFnOptions<T extends Values, K extends keyof T = keyof T, Source = string, V = T[K]> {
-  name: Extract<K, string>
-  type?: HTMLInputTypeAttribute
-  parse: React.MutableRefObject<NullableTransformFn<Source, V> | undefined>
-  validate?: FieldValidatorFn<T, K, V>
-  onChange: React.MutableRefObject<React.ChangeEventHandler | undefined>
-}
+export type ObservableValidatorFn<T extends Values> = (values: T) => Observable<Errors<T>>
 
-export interface UseFieldProps<T extends Values, K extends keyof T, Source = string, V = T[K]> {
-  name: Extract<K, string>
-  type?: Exclude<HTMLInputTypeAttribute, 'radio' | 'file'>
-  parse?: NullableTransformFn<Source, V>
-  format?: NullableTransformFn<V, Source>
-  onValidate?: FieldValidatorFn<T, K, V>
-  removeValueOnUnmount?: boolean
-  onChange?: React.ChangeEventHandler
-}
+export type FieldValidators<T extends Values> = { [K in keyof T]?: FieldValidatorFn<T, K> }
 
-export type RegisterFn<T extends Values> = <K extends keyof T, Source = string, V = T[K]>(
-  props: RegisterFnOptions<T, K, Source, V>
-) => {
-  name: string
-  onBlur: React.FocusEventHandler
-  onChange: React.ChangeEventHandler
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ref: React.Ref<any>
-}
-
-// export type GetValueFn<T extends Values> = (props: UseFieldProps<T, keyof T>) => string
-
-export type UseFormReturn<T extends Values> = FormState<T> & FormDispatch<T>
-
-export type SetValidatorFn<T extends Values> = (key: keyof T, validate?: FieldValidatorFn<T, keyof T>) => void
+export type FieldsEnabled<T extends Values> = FormState<T>['mounted']

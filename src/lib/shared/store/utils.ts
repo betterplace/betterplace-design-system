@@ -7,12 +7,18 @@ export function isActionOf<AC extends ActionCreator>(creator: AC | AC[]) {
     source$.pipe(filter(isActionOfType(type))) as Observable<[ReturnType<AC>, S, S]>
 }
 
-export function isActionOfType<T extends string>(type: T | T[]) {
-  if (Array.isArray(type)) return <A extends Action>([action]: [A, unknown, unknown]) => type.includes(action.type as T)
-  return <A extends Action>([action]: [A, unknown, unknown]) => action.type === type
+export function isActionOfType<T extends string>(
+  type: T | T[]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): <A extends Action>([action]: [A, any, any]) => boolean {
+  if (Array.isArray(type)) return ([action]) => type.includes(action.type as T)
+  return ([action]) => action.type === type
 }
 
 export function createActionCreator<T extends string>(type: T) {
   return <P>() =>
-    (payload: P) => ({ type, payload })
+    (payload: P) => {
+      typeof payload !== 'undefined' && console.log(type, payload)
+      return { type, payload }
+    }
 }
