@@ -297,5 +297,43 @@ describe('Form', () => {
       const nextAction = await firstValueFrom(sideEffects$.pipe(filter((action) => action.type === ActionTypes.Submit)))
       expect(nextAction.type).toBe(ActionTypes.Submit)
     })
+    it(`should trigger ${ActionTypes.SubmitSuccess} action if ${ActionTypes.Submit} is received and handler does not throw`, async () => {
+      type FormValues = { foo: string; bar: string }
+      const submitOutcome: FormValues = { foo: 'foo', bar: 'bar' }
+      const { next, sideEffects$, actions } = setupSideEffects<FormValues>({
+        onSubmit: (_) => Promise.resolve(submitOutcome),
+        onValidate: (_) => of({}),
+      })
+      const initialState = getInitialState({
+        values: { foo: '', bar: '' },
+        mounted: { foo: true, bar: true },
+      })
+      const action = actions.Submit()
+      next([action, initialState, FormReducer(initialState, action)])
+      const nextAction = await firstValueFrom(sideEffects$)
+      expect(nextAction.type).toBe(ActionTypes.SubmitSuccess)
+      expect(nextAction.payload).toEqual(submitOutcome)
+    })
+    it(`should trigger ${ActionTypes.SubmitError} action if ${ActionTypes.Submit} is received and handler does throw`, async () => {
+      type FormValues = { foo: string; bar: string }
+      const errorMsg = 'Fail'
+      const { next, sideEffects$, actions } = setupSideEffects<FormValues>({
+        onValidate: (_) => of({}),
+        onSubmit: (_) =>
+          promisifyFn<FormValues>(() => {
+            throw new Error(errorMsg)
+          }) as Promise<FormValues>,
+      })
+      const initialState = getInitialState({
+        values: { foo: '', bar: '' },
+        mounted: { foo: true, bar: true },
+      })
+      const action = actions.Submit()
+      next([action, initialState, FormReducer(initialState, action)])
+      const nextAction = await firstValueFrom(sideEffects$)
+      expect(nextAction.type).toBe(ActionTypes.SubmitError)
+      expect(nextAction.payload).toBeInstanceOf(Error)
+      expect((nextAction.payload as Error).message).toBe('Fail')
+    })
   })
 })

@@ -32,6 +32,18 @@ export const getFormEffects = <T extends Values>(
     ),
   (action$) =>
     action$.pipe(
+      filter(() => typeof propsRef.current?.onSubmit === 'function'),
+      isActionOf(actions.Submit),
+      switchMap(([_, __, { values }]) => {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return from(propsRef.current!.onSubmit!(values)).pipe(
+          mergeMap((values) => of(actions.SubmitSuccess(values))),
+          catchError((err) => of(actions.SubmitError(err)))
+        )
+      })
+    ),
+  (action$) =>
+    action$.pipe(
       isActionOf(actions.Validate),
       debounceTime(33),
       switchMap(([_, __, { values }]) => {
