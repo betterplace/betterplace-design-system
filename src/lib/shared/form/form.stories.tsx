@@ -18,7 +18,7 @@ const ComplexForm = (_: {}) => {
   const { isSubmitting, isValid, isDirty } = form
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.submit}>
+      <form onSubmit={form.submit} noValidate>
         {showField && <Field<ComplexFormValues> name="sus" />}
         <Field<ComplexFormValues> name="foo" />
         <DateField<ComplexFormValues> name="bar" />

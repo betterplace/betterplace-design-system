@@ -48,7 +48,6 @@ function useRegisterFn<T extends Values>(
   const onInstanceChange = useCallback(
     (key: keyof T, type: HTMLInputTypeAttribute | undefined, instance: Element | null | undefined) => {
       if (!key) return
-      console.log(key, instance)
       setInstance(key, instance)
       if (instance) return dispatch(actions.RegisterField({ key, type }))
       refHash.delete(getRefKey(key, type))

@@ -18,7 +18,6 @@ export function isActionOfType<T extends string>(
 export function createActionCreator<T extends string>(type: T) {
   return <P>() =>
     (payload: P) => {
-      typeof payload !== 'undefined' && console.log(type, payload)
       return { type, payload }
     }
 }

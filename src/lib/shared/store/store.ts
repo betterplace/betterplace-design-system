@@ -39,7 +39,6 @@ class Store<S extends {}, A extends Action> implements Subscribable<S>, Observer
 
     this.state$ = this.action$.pipe(
       observeOn(queueScheduler),
-      tap(console.log),
       scan((state, action) => {
         const newState = reducer(state, action)
         this._sideEffect$.next([action, state, newState])
