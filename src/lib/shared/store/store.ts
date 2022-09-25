@@ -10,7 +10,6 @@ import {
   queueScheduler,
   shareReplay,
   Observable,
-  tap,
   ReplaySubject,
 } from 'rxjs'
 import { connectViaExtension, RemoteDev } from 'remotedev'
