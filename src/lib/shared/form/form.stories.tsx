@@ -15,7 +15,7 @@ const ComplexForm = (_: {}) => {
     })
   }, [])
   const form = useForm<ComplexFormValues>({ onSubmit, initialValues: { input2: '', input1: '' } })
-  const { isSubmitting, isValid, isDirty } = form
+  const { isSubmitting } = form
   return (
     <FormProvider {...form}>
       <form onSubmit={form.submit} noValidate>
@@ -24,7 +24,7 @@ const ComplexForm = (_: {}) => {
         <Field<ComplexFormValues> name="input2" />
         <DateField<ComplexFormValues> name="date" />
         <SelectField<ComplexFormValues> name="faz" />
-        <SubmitButton isSubmitting={isSubmitting} isDirty={isDirty} isValid={isValid} />
+        <SubmitButton isSubmitting={isSubmitting} />
         <CheckboxField<ComplexFormValues>
           name="autoSubmit"
           onChange={(evt) => form.setAutoSubmit(evt.target.checked)}
@@ -38,22 +38,8 @@ const ComplexForm = (_: {}) => {
   )
 }
 
-const SubmitButton = ({
-  isSubmitting,
-  isValid,
-  isDirty,
-}: {
-  isSubmitting: boolean
-  isValid: boolean
-  isDirty: boolean
-}) => {
-  return (
-    <input
-      style={{ borderColor: isValid || !isDirty ? 'inherit' : 'red' }}
-      type="submit"
-      value={isSubmitting ? 'Submitting...' : 'Submit'}
-    />
-  )
+const SubmitButton = ({ isSubmitting }: { isSubmitting: boolean }) => {
+  return <input type="submit" value={isSubmitting ? 'Submitting...' : 'Submit'} />
 }
 
 const Field = <T extends Values>({
