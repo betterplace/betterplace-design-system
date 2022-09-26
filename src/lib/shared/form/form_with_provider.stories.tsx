@@ -5,30 +5,33 @@ import { Values, FieldValidatorFn, KeysMatching } from './types'
 import { JSONPrettyPrint } from '../../components'
 import { FormProvider } from './form_context'
 import useFieldProps from './use_field_props/use_field_props'
-type SimpleFormValues = { input2: string; input1: string }
-type ComplexFormValues = SimpleFormValues & { date: Date; toggleInput1: boolean; faz: string; autoSubmit: boolean }
-const ComplexForm = (_: {}) => {
+type FormValues = {
+  input2: string
+  input1: string
+  date: Date
+  toggleInput1: boolean
+  faz: string
+  autoSubmit: boolean
+}
+const FormWithProvider = (_: {}) => {
   const [showField, setShowField] = useState(true)
-  const onSubmit = useCallback((values: ComplexFormValues) => {
-    return new Promise<ComplexFormValues>((resolve) => {
+  const onSubmit = useCallback((values: FormValues) => {
+    return new Promise<FormValues>((resolve) => {
       setTimeout(() => resolve(values), 2000)
     })
   }, [])
-  const form = useForm<ComplexFormValues>({ onSubmit, initialValues: { input2: '', input1: '' } })
+  const form = useForm<FormValues>({ onSubmit, initialValues: { input2: '', input1: '' } })
   const { isSubmitting } = form
   return (
     <FormProvider {...form}>
       <form onSubmit={form.submit} noValidate>
-        <CheckboxField<ComplexFormValues> name="toggleInput1" onChange={(evt) => setShowField(!evt.target.checked)} />
-        {showField && <Field<ComplexFormValues> name="input1" />}
-        <Field<ComplexFormValues> name="input2" />
-        <DateField<ComplexFormValues> name="date" />
-        <SelectField<ComplexFormValues> name="faz" />
+        <CheckboxField<FormValues> name="toggleInput1" onChange={(evt) => setShowField(!evt.target.checked)} />
+        {showField && <Field<FormValues> name="input1" />}
+        <Field<FormValues> name="input2" />
+        <DateField<FormValues> name="date" />
+        <SelectField<FormValues> name="faz" />
         <SubmitButton isSubmitting={isSubmitting} />
-        <CheckboxField<ComplexFormValues>
-          name="autoSubmit"
-          onChange={(evt) => form.setAutoSubmit(evt.target.checked)}
-        />
+        <CheckboxField<FormValues> name="autoSubmit" onChange={(evt) => form.setAutoSubmit(evt.target.checked)} />
         <div style={{ border: '1px solid black', padding: '10px', marginTop: '10px' }}>
           <strong>Form state:</strong>
           <JSONPrettyPrint json={form} />
@@ -148,53 +151,15 @@ const SelectField = <T extends Values>({ name }: { name: KeysMatching<T, string>
   )
 }
 
-const SimpleForm = (_: {}) => {
-  const onSubmit = useCallback((values: SimpleFormValues) => {
-    return new Promise<SimpleFormValues>((resolve) => {
-      setTimeout(() => resolve(values), 1000)
-    })
-  }, [])
-  const form = useForm<SimpleFormValues>({ onSubmit, initialValues: { input2: '', input1: '' } })
-  const { submit, register, isValid, isDirty, isSubmitting } = form
-  return (
-    <>
-      <form onSubmit={submit} noValidate>
-        <div style={{ marginBottom: '5px' }}>
-          <label htmlFor="input1" style={{ marginRight: '5px' }}>
-            input1
-          </label>
-          <input {...register({ name: 'input1', type: 'text' })} />
-        </div>
-        <div style={{ marginBottom: '5px' }}>
-          <label htmlFor="input2" style={{ marginRight: '5px' }}>
-            input2
-          </label>
-          <input {...register({ name: 'input2', type: 'text' })} />
-        </div>
-        <input
-          style={{ borderColor: isValid || !isDirty ? 'inherit' : 'red' }}
-          type="submit"
-          value={isSubmitting ? 'Submitting...' : 'Submit'}
-        />
-      </form>
-      <div style={{ border: '1px solid black', padding: '10px', marginTop: '10px' }}>
-        <strong>Form state:</strong>
-        <JSONPrettyPrint json={form} />
-      </div>
-    </>
-  )
-}
-
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: 'Lib/Form',
-  component: ComplexForm,
+  title: 'Lib/Form/Form with provider',
+  component: FormWithProvider,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-} as ComponentMeta<typeof ComplexForm>
+} as ComponentMeta<typeof FormWithProvider>
 
-const SimpleTemplate: ComponentStory<typeof SimpleForm> = (args) => <SimpleForm {...args} />
+const Template: ComponentStory<typeof FormWithProvider> = (args) => <FormWithProvider {...args} />
 
-const ComplexTemplate: ComponentStory<typeof ComplexForm> = (args) => <ComplexForm {...args} />
-export const Simple = SimpleTemplate.bind({})
-
-export const Complex = ComplexTemplate.bind({})
+export const Example = Template.bind({})
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
+Example.args = {}
