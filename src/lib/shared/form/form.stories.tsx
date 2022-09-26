@@ -75,10 +75,12 @@ const Field = <T extends Values>({
   )
   const props = useFieldProps({ name, validate: validate, type: 'text', removeValueOnUnmount })
   return (
-    <label style={{ display: 'block', marginBottom: '5px' }}>
-      <span style={{ marginRight: '5px' }}>{name}</span>
+    <div style={{ marginBottom: '5px' }}>
+      <label htmlFor={props.name} style={{ marginRight: '5px' }}>
+        {name}
+      </label>
       <input {...props} />
-    </label>
+    </div>
   )
 }
 const old = new Date().getTime()
@@ -97,10 +99,12 @@ const DateField = <T extends Values>({ name }: { name: KeysMatching<T, Date> }) 
     format: (v) => v?.toISOString().split('T')[0] ?? '',
   })
   return (
-    <label style={{ display: 'block', marginBottom: '5px' }}>
-      <span style={{ marginRight: '5px' }}>{name}</span>
+    <div style={{ marginBottom: '5px' }}>
+      <label htmlFor={props.name} style={{ marginRight: '5px' }}>
+        {name}
+      </label>
       <input {...props} />
-    </label>
+    </div>
   )
 }
 
@@ -125,10 +129,12 @@ const CheckboxField = <T extends Values>({
   })
 
   return (
-    <label style={{ display: 'block', marginBottom: '5px' }}>
-      <span style={{ marginRight: '5px' }}>{name}</span>
+    <div style={{ marginBottom: '5px' }}>
       <input {...props} />
-    </label>
+      <label htmlFor={props.name} style={{ marginLeft: '5px' }}>
+        {name}
+      </label>
+    </div>
   )
 }
 
@@ -142,15 +148,17 @@ const SelectField = <T extends Values>({ name }: { name: KeysMatching<T, string>
     validate: validate,
   })
   return (
-    <label style={{ display: 'block', marginBottom: '5px' }}>
-      <span style={{ marginRight: '5px' }}>{name}</span>
+    <div style={{ marginBottom: '5px' }}>
+      <label htmlFor={name} style={{ marginRight: '5px' }}>
+        {name}
+      </label>
       <select {...props}>
         <option> -- select an option -- </option>
         <option label="A" value="aaa"></option>
         <option label="B" value="bbb"></option>
         <option label="C" value="ccc"></option>
       </select>
-    </label>
+    </div>
   )
 }
 
@@ -165,14 +173,18 @@ const SimpleForm = (_: {}) => {
   return (
     <>
       <form onSubmit={submit} noValidate>
-        <label style={{ display: 'block', marginBottom: '5px' }}>
-          <span style={{ marginRight: '5px' }}>input1</span>
+        <div style={{ marginBottom: '5px' }}>
+          <label htmlFor="input1" style={{ marginRight: '5px' }}>
+            input1
+          </label>
           <input {...register({ name: 'input1', type: 'text' })} />
-        </label>
-        <label style={{ display: 'block', marginBottom: '5px' }}>
-          <span style={{ marginRight: '5px' }}>input2</span>
+        </div>
+        <div style={{ marginBottom: '5px' }}>
+          <label htmlFor="input2" style={{ marginRight: '5px' }}>
+            input2
+          </label>
           <input {...register({ name: 'input2', type: 'text' })} />
-        </label>
+        </div>
         <input
           style={{ borderColor: isValid || !isDirty ? 'inherit' : 'red' }}
           type="submit"
