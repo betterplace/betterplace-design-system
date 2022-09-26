@@ -83,6 +83,8 @@ export const getInitialState = <T extends Record<string, unknown>>(
   initialiseWith: Partial<FormState<T>> = {}
 ): FormState<T> =>
   ({
+    isValid: true,
+    isDirty: false,
     isValidating: false,
     isSubmitting: false,
     values: {},
@@ -91,8 +93,6 @@ export const getInitialState = <T extends Record<string, unknown>>(
     touched: {},
     mounted: {},
     removeValueOnUnmount: {},
-    isDirty: false,
-    isValid: true,
     fieldKeys: {},
     ...initialiseWith,
   } as FormState<T>)
