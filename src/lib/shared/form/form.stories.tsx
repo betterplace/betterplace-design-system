@@ -5,8 +5,8 @@ import { Values, FieldValidatorFn, KeysMatching } from './types'
 import { JSONPrettyPrint } from '../../components'
 import { FormProvider } from './form_context'
 import useFieldProps from './use_field_props/use_field_props'
-type SimpleFormValues = { foo: string; sus: string }
-type ComplexFormValues = SimpleFormValues & { bar: Date; baz: boolean; faz: string; autoSubmit: boolean }
+type SimpleFormValues = { input2: string; input1: string }
+type ComplexFormValues = SimpleFormValues & { date: Date; toggleInput1: boolean; faz: string; autoSubmit: boolean }
 const ComplexForm = (_: {}) => {
   const [showField, setShowField] = useState(true)
   const onSubmit = useCallback((values: ComplexFormValues) => {
@@ -14,22 +14,21 @@ const ComplexForm = (_: {}) => {
       setTimeout(() => resolve(values), 2000)
     })
   }, [])
-  const form = useForm<ComplexFormValues>({ onSubmit, initialValues: { foo: '', sus: '' } })
+  const form = useForm<ComplexFormValues>({ onSubmit, initialValues: { input2: '', input1: '' } })
   const { isSubmitting, isValid, isDirty } = form
   return (
     <FormProvider {...form}>
       <form onSubmit={form.submit} noValidate>
-        {showField && <Field<ComplexFormValues> name="sus" />}
-        <Field<ComplexFormValues> name="foo" />
-        <DateField<ComplexFormValues> name="bar" />
-        <CheckboxField<ComplexFormValues> name="baz" onChange={(evt) => setShowField(!evt.target.checked)} />
+        <CheckboxField<ComplexFormValues> name="toggleInput1" onChange={(evt) => setShowField(!evt.target.checked)} />
+        {showField && <Field<ComplexFormValues> name="input1" />}
+        <Field<ComplexFormValues> name="input2" />
+        <DateField<ComplexFormValues> name="date" />
+        <SelectField<ComplexFormValues> name="faz" />
+        <SubmitButton isSubmitting={isSubmitting} isDirty={isDirty} isValid={isValid} />
         <CheckboxField<ComplexFormValues>
           name="autoSubmit"
           onChange={(evt) => form.setAutoSubmit(evt.target.checked)}
         />
-
-        <SelectField<ComplexFormValues> name="faz" />
-        <SubmitButton isSubmitting={isSubmitting} isDirty={isDirty} isValid={isValid} />
         <div style={{ border: '1px solid black', padding: '10px', marginTop: '10px' }}>
           <strong>Form state:</strong>
           <JSONPrettyPrint json={form} />
@@ -161,18 +160,18 @@ const SimpleForm = (_: {}) => {
       setTimeout(() => resolve(values), 1000)
     })
   }, [])
-  const form = useForm<SimpleFormValues>({ onSubmit, initialValues: { foo: '', sus: '' } })
+  const form = useForm<SimpleFormValues>({ onSubmit, initialValues: { input2: '', input1: '' } })
   const { submit, register, isValid, isDirty, isSubmitting } = form
   return (
     <>
       <form onSubmit={submit} noValidate>
         <label style={{ display: 'block', marginBottom: '5px' }}>
-          <span style={{ marginRight: '5px' }}>foo</span>
-          <input {...register({ name: 'foo', type: 'text' })} />
+          <span style={{ marginRight: '5px' }}>input1</span>
+          <input {...register({ name: 'input1', type: 'text' })} />
         </label>
         <label style={{ display: 'block', marginBottom: '5px' }}>
-          <span style={{ marginRight: '5px' }}>sus</span>
-          <input {...register({ name: 'sus', type: 'text' })} />
+          <span style={{ marginRight: '5px' }}>input2</span>
+          <input {...register({ name: 'input2', type: 'text' })} />
         </label>
         <input
           style={{ borderColor: isValid || !isDirty ? 'inherit' : 'red' }}
