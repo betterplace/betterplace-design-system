@@ -102,9 +102,9 @@ export interface FormState<T extends Values> {
   isDirty: boolean
   /**
    * Field indicating whether form is currently being submitted
-   * see also:
-   * - {FormDispatch.submit}
-   * - {UseFormProps.onSubmit}
+   * See:
+   * - @see {@link FormDispatch FormDispatch.submit}
+   * - @see {@link UseFormProps UseFormProps.onSubmit}
    */
   isSubmitting: boolean
   /**
@@ -124,14 +124,14 @@ export interface FormState<T extends Values> {
   /**
    * Dictionary indicating which input are currently mounted in the DOM
    * See also:
-   * - {FormState.removeValueOnUnmount}
+   * - {FormState['removeValueOnUnmount']}
    */
   mounted: { [key in keyof T]?: boolean }
   /**
    * Dictionary storing information about which inputs' values will be removed
-   * form {FormState.values} when unmounted. The flag for changing this behaviour is set on individual fields
+   * form @type {FormState.values} when unmounted. The flag for changing this behaviour is set on individual fields
    * See also:
-   * - {UseFieldProps.removeValueOnUnmount}
+   * @see {@link UseFieldProps<T, K, Source, V>['removeValueOnUnmount']}
    */
   removeValueOnUnmount: { [key in keyof T]?: boolean }
   /**
@@ -154,10 +154,33 @@ export interface FormState<T extends Values> {
 }
 
 export interface RegisterFnOptions<T extends Values, K extends keyof T = keyof T, Source = string, V = T[K]> {
+  /**
+   * Input name attribute
+   */
   name: Extract<K, string>
+  /**
+   * Input type attribute
+   */
   type?: HTMLInputTypeAttribute
+  /**
+   * Transform function that takes the form {Source} (usually string, unless a custom component is used)
+   * and transforms it into the value stored in the {FormState['values']}. This function will be triggered whenever field value changes
+   * alternatively you can provide a {React.MutableRefObject} instead if you are planning on making the function dynamic
+   */
   parse?: MutableRefObject<NullableTransformFn<Source, V> | undefined> | NullableTransformFn<Source, V>
+  /**
+   * Pass a validator function that will receive the field value and  all transformed form values
+   * If the validation fails it should return a  `string` with the error or a `Promise<string>`
+   * otherwise `undefined` or `Promise<undefined>`
+   * Signature:
+   * `<T extends Values, K extends keyof T, V = T[K]>(value: V, values: T) => Promise<string | undefined> | string | undefined`
+   *
+   * !!It needs to be stable - so use either use useCallback or a static function
+   */
   validate?: FieldValidatorFn<T, K, V>
+  /**
+   * optional `React.ChangeEventHandler`
+   */
   onChange?: MutableRefObject<ChangeEventHandler | undefined> | ChangeEventHandler
 }
 
@@ -192,8 +215,8 @@ export type FormValuesChangeHandler<T extends Values> = (values: T) => void
 export interface UseFormProps<T extends Values> {
   /**
    * Pass a global validator function that will receive all transformed form values
-   * It should return a dictionary of strings representing field errors, or a @type{Promise} of such dictionary
-   * In case if no errors where encountered it should return @type{undefined} or a @type{Promise<undefined>}
+   * It should return a dictionary of strings representing field errors, or a @type {Promise} of such dictionary
+   * In case if no errors where encountered it should return @type {undefined} or a @type { Promise<undefined> }
    * !!It needs to be stable - so use either use useCallback or a static function
    */
   onValidate?: GlobalValidatorFn<T>

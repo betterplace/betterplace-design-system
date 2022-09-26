@@ -2,6 +2,7 @@ import { Canvas, Meta, Story, ArgsTable, Source } from '@storybook/addon-docs'
 import dedent from 'ts-dedent'
 import { useForm } from './use_form'
 import { useUseFormReturn } from './use_use_form_return.tsx'
+import { useUseFormReturnRegister } from './use_use_form_return_register.tsx'
 import { Template } from './use_form_story_template.tsx'
 
 <Meta
@@ -36,8 +37,10 @@ import { Template } from './use_form_story_template.tsx'
 
 ## Usage
 
+### Without a provider
+
 <Source
-  language="typescript"
+  language="tsx"
   code={dedent`
 type FormValues = { foo: string; bar: number }
 const MyComponent = () => {
@@ -47,6 +50,10 @@ const MyComponent = () => {
     const formProps = useForm({ onSubmit })
     return (
       <form {...formProps}>
+        <input {...register({
+           type: 'text',
+           name: 'foo'
+        })} />
         ....
       </form>
     )
@@ -62,3 +69,7 @@ const MyComponent = () => {
 ## Return
 
 <ArgsTable of={useUseFormReturn} />
+
+## RegisterFn
+
+<ArgsTable of={useUseFormReturnRegister} />
