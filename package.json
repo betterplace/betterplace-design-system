@@ -7,7 +7,7 @@
   "author": "betterplace <developers@betterplace.org>",
   "license": "Apache-2.0",
   "homepage": "http://betterplace.github.io/betterplace-design-system",
-  "version": "0.0.11",
+  "version": "0.1.0",
   "files": [
     "dist"
   ],
