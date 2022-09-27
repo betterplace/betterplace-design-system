@@ -101,7 +101,8 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
     this.option('figma', { type: Boolean, description: 'Link with Figma component' })
     this.options = { ...opts, props: opts.props ?? {} }
     this.options.camelizedName = camelize(this.options.name)
-    this.options.snakifiedName = snakeify(this.options.camelizedName)
+    this.options.snakifiedName = snakeify(this.options.name)
+    console.log(this.options.snakifiedName, this.options.camelizedName)
     if (!this.options.root) {
       this.log.error('Component root was not provided!')
       process.exit(1)
@@ -197,21 +198,23 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
       }
     )
     if (this.options.story) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const fileInfo = this.fileInfo!
-      const specUrl = getComponentSpecUrl(fileInfo, this.options)
-      this.fs.copyTpl(
-        this.templatePath('figma.lock.ts.ejs'),
-        this.destinationPath(`${this.componentPath}/figma.lock.ts`),
-        {
-          url: specUrl,
-          id: this.options.id,
-          themes: objToArr(this.options.themes ?? {}).map((theme) => ({
-            ...theme,
-            url: getComponentSpecUrl(fileInfo, this.options, theme.theme),
-          })),
-        }
-      )
+      if (this.options.figma) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const fileInfo = this.fileInfo!
+        const specUrl = getComponentSpecUrl(fileInfo, this.options)
+        this.fs.copyTpl(
+          this.templatePath('figma.lock.ts.ejs'),
+          this.destinationPath(`${this.componentPath}/figma.lock.ts`),
+          {
+            url: specUrl,
+            id: this.options.id,
+            themes: objToArr(this.options.themes ?? {}).map((theme) => ({
+              ...theme,
+              url: getComponentSpecUrl(fileInfo, this.options, theme.theme),
+            })),
+          }
+        )
+      }
       this.fs.copyTpl(
         this.templatePath('component.stories.tsx.ejs'),
         this.destinationPath(`${this.componentPath}/${this.options.snakifiedName}.stories.tsx`),
@@ -220,6 +223,7 @@ class StorybookGenerator extends Generator<GeneratorOpts> {
           compFileName: this.options.snakifiedName,
           title: storyTitle,
           variants,
+          figma: this.options.figma,
         }
       )
     }

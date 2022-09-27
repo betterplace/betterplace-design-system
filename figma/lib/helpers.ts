@@ -1,4 +1,4 @@
-// eslint-disable @typescript-eslint/no-explicit-any
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Node } from 'figma-api'
 export function rgbToHex(r: number, g: number, b: number) {
   const color = '#' + ((1 << 24) + ((r * 255) << 16) + ((g * 255) << 8) + b * 255).toString(16).slice(1)
@@ -21,16 +21,19 @@ export function camelize(str: string, capitalizeInitial?: boolean): string {
     if (p2) return p2.toUpperCase()
     return p1.toLowerCase()
   })
-  if (res.length && capitalizeInitial) res = res.charAt(0).toUpperCase() + res.slice(1)
+  const capitalize = capitalizeInitial || (res.length >= 2 && res.charAt(1) === res.charAt(1).toUpperCase())
+  if (res.length && capitalize) res = res.charAt(0).toUpperCase() + res.slice(1)
   return res
 }
 
 export function kebabCase(str: string) {
-  return str.replace(/([\W_])/g, '-').toLowerCase()
+  const result = str.replace(/([\W])/g, ' $1').replace(/\s+/g, ' ')
+  return result.split(' ').join('-').toLowerCase()
 }
 
 export function snakeify(str: string) {
-  return str.replace(/([\W_])/g, '_').toLowerCase()
+  const result = str.replace(/([\W])/g, ' $1').replace(/\s+/g, ' ')
+  return result.split(' ').join('_').toLowerCase()
 }
 
 export type DataTuple<T, K extends string = string> = readonly [string, K, T]

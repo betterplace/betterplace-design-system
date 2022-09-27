@@ -1,9 +1,13 @@
 import { ReactFramework, StoryContext } from '@storybook/react'
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import '../../build/css/globals.css'
 import tokens from '../../config/tokens.json'
-import AVAILABLE_THEMES from '../lib/shared/themes'
-const ThemeKeys = AVAILABLE_THEMES.map((theme) => theme.key)
+import AVAILABLE_THEMES from '../lib/shared/themes.json'
+
+const ThemeKeys = AVAILABLE_THEMES.map((theme) => theme.key) as Exclude<
+  keyof typeof tokens,
+  'global' | '$themes' | '$metadata'
+>[]
 type Theme = typeof ThemeKeys[number]
 
 type ThemeProviderProps = {
@@ -15,7 +19,7 @@ export type ThemeProviderContext = {
   theme?: Theme
   tokens?: {
     global: Tokens['global']
-    theme: Tokens[Exclude<keyof Tokens, 'global'>]
+    theme: Tokens[Theme]
   }
 }
 
@@ -23,13 +27,19 @@ export const ThemeContext = React.createContext<ThemeProviderContext>({})
 
 export const ThemeProvider = ({ theme, children }: ThemeProviderProps) => {
   const [themeVars, setThemeVars] = useState('')
-
-  import(`../../build/css/themes/${theme}.css`).then((styles) => {
-    setThemeVars(styles.default)
-  })
+  useEffect(() => {
+    import(`../../build/css/themes/${theme}.css`).then((styles) => {
+      setThemeVars(styles.default)
+    })
+  }, [theme])
 
   return (
-    <ThemeContext.Provider value={{ theme, tokens: { global: tokens.global, theme: tokens[theme] } }}>
+    <ThemeContext.Provider
+      value={{
+        theme,
+        tokens: { global: tokens.global, theme: tokens[theme] },
+      }}
+    >
       <style id="theme-vars">{themeVars}</style>
       {children}
     </ThemeContext.Provider>
