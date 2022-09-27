@@ -1,5 +1,18 @@
 import { RefObject } from 'react'
-import { Observable, filter, debounceTime, switchMap, map, take, mergeMap, of, from, catchError, delay } from 'rxjs'
+import {
+  Observable,
+  filter,
+  debounceTime,
+  switchMap,
+  map,
+  take,
+  mergeMap,
+  of,
+  from,
+  catchError,
+  delay,
+  EMPTY,
+} from 'rxjs'
 import { Effect, isActionOf } from '../store'
 import { ActionFactory, FormActions } from './actions'
 import { Values, UseFormProps, FormState, ObservableValidatorFn } from './types'
@@ -35,7 +48,7 @@ export const getFormEffects = <T extends Values>(
       filter(() => typeof propsRef.current?.onSubmit === 'function'),
       isActionOf(actions.Submit),
       switchMap(([_, __, { values, isValid }]) => {
-        if (!isValid) return of()
+        if (!isValid) return EMPTY
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return from(propsRef.current!.onSubmit!(values)).pipe(
           mergeMap((values) => of(actions.SubmitSuccess(values))),
