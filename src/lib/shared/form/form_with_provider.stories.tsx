@@ -68,7 +68,7 @@ const Field = <T extends Values>({
       <label htmlFor={props.name} style={{ marginRight: '5px' }}>
         {name}
       </label>
-      <input {...props} />
+      <input {...props} id={props.name} />
     </div>
   )
 }
@@ -92,7 +92,7 @@ const DateField = <T extends Values>({ name }: { name: KeysMatching<T, Date> }) 
       <label htmlFor={props.name} style={{ marginRight: '5px' }}>
         {name}
       </label>
-      <input {...props} />
+      <input {...props} id={props.name} />
     </div>
   )
 }
@@ -119,7 +119,7 @@ const CheckboxField = <T extends Values>({
 
   return (
     <div style={{ marginBottom: '5px' }}>
-      <input {...props} />
+      <input {...props} id={props.name} />
       <label htmlFor={props.name} style={{ marginLeft: '5px' }}>
         {name}
       </label>
@@ -141,7 +141,7 @@ const SelectField = <T extends Values>({ name }: { name: KeysMatching<T, string>
       <label htmlFor={name} style={{ marginRight: '5px' }}>
         {name}
       </label>
-      <select {...props}>
+      <select {...props} id={name}>
         <option> -- select an option -- </option>
         <option label="A" value="aaa"></option>
         <option label="B" value="bbb"></option>

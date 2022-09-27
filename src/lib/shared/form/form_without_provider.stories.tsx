@@ -19,13 +19,13 @@ const FormWithoutProvider = (_: {}) => {
           <label htmlFor="input1" style={{ marginRight: '5px' }}>
             input1
           </label>
-          <input {...register({ name: 'input1', type: 'text' })} />
+          <input {...register({ name: 'input1', type: 'text' })} id="input1" />
         </div>
         <div style={{ marginBottom: '5px' }}>
           <label htmlFor="input2" style={{ marginRight: '5px' }}>
             input2
           </label>
-          <input {...register({ name: 'input2', type: 'text' })} />
+          <input {...register({ name: 'input2', type: 'text' })} id="input2" />
         </div>
         <input
           style={{ borderColor: isValid || !isDirty ? 'inherit' : 'red' }}
