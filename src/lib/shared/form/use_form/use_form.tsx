@@ -105,15 +105,18 @@ function useMappedStoreDispatch<T extends Values>(dispatch: ActionDispatch<T>, a
         submit: (evt) => {
           evt?.preventDefault()
           dispatch(actionFactory.SetDirty(true))
-          dispatch(actionFactory.Submit(undefined))
+          dispatch(actionFactory.Submit())
         },
-        validate: () => dispatch(actionFactory.Validate(undefined)),
+        validate: () => dispatch(actionFactory.Validate()),
         setAutoSubmit: (value) => dispatch(actionFactory.SetAutoSubmit(value)),
         setDirty: (value) => dispatch(actionFactory.SetDirty(value)),
         setTouched: (key, touched) => dispatch(actionFactory.SetTouched({ key, touched })),
         setValue: (key, value) => dispatch(actionFactory.SetValue({ key, value: value as T[keyof T] })),
         setValues: (values) => dispatch(actionFactory.SetValues(values)),
-        reset: () => dispatch(actionFactory.Reset(undefined)),
+        reset: () => {
+          dispatch(actionFactory.Reset())
+          dispatch(actionFactory.Validate())
+        },
       } as UseFormReturn<T>),
     [actionFactory, dispatch]
   )
@@ -150,7 +153,11 @@ export function useForm<T extends Values>(props: UseFormProps<T>): UseFormReturn
   const { onValidate: onValidate_, ...props_ } = props
 
   const initialFormValueRef = useRef(
-    getInitialState<T>({ values: { ...((props.initialValues ?? {}) as T), autoSubmit: props.autoSubmit } })
+    getInitialState<T>({
+      values: { ...((props.initialValues ?? {}) as T) },
+      initialValues: { ...((props.initialValues ?? {}) as T) },
+      autoSubmit: props.autoSubmit,
+    })
   )
   const actionFactoryRef = useRef(new ActionFactory<T>())
   const onFormValuesChangeRef = useUpdatableRef(props.onFormValuesChange)

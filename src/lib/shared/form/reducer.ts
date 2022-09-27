@@ -13,15 +13,9 @@ const FormReducer = <T extends Values>(state: FormState<T>, action: FormActions<
         error: action.payload,
       }
     case 'Form/SubmitSuccess':
+      return onSubmitSuccess<T>(state, action)
     case 'Form/SetValues':
-      return {
-        ...state,
-        isSubmitting: false,
-        error: undefined,
-        values: { ...state.values, ...action.payload },
-        touched: {},
-        isDirty: false,
-      }
+      return onSetValues<T>(state, action)
     case 'Form/SetValue':
       return {
         ...state,
@@ -33,6 +27,12 @@ const FormReducer = <T extends Values>(state: FormState<T>, action: FormActions<
         isDirty:
           (action.payload.internal && action.payload.value !== state.values[action.payload.key]) || state.isDirty,
       }
+    case 'Form/Reset':
+      return getInitialState({
+        mounted: state.mounted,
+        values: state.initialValues,
+        initialValues: state.initialValues,
+      })
     case 'Form/Validate':
       return {
         ...state,
@@ -93,11 +93,40 @@ export const getInitialState = <T extends Record<string, unknown>>(
     touched: {},
     mounted: {},
     removeValueOnUnmount: {},
-    fieldKeys: {},
+    initialValues: {},
     ...initialiseWith,
   } as FormState<T>)
 
 export default FormReducer
+
+function onSetValues<T extends Values>(
+  state: FormState<T>,
+  action: ActionType<ActionFactory<T>['SetValues']>
+): FormState<T> {
+  return {
+    ...state,
+    isSubmitting: false,
+    error: undefined,
+    values: { ...state.values, ...action.payload },
+    touched: {},
+    isDirty: false,
+  }
+}
+
+function onSubmitSuccess<T extends Values>(
+  state: FormState<T>,
+  action: ActionType<ActionFactory<T>['SubmitSuccess']>
+): FormState<T> {
+  return {
+    ...state,
+    isSubmitting: false,
+    error: undefined,
+    values: { ...state.values, ...action.payload },
+    initialValues: { ...action.payload },
+    touched: {},
+    isDirty: false,
+  }
+}
 
 function onSetDirty<T extends Values>(
   state: FormState<T>,

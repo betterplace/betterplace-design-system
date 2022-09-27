@@ -226,6 +226,40 @@ describe('Form', () => {
         expect(next.isSubmitting).toBe(true)
       })
     })
+    describe('SubmitSuccess', () => {
+      it('should set isSubmitting to false, update values and initialValues', () => {
+        type FormValues = { foo: string; bar: string }
+        const dispatch = new ActionFactory<FormValues>()
+        const values: FormValues = { foo: 'whatever', bar: 'smth else' }
+        const submitOutcome: FormValues = { foo: 'foo', bar: 'bar' }
+        const next = FormReducer<FormValues>(
+          getInitialState({ values, initialValues: values, fieldErrors: {}, isValid: true, isSubmitting: true }),
+          dispatch.SubmitSuccess(submitOutcome)
+        )
+        expect(next.isSubmitting).toBe(false)
+        expect(next.values).toEqual(submitOutcome)
+        expect(next.initialValues).toEqual(submitOutcome)
+      })
+    })
+    describe('Reset', () => {
+      it('should set values to initialValues and reset all other state fields except for mounted to initial state', () => {
+        type FormValues = { foo: string; bar: string }
+        const dispatch = new ActionFactory<FormValues>()
+        const values: FormValues = { foo: 'whatever', bar: 'smth else' }
+        const initialValues: FormValues = { foo: 'foo', bar: 'bar' }
+        const state = getInitialState({
+          values,
+          initialValues,
+          fieldErrors: { foo: 'Error' },
+          isValid: true,
+          isDirty: true,
+          mounted: { foo: true, bar: true },
+        })
+        const next = FormReducer<FormValues>(state, dispatch.Reset())
+        const stateAfterReset = getInitialState({ values: initialValues, mounted: state.mounted, initialValues })
+        expect(next).toEqual(stateAfterReset)
+      })
+    })
   })
   describe('SideEffects', () => {
     function setupSideEffects<T extends Values>(props: GetFormEffectsProps<T>) {
@@ -238,7 +272,7 @@ describe('Form', () => {
       const sideEffects$ = merge(...sideEffects.map((effect) => effect(source$)))
       return { next: source$.next.bind(source$), sideEffects$, actions }
     }
-    it(`should trigger ${ActionTypes.Validate} action if ${ActionTypes.SetValue} is received`, async () => {
+    it(`should trigger Validate action if SetValue is received`, async () => {
       type FormValues = { foo: string; bar: string }
       const { next, sideEffects$, actions } = setupSideEffects<FormValues>({ onValidate: (_) => of({}) })
       const initialState = getInitialState({ values: { foo: '', bar: '' }, mounted: { foo: true, bar: true } })
@@ -247,7 +281,7 @@ describe('Form', () => {
       const nextAction = await firstValueFrom(sideEffects$)
       expect(nextAction.type).toBe(ActionTypes.Validate)
     })
-    it(`should trigger ${ActionTypes.ValidateSuccess} action if ${ActionTypes.Validate} is received and validation does not throw`, async () => {
+    it(`should trigger ValidateSuccess action if Validate is received and validation does not throw`, async () => {
       type FormValues = { foo: string; bar: string }
       const { next, sideEffects$, actions } = setupSideEffects<FormValues>({ onValidate: (_) => of({}) })
       const initialState = getInitialState({
@@ -260,7 +294,7 @@ describe('Form', () => {
       expect(nextAction.type).toBe(ActionTypes.ValidateSuccess)
       expect(nextAction.payload).toEqual({})
     })
-    it(`should trigger ${ActionTypes.ValidateError} action if ${ActionTypes.Validate} is received and validation does throw`, async () => {
+    it(`should trigger ValidateError action if Validate is received and validation does throw`, async () => {
       type FormValues = { foo: string; bar: string }
       const errorMsg = 'Fail'
       const { next, sideEffects$, actions } = setupSideEffects<FormValues>({
@@ -282,7 +316,7 @@ describe('Form', () => {
       expect(nextAction.payload).toBeInstanceOf(Error)
       expect((nextAction.payload as Error).message).toBe('Fail')
     })
-    it(`it should trigger ${ActionTypes.Submit} if ${ActionTypes.SetValue} is dispatched and the form is valid and dirty and autoSubmitFlag is on`, async () => {
+    it(`it should trigger Submit if SetValue is dispatched and the form is valid and dirty and autoSubmitFlag is on`, async () => {
       type FormValues = { foo: string; bar: string }
       const { next, sideEffects$, actions } = setupSideEffects<FormValues>({ onValidate: (_) => of({}) })
       const initialState = getInitialState({
@@ -297,7 +331,28 @@ describe('Form', () => {
       const nextAction = await firstValueFrom(sideEffects$.pipe(filter((action) => action.type === ActionTypes.Submit)))
       expect(nextAction.type).toBe(ActionTypes.Submit)
     })
-    it(`should trigger ${ActionTypes.SubmitSuccess} action if ${ActionTypes.Submit} is received and handler does not throw`, async () => {
+    it(`should not call the onSubmit handler, if Submit is dispatched and the form is not valid`, async () => {
+      jest.useFakeTimers('modern')
+      type FormValues = { foo: string; bar: string }
+      const submitOutcome: FormValues = { foo: 'foo', bar: 'bar' }
+      const spy = jest.fn().mockReturnValue(Promise.resolve(submitOutcome))
+      const { next, sideEffects$, actions } = setupSideEffects<FormValues>({
+        onSubmit: spy,
+        onValidate: (_) => of({}),
+      })
+      const initialState = getInitialState({
+        values: { foo: '', bar: '' },
+        mounted: { foo: true, bar: true },
+        isValid: false,
+      })
+      const action = actions.Submit()
+      next([action, initialState, FormReducer(initialState, action)])
+      const sub = sideEffects$.subscribe()
+      jest.runAllTimers()
+      sub.unsubscribe()
+      expect(spy.mock.calls.length).toEqual(0)
+    })
+    it(`should trigger SubmitSuccess action if Submit is received and handler does not throw`, async () => {
       type FormValues = { foo: string; bar: string }
       const submitOutcome: FormValues = { foo: 'foo', bar: 'bar' }
       const { next, sideEffects$, actions } = setupSideEffects<FormValues>({
@@ -314,7 +369,7 @@ describe('Form', () => {
       expect(nextAction.type).toBe(ActionTypes.SubmitSuccess)
       expect(nextAction.payload).toEqual(submitOutcome)
     })
-    it(`should trigger ${ActionTypes.SubmitError} action if ${ActionTypes.Submit} is received and handler does throw`, async () => {
+    it(`should trigger SubmitError action if Submit is received and handler does throw`, async () => {
       type FormValues = { foo: string; bar: string }
       const errorMsg = 'Fail'
       const { next, sideEffects$, actions } = setupSideEffects<FormValues>({

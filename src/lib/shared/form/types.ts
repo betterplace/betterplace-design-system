@@ -89,24 +89,24 @@ export interface FormState<T extends Values> {
   /**
    * {object} representing transformed form values
    */
-  values: T
+  readonly values: T
   /**
    * Represents validity of the form
    * {true} if {FormState.fieldErrors} is empty
    */
-  isValid: boolean
+  readonly isValid: boolean
   /**
    * Field indicating whether user has changed any of the fields
    * {true} if {FormState.touched} has no {true} values
    */
-  isDirty: boolean
+  readonly isDirty: boolean
   /**
    * Field indicating whether form is currently being submitted
    * See:
    * - @see {@link FormDispatch FormDispatch.submit}
    * - @see {@link UseFormProps UseFormProps.onSubmit}
    */
-  isSubmitting: boolean
+  readonly isSubmitting: boolean
   /**
    * Field indicating whether form is currently being validated
    * For global validation see:
@@ -115,42 +115,44 @@ export interface FormState<T extends Values> {
    * For individual fields validation see:
    * - {UseFieldProps.onValidate}
    */
-  isValidating: boolean
+  readonly isValidating: boolean
   /**
    * Dictionary storing information about which fields were touched by the user
    * touched flag is set by the on blur handler on individual fields
    */
-  touched: { [key in keyof T]?: boolean }
+  readonly touched: { [key in keyof T]?: boolean }
   /**
    * Dictionary indicating which input are currently mounted in the DOM
    * See also:
    * - {FormState['removeValueOnUnmount']}
    */
-  mounted: { [key in keyof T]?: boolean }
+  readonly mounted: { [key in keyof T]?: boolean }
   /**
    * Dictionary storing information about which inputs' values will be removed
    * form @type {FormState.values} when unmounted. The flag for changing this behaviour is set on individual fields
    * See also:
    * @see {@link UseFieldProps<T, K, Source, V>['removeValueOnUnmount']}
    */
-  removeValueOnUnmount: { [key in keyof T]?: boolean }
+  readonly removeValueOnUnmount: { [key in keyof T]?: boolean }
   /**
    * Dictionary representing form field errors
    */
-  fieldErrors: Errors<T>
+  readonly fieldErrors: Errors<T>
   /**
    * Global error set if any of the async actions resulted with an Error
    * (ie hasn't completed)
    */
-  error?: Error
+  readonly error?: Error
   /**
    *  Proxy for underlying element className
    */
-  className?: string
+  readonly className?: string
   /**
    * Toggles automatic submission on the form when it's valid
    */
-  autoSubmit?: boolean
+  readonly autoSubmit?: boolean
+
+  readonly initialValues: T
 }
 
 export interface RegisterFnOptions<T extends Values, K extends keyof T = keyof T, Source = string, V = T[K]> {
