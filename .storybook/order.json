@@ -3,10 +3,9 @@
   ["About the Design System", "Design Principles", "Experience Values"],
   "Guides",
   ["Content Guide", "Accessibility Guide", "UX Design Guide", "Development Guide", "Testing Guide"],
-  "Design Tokens (Settings)",
+  "Tokens",
   ["Introduction", "Colors", "Typography", "Spacing", "Grid", "Breakpoints"],
   "Elements",
-  "Objects",
   "Components",
   "Hooks"
 ]

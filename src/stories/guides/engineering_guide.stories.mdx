@@ -44,7 +44,7 @@ rules: [From general to specific](https://en.wikipedia.org/wiki/Hierarchy#Contai
 
 Here is, **in our own words**, and applied to our specific context, what each of these layers is about:
 
-#### 1. Settings
+#### 1. Settings (We call it Tokens.)
 
 In ITCSS _settings_ constitute the first layer.
 It’s the most general layer and the one with the widest reach.
@@ -57,7 +57,7 @@ certain properties of the design. At _Salesforce_ they
   (a. k. a. CSS variables) and, if needed, as preprocessor variables.
 - For a reasonable implementation example of this layer see [Pollen](https://www.pollen.style/).
 
-#### 2. Tools
+#### 2. Tools (We call it Mixins.)
 
 - Globally used mix-ins and functions for CSS preprocessors.
 - Using PostCSS, these will probably be implemented as @apply blocks.
@@ -78,7 +78,7 @@ It’s reserved for bare HTML elements.
   [the HTML elements reference at MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element)
   (which is also the knowledge base [recommended by the W3C](https://www.w3.org/wiki/Open_Web_Platform#HTML_Elements)).
 
-#### 5. Objects
+#### 5. Objects (We call them Coponents. So we don't differentiate between Objects and Components.)
 
 - Common design patterns as described by [OOCSS](https://www.smashingmagazine.com/2011/12/an-introduction-to-object-oriented-css-oocss/)
 - Normally represented by assigning a single classname.

@@ -3,7 +3,7 @@ import themeTokens from '../../../build/json/themes/org.json'
 import globalTokens from '../../../build/json/globals.json'
 
 export default {
-  title: 'Design Tokens (Settings)/Colors',
+  title: 'Tokens/Colors',
 } as ComponentMeta<typeof ColorSwatch>
 
 type ColorSwatchProps = {
