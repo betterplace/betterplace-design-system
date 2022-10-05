@@ -153,7 +153,7 @@ const SelectField = <T extends Values>({ name }: { name: KeysMatching<T, string>
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: 'Lib/Form/Form with provider',
+  title: 'Hooks/Form/Form with provider',
   component: FormWithProvider,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
 } as ComponentMeta<typeof FormWithProvider>

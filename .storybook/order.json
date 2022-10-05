@@ -7,5 +7,6 @@
   ["Introduction", "Colors", "Typography", "Spacing", "Grid", "Breakpoints"],
   "Elements",
   "Objects",
-  "Components"
+  "Components",
+  "Hooks"
 ]
