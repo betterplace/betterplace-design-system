@@ -1,6 +1,6 @@
 import { StorybookConfig, Options } from '@storybook/core-common'
 import { UserConfig } from 'vite'
-import postcss from 'postcss'
+
 interface ExtendedConfig extends StorybookConfig {
   viteFinal?: (config: UserConfig, options: Options) => Promise<UserConfig>
 }
@@ -11,7 +11,7 @@ const config: ExtendedConfig = {
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
     '@storybook/addon-jest',
-    '@storybook/addon-a11y', // TODO: vite fix https://github.com/storybookjs/storybook/pull/17997
+    '@storybook/addon-a11y',
     'storybook-addon-designs',
   ],
   framework: '@storybook/react',
