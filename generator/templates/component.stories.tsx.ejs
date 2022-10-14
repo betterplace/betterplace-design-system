@@ -13,7 +13,7 @@ export default {
   // argTypes: {},
   <% if (figma) { %>
   parameters: {
-    design: FigmaCfg.themes.length ? FigmaCfg.themes.map(({url, name}) => ({url, name, type: 'figspec', accessToken: process.env.STORYBOOK_FIGMA_ACCESS_TOKEN,})) : { type: 'figspec', accessToken: process.env.STORYBOOK_FIGMA_ACCESS_TOKEN, url: FigmaCfg.url,},
+    design: FigmaCfg.themes.length ? FigmaCfg.themes.map(({url, name}) => ({url, name, type: 'figspec', accessToken: import.meta.env.STORYBOOK_FIGMA_ACCESS_TOKEN,})) : { type: 'figspec', accessToken: import.meta.env.STORYBOOK_FIGMA_ACCESS_TOKEN, url: FigmaCfg.url,},
   },
   <% } %>
 } as ComponentMeta<typeof <%=compName%>>
