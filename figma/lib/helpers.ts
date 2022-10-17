@@ -27,12 +27,12 @@ export function camelize(str: string, capitalizeInitial?: boolean): string {
 }
 
 export function kebabCase(str: string) {
-  const result = str.replace(/([\W])/g, ' $1').replace(/\s+/g, ' ')
+  const result = str.replace(/([\W])/g, ' $1').replace(/[\s/]+/g, ' ')
   return result.split(' ').join('-').toLowerCase()
 }
 
 export function snakeify(str: string) {
-  const result = str.replace(/([\W])/g, ' $1').replace(/\s+/g, ' ')
+  const result = str.replace(/([\W])/g, ' $1').replace(/[\s/]+/g, ' ')
   return result.split(' ').join('_').toLowerCase()
 }
 

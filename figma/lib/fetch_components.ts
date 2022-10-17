@@ -1,6 +1,6 @@
 import { Node, Style } from 'figma-api'
 import Figma from './client'
-import AVAILABLE_THEMES from '../../src/lib/shared/themes'
+import AVAILABLE_THEMES from '../../src/lib/shared/themes.json'
 const ThemeKeys = AVAILABLE_THEMES.map(({ key }) => key)
 import { getWalk, getFileTopLevelChildren, camelize, ExtractorFn, pipe, objToArr } from './helpers'
 

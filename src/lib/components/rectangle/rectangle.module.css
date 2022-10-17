@@ -1,4 +1,4 @@
 .rectangleMain {
-  --rectangleBackground: var(--betterplace-global-secondary-purple-600);
+  --rectangleBackground: var(--betterplace-color-purple-600);
   background: var(--rectangleBackground);
 }
