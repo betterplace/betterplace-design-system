@@ -13,7 +13,13 @@
   },
 
   "exclude": ["node_modules", "dist"],
-  "include": ["figma/**/*", "generator/**/*", "src/lib/shared/themes.ts", "config/components.json", "src/**/*.lock.ts"],
+  "include": [
+    "figma/**/*",
+    "generator/**/*",
+    "src/lib/shared/themes.json",
+    "config/components.json",
+    "src/**/*.lock.ts"
+  ],
   "ts-node": {
     "transpileOnly": true,
     "transpiler": "ts-node/transpilers/swc"
