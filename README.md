@@ -6,14 +6,21 @@ The system uses [Storybook](https://storybook.js.org/) as a tool for developing 
 
 ## 🔧 Setup
 
-1. `git clone git@github.com:betterplace/betterplace-design-system.git`
-2. `cd betterplace-design-system`
-3. `yarn install`
-4. `yarn storybook`
+### Install prerequisites
 
-## Dependencies
+1. Install [Homebrew](https://brew.sh): `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+2. Install [asdf](https://asdf-vm.com/guide/getting-started.html): `brew install asdf`
+3. Install dependencies (see [.tool-versions](.tool-versions)): `asdf install`
 
-See [.tool-versions](.tool-versions)
+### Install the project
+
+1. Clone the repository: `git clone git@github.com:betterplace/betterplace-design-system.git`
+2. Change to the directory: `cd betterplace-design-system`
+3. Install dependencies: `yarn install`
+
+### Run the project
+
+4. Start the server and run Storybook in your browser: `yarn storybook`
 
 ## 💻 Development
 
