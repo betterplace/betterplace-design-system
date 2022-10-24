@@ -8,19 +8,26 @@ The system uses [Storybook](https://storybook.js.org/) as a tool for developing 
 
 ### Install prerequisites
 
+Open a terminal and enter the following `commands` one by one in order to install the tools necessary for running the project:
+
 1. Install [Homebrew](https://brew.sh): `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
 2. Install [asdf](https://asdf-vm.com/guide/getting-started.html): `brew install asdf`
-3. Install dependencies (see [.tool-versions](.tool-versions)): `asdf install`
+3. Install global dependencies (see [.tool-versions](.tool-versions)): `asdf install`
 
 ### Install the project
 
-1. Clone the repository: `git clone git@github.com:betterplace/betterplace-design-system.git`
-2. Change to the directory: `cd betterplace-design-system`
-3. Install dependencies: `yarn install`
+To run the project you first need to download all the files to your computer and install some dependencies:
+
+1. Clone the Git repository: `git clone git@github.com:betterplace/betterplace-design-system.git`
+2. Change to the directory where all the project files live: `cd betterplace-design-system`
+3. Install project's dependencies: `yarn install`
 
 ### Run the project
 
-4. Start the server and run Storybook in your browser: `yarn storybook`
+1. If you aren't already there, change to the directory where all the project files live: `cd betterplace-design-system`
+2. Start the server and run Storybook in your browser: `yarn storybook`
+   - This might fail after updating the Git repository. In that case, run `yarn install` again.
+3. The browser will open automatically once it's finished. If not, you can open it manually: http://localhost:6006/
 
 ## 💻 Development
 
