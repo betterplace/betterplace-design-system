@@ -7,7 +7,7 @@ StyleDictionary.registerParser({
     // replace the old reference syntax with the one style-dictionary understands
     // e.g. "$fontFamilies.fira-sans" -> "{fontFamilies.fira-sans}"
     // see https://docs.tokens.studio/tokens/aliases
-    const tokens = JSON.parse(contents.replace(/\$([^"]+)/g, `{$1}`))
+    const tokens = JSON.parse(contents.replace(/\$([^"\s]+)/g, `{$1}`))
 
     // strip away the global key for global token set but keep the themes nested
     // this is necessary, because the references from Figma Tokens do not include the token set key
