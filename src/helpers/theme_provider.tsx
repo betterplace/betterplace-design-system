@@ -48,7 +48,7 @@ export const ThemeProvider = ({ theme, children }: ThemeProviderProps) => {
 
 export const withThemeProvider = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Story: React.FunctionComponent<StoryContext<ReactFramework, any>>,
+  story: React.FunctionComponent<StoryContext<ReactFramework, any>>,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   context: StoryContext<ReactFramework, any>
 ) => {
