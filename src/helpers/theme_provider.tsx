@@ -52,5 +52,5 @@ export const withThemeProvider = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   context: StoryContext<ReactFramework, any>
 ) => {
-  return <ThemeProvider theme={context.globals.theme}>{Story(context)}</ThemeProvider>
+  return <ThemeProvider theme={context.globals.theme}>{story(context)}</ThemeProvider>
 }
