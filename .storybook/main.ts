@@ -1,4 +1,6 @@
-import { StorybookConfig, Options } from '@storybook/core-common'
+import { Options } from '@storybook/core-common'
+import { StorybookConfig } from '@storybook/react/types'
+
 import { UserConfig } from 'vite'
 
 interface ExtendedConfig extends StorybookConfig {
@@ -15,6 +17,7 @@ const config: ExtendedConfig = {
     'storybook-addon-designs',
   ],
   framework: '@storybook/react',
+  reactOptions: { strictMode: true },
   core: {
     builder: '@storybook/builder-vite',
   },
