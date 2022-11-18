@@ -48,13 +48,9 @@ export const ThemeProvider = ({ theme, children }: ThemeProviderProps) => {
 
 export const withThemeProvider = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Story: React.ComponentType<StoryContext<ReactFramework, any>>,
+  Story: React.FunctionComponent<StoryContext<ReactFramework, any>>,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   context: StoryContext<ReactFramework, any>
 ) => {
-  return (
-    <ThemeProvider theme={context.globals.theme}>
-      <Story {...context} />
-    </ThemeProvider>
-  )
+  return <ThemeProvider theme={context.globals.theme}>{Story(context)}</ThemeProvider>
 }
