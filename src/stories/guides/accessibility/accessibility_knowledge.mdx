@@ -1,0 +1,149 @@
+## Accessibility (a11y) knowledge
+
+## What is web accessibility?
+
+„Web accessibility means that websites, tools, and technologies are designed and developed so that **people with disabilities can use them**.” [[1]](https://www.w3.org/WAI/fundamentals/accessibility-intro/#what)
+
+Web accessibility involves a wide range of disabilities including **auditory**, **cognitive**, **neurological**, **physical**, **speech** and **visual**.
+
+## Web Content Accessibility Guidelines (WCAG)
+
+- The [Web Content Accessibility Guidelines (WCAG)](https://www.w3.org/WAI/standards-guidelines/wcag/) are an internationally agreed upon standard established to help developing accessible web content.
+- The guidelines are organized by four main principles (POUR):
+  - **Perceivable** – Information and user interface components must be presentable to users in ways they can perceive.
+  - **Operable** – User interface components and navigation must be operable.
+  - **Understandable** – Information and the operation of user interface must be understandable.
+  - **Robust** – Content must be robust enough that it can be interpreted reliably by a wide variety of user agents, including assistive technologies.
+- Each guideline consists of one or more **success criteria**.
+- To be compliant to a conformance level, you must meet all the success criteria of that level, plus all levels below it.
+  - **A (Basic)** – If this isn't met, assistive technology may not be able to read, understand, or fully operate the page or view.
+  - **AA (Ideal)** – Required for multiple government and public body websites.
+  - **AAA (Specialized support)** – This is typically reserved for parts of websites and web apps that serve a specialized audience.
+
+![2019-WCAG2 1-Map-Intopia-plus-reading-order](https://user-images.githubusercontent.com/9885028/210508267-17fbbc02-fd82-4a93-bd47-52bbd73dd51f.png)
+
+## Best practices
+
+General remark: Use these best practices thoughtfully. Always keep in mind that accessibility is not only about following rules, but about the best way to serve the needs of users.
+
+<details>
+<summary>For UX designers</summary>
+
+### Color
+
+- All information-bearing elements must at least have a contrast of 4.5:1 (to background)
+- Exceptions are UI controls (e.g. check in checkbox) color fills, text bigger than 18px (bold). They only need 3:1.
+- Disabled and decorative elements don’t need to reach a contrast ratio: but even better is they do!
+- Design color independently. That means, an interface needs to be understood in gray scale as well.
+
+### Interaction
+
+Elements that can be interacted with should be clearly identifiable by unique signifiers that are only used for that type of interaction.
+
+Rules of thumb:
+
+- Text within a box is a button.
+- Underlined, blue, underlined and blue text is a link.
+
+Stick to one style for interactive elements throughout the platform to reduce interaction cost.
+
+The **touch target size** (area of and around an element that triggers an action) needs to be at least **44 x 44px** (Google says 48 x 48px).
+Make sure to have designed for all the states you need: **Default, hover, focus, pressed, disabled, loading/processing**, checked (toggled), visited.
+
+Everything that can be swiped or dragged, needs also being able to be clicked/tabbed.
+
+### Content
+
+- Each link that links to a unique url should have a unique and out of context understandable link text.
+- All CTAs should include the main keyword and action verb within the first 1-3 words of the text/label (that’s all our brain focuses on and reads before making a decision).
+- Every link is a promise: make it precise and transparent where it’ll lead.
+
+**Tip:** To avoid “show/read more links” link the headline of the content.
+
+- Show hints and error messages right after the label (otherwise the user won’t know what to look out for before filling in the input).
+  Never show important text below a CTA for the same reason.
+- Make sure sighted and people with visual deficiency as well as cognitive disabilities (or tired and stressed people) can also skip through a page by using concise and comprehensive link/heading/button copy.
+- Make sure all information-bearing icons, graphics and illustrations have an ALT text.
+
+</details>
+
+<details>
+<summary>For developers</summary>
+
+### Markup
+
+Use native HTML elements wherever it makes semantically sense. Most HTML elements convey a semantic meaning and provide additional functionality, that users can benefit from or even depend on.
+
+#### Examples
+
+- use a `button`, when an interaction triggers some action on the page, e.g. opening a modal, submitting a form, loading data, swiping a slider, etc.
+- use an `a` tag with an `href` attribute for links, i.e. when the interaction navigates the user to a different page (or a different part of the page).
+- use a `ul` or `ol`, whenever you want to group some items together in a list and want the user to know how many items the list contains. This does not only apply to "regular" text items, but can be anything, e.g. a gallery of images, a list of teasers, navigation items, etc.
+- use headline tags (`h1`, `h2`, etc.) for headlines and use them in a logical order.
+
+Complete [list of HTML elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element).
+
+### Images
+
+#### Alternative text
+
+Make sure _every_ image has an `alt` attribute, either with
+
+- a descriptive text (think of how you would describe the image to someone on the phone) or
+- an empty string. This only applies to images that are purely decorative and don't contribute anything to the content.
+
+If it's an image uploaded by the user, decide whether
+
+- we can define a general rule, e.g. "avatar of _name of the user_". (Keep in mind that this is usually less valuable of an information. You should also be careful not to create redundancy.) Or
+- we should give the user the possibility to enter their own alternative text.
+
+More information about [writing good alt text](https://webaim.org/techniques/alttext/).
+
+#### Responsive Images
+
+Make sure images are served only as big as necessary.
+
+### Interactive components
+
+- Make sure every form element has an associated `label`.
+- Make sure every interactive element can be reached by using only the keyboard and the tab order is logical.
+- Use an appropriate native element if possible (see [Markup](#Markup)).
+- Use ARIA roles, properties and states if there is no such component provided by HTML out of the box.
+- Use [React Aria](https://react-spectrum.adobe.com/react-aria/) for helper methods and the [ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/patterns/) as a reference for common component patterns.
+
+### Zooming and font size
+
+- Don't use pixels values unless you explicitly want the value to stay consistent no matter the font size (which might be the case for borders and shadows for example).
+- Use `rem` for most of the things and `em` when it makes sense (font sizes, line-height).
+
+### Content structure and order
+
+- Make sure every page has a title. There should only be one `h1` per page.
+- Make sure heading levels are in a logical order.
+- Use [landmarks](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/landmark_role), such as `nav`, `main`, `section`, etc. It helps users navigate the page quicker.
+- Don't move around items arbitrarily with CSS (be careful with `order`, `float` or `grid` for example). It can result in a [confusing experience for keyboard users](https://www.matuzo.at/blog/the-dark-side-of-the-grid-part-2/).
+
+### Hiding content
+
+Depending on the use case there are several [ways to hide content](https://kittygiraudel.com/2021/02/17/hiding-content-responsibly/). Think about whether the content should be
+
+- visible
+- machine readable (announced by a screen reader)
+
+and based on that decide which approach is most appropriate.
+
+#### Examples
+
+- Visible but not machine readable (example: decorative icons)
+- Invisible but machine readable (example: context for icon-only buttons)
+- Invisible and not machine readable (example: offscreen content such as a closed modal window)
+- Visible and machine readable (example: most stuff)
+
+</details>
+
+## Helpful resources
+
+- [Curated list of online resources related to web accessibility](https://a11y.me/)
+- [Accessibility Developer Guide](https://www.accessibility-developer-guide.com/)
+- [Quick accessibility tests anyone can do](https://tetralogical.com/blog/2022/01/18/quick-accessibility-tests-anyone-can-do/)
+- [Internal list](https://github.com/betterplace/all_you_need_to_know/blob/main/tools-and-resources/learning_resources.md#web-accessibility) of a11y learning resources
