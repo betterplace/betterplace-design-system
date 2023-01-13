@@ -2,7 +2,7 @@
   "Foundations",
   ["About the Design System", "Design Principles", "Experience Values"],
   "Guides",
-  ["Content Guide", "Accessibility Guide", "UX Design Guide", "Development Guide", "Testing Guide"],
+  ["Content guide", "Accessibility guide", "UX Design guide", "Development guide", "Testing guide"],
   "Tokens",
   ["Introduction", "Colors", "Typography", "Spacing", "Grid", "Breakpoints"],
   "Elements",

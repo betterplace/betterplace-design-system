@@ -1,17 +1,17 @@
 import { Meta } from '@storybook/addon-docs'
 
-<Meta title="Guides/Testing Guide" />
+<Meta title="Guides/Testing guide" />
 
-# Testing Guide
+# Manual testing guide
 
 🚧 Add general testing guidelines
 
-## Testing Accessibility
+## Testing accessibility
 
-- [Quick accessibility tests anyone can do](https://tetralogical.com/blog/2022/01/18/quick-accessibility-tests-anyone-can-do/).
-- If you write **code**, install [axe Linter](https://marketplace.visualstudio.com/items?itemName=deque-systems.vscode-axe-linter).
-- Use the **keyboard** to test tab behavior, focus visibility and order ([Intro to keyboard testing](https://webaim.org/techniques/keyboard/)).
-- Use a **screen reader** at least when testing complex components ([Intro to using a screen reader](https://tetralogical.com/blog/2021/09/29/browsing-with-a-desktop-screen-reader/)).
-- **Zoom** in and out (ctrl +/-) and change the font size in your browser settings.
+- Test with a **pointing device** (e.g. a computer mouse) and **touch device** to ensure interactive elements work.
+- **Zoom** in and out (ctrl +/-) and change the font size in your browser settings to ensure content is accessible outside your standard view.
+- Test with **only a keyboard** to ensure all content is accessible without using a pointing or touch device. ([Intro to keyboard testing](https://webaim.org/techniques/keyboard/))
+- Test with a **screen reader** to ensure all content is accessible and coherent when read aloud. ([Intro to using a screen reader](https://tetralogical.com/blog/2021/09/29/browsing-with-a-desktop-screen-reader/))
+- If content changed / has been added: Read through the **content** to ensure everything is understandable.
+- If design changed / new: Emulate **color vision deficiencies** to ensure content is distinguishable.
 - Test responsiveness and touch usability on **mobile** devices ([Intro to mobile accessibility](https://developer.mozilla.org/en-US/docs/Learn/Accessibility/Mobile)).
-- Check the Accessibility tab in Storybook.
