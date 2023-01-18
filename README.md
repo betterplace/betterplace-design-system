@@ -12,7 +12,11 @@ Open a terminal and enter the following `commands` one by one in order to instal
 
 1. Install [Homebrew](https://brew.sh): `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
 2. Install [asdf](https://asdf-vm.com/guide/getting-started.html): `brew install asdf`
-3. Install global dependencies (see [.tool-versions](.tool-versions)): `asdf install`
+3. Install the required asdf plugins:
+
+- `asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git`
+- `asdf plugin add ruby https://github.com/asdf-vm/asdf-ruby.git`
+- `asdf plugin-add yarn`
 
 ### Install the project
 
@@ -20,7 +24,8 @@ To run the project you first need to download all the files to your computer and
 
 1. Clone the Git repository: `git clone git@github.com:betterplace/betterplace-design-system.git`
 2. Change to the directory where all the project files live: `cd betterplace-design-system`
-3. Install project's dependencies: `yarn install`
+3. Install global dependencies (see [.tool-versions](.tool-versions)): `asdf install`
+4. Install project's dependencies: `yarn install`
 
 ### Run the project
 
