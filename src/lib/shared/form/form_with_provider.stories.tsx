@@ -1,5 +1,5 @@
 import React, { ChangeEventHandler, useCallback, useState } from 'react'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react'
 import { useForm } from './use_form'
 import { Values, FieldValidatorFn, KeysMatching } from './types'
 import { JSONPrettyPrint } from '../../components'
@@ -151,15 +151,8 @@ const SelectField = <T extends Values>({ name }: { name: KeysMatching<T, string>
   )
 }
 
-// More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: 'Hooks/Form/Form with provider',
   component: FormWithProvider,
-  // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-} as ComponentMeta<typeof FormWithProvider>
+} as Meta<typeof FormWithProvider>
 
-const Template: ComponentStory<typeof FormWithProvider> = (args) => <FormWithProvider {...args} />
-
-export const Example = Template.bind({})
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
-Example.args = {}
+export const Example: StoryObj = {}

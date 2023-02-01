@@ -1,10 +1,10 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react'
 import themeTokens from '../../../build/json/themes/org.json'
 import globalTokens from '../../../build/json/globals.json'
 
 export default {
-  title: 'Tokens/Colors',
-} as ComponentMeta<typeof ColorSwatch>
+  title: 'Tokens/Colors'
+} as Meta<typeof ColorSwatch>
 
 type ColorSwatchProps = {
   colors: string[]
@@ -35,14 +35,14 @@ const ColorSwatch = ({ colors }: ColorSwatchProps) => {
   )
 }
 
-const Template: ComponentStory<typeof ColorSwatch> = (args) => <ColorSwatch {...args} />
-
-export const GlobalColors = Template.bind({})
-GlobalColors.args = {
-  colors: Object.keys(globalTokens).filter((token) => token.startsWith('betterplace-color')),
+export const GlobalColors: StoryObj = {
+  args: {
+    colors: Object.keys(globalTokens).filter((token) => token.startsWith('betterplace-color')),
+  }
 }
 
-export const MainColors = Template.bind({})
-MainColors.args = {
-  colors: Object.keys(themeTokens).filter((token) => token.startsWith('betterplace-color')),
+export const MainColors: StoryObj = {
+  args: {
+    colors: Object.keys(themeTokens).filter((token) => token.startsWith('betterplace-color')),
+  }
 }

@@ -1,27 +1,12 @@
-import { Options } from '@storybook/core-common';
-import { StorybookConfig } from '@storybook/react/types';
-import { UserConfig } from 'vite';
-interface ExtendedConfig extends StorybookConfig {
-  viteFinal?: (config: UserConfig, options: Options) => Promise<UserConfig>;
-}
-const config: ExtendedConfig = {
-  stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+import { StorybookConfig } from '@storybook/react-vite'
+
+const config: StorybookConfig = {
+  stories: [{ directory: '../src', files: '**/*.stories.@(mdx|tsx|ts|jsx|js)' }],
   addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-interactions', '@storybook/addon-jest', '@storybook/addon-a11y', 'storybook-addon-designs'],
-  framework: {
-    name: '@storybook/react-vite',
-    options: {
-      strictMode: true
-    }
-  },
-  reactOptions: {
-    strictMode: true
-  },
-  core: {
-    builder: '@storybook/builder-vite'
-  },
-  typescript: {
-    reactDocgen: 'react-docgen-typescript'
-  },
+  framework: '@storybook/react-vite',
+  // typescript: {
+    // reactDocgen: 'react-docgen-typescript'
+  // },
   async viteFinal(config) {
     console.log('env', process.env.BASE_URL, process.env.STORYBOOK_FIGMA_ACCESS_TOKEN);
     config.base = process.env.BASE_URL || config.base;
