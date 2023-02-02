@@ -2,7 +2,6 @@ import { withDesign } from 'storybook-addon-designs'
 import { withThemeProvider } from '../src/helpers'
 import AvailableThemes from '../src/lib/shared/themes.json'
 import { GlobalTypes, Parameters } from '@storybook/types'
-import order from './order.json'
 
 export const parameters: Parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
@@ -15,7 +14,17 @@ export const parameters: Parameters = {
   },
   options: {
     storySort: {
-      order,
+      order: [
+        "Foundations",
+        ["About the Design System", "Design Principles", "Experience Values"],
+        "Guides",
+        ["Content guide", "Accessibility guide", "UX Design guide", "Development guide", "Testing guide"],
+        "Tokens",
+        ["Introduction", "Colors", "Typography", "Spacing", "Grid", "Breakpoints"],
+        "Elements",
+        "Components",
+        "Hooks"
+      ],
     },
   },
 }
