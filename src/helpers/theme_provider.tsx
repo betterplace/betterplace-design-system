@@ -8,7 +8,7 @@ const ThemeKeys = AVAILABLE_THEMES.map((theme) => theme.key) as Exclude<
   keyof typeof tokens,
   'global' | '$themes' | '$metadata'
 >[]
-type Theme = typeof ThemeKeys[number]
+type Theme = (typeof ThemeKeys)[number]
 
 type ThemeProviderProps = {
   theme: Theme

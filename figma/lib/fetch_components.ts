@@ -23,7 +23,7 @@ const StyleNames: Record<string, string> = {
   grid: 'positioning',
 }
 
-type ComponentTokens = typeof StyleNames[keyof typeof StyleNames]
+type ComponentTokens = (typeof StyleNames)[keyof typeof StyleNames]
 
 function stripBooleanValues(values?: string[]): string[] {
   if (!values) return []

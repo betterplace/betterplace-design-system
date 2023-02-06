@@ -14,6 +14,7 @@ export const parameters: Parameters = {
   },
   options: {
     storySort: {
+      // needs to be inline, see https://github.com/storybookjs/storybook/issues/20883
       order: [
         "Foundations",
         ["About the Design System", "Design Principles", "Experience Values"],

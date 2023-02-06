@@ -13,5 +13,5 @@ export default {
 export const Default: StoryObj = {
   args: {
     json: { bar: 'Lorem ipsum sic dolor', baz: ['it is a string', { foo: false, sus: null }], bub: 123 },
-  }
+  },
 }
