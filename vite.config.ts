@@ -10,8 +10,7 @@ export default defineConfig({
     eslint(),
     react(),
     dts({
-      insertTypesEntry: true,
-      skipDiagnostics: true
+      insertTypesEntry: true
     }),
   ],
   build: {
