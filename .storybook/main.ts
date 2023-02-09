@@ -1,9 +1,7 @@
 import { StorybookConfig } from '@storybook/react-vite'
-import { PluginOption } from 'vite'
+import { mergeConfig } from 'vite'
+import viteStorybookConfig from '../vite.storybook.config'
 
-function isDtsPlugin(option: PluginOption) {
-  return !!option && 'name' in option && option.name === 'vite:dts'
-}
 const config: StorybookConfig = {
   stories: [{ directory: '../src', files: '**/*.stories.@(mdx|tsx|ts|jsx|js)' }],
   addons: [
@@ -14,13 +12,13 @@ const config: StorybookConfig = {
     '@storybook/addon-a11y',
     'storybook-addon-designs',
   ],
-  framework: '@storybook/react-vite',
-  async viteFinal(config) {
-    console.log('env', process.env.BASE_URL, process.env.STORYBOOK_FIGMA_ACCESS_TOKEN)
-    config.base = process.env.BASE_URL || config.base
-    config.plugins?.splice(config.plugins.findIndex(isDtsPlugin), 1)
-    // return the customized config
-    return config
+  framework: {
+    name: '@storybook/react-vite',
+    options: {
+      builder: {
+        viteConfigPath: 'vite.storybook.config.ts',
+      }
+    }
   },
   docs: {
     autodocs: true,
