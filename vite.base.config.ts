@@ -5,10 +5,7 @@ import eslint from 'vite-plugin-eslint'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    eslint(),
-    react(),
-  ],
+  plugins: [eslint(), react()],
   build: {
     lib: {
       entry: path.resolve(__dirname, 'src/lib/index.ts'),

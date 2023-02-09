@@ -5,7 +5,7 @@ import dts from 'vite-plugin-dts'
 export default mergeConfig(baseConfig, {
   plugins: [
     dts({
-      insertTypesEntry: true
-    })
+      insertTypesEntry: true,
+    }),
   ],
 })

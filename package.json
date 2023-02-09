@@ -36,7 +36,7 @@
     "build-storybook": "export BASE_URL='/betterplace-design-system/'; storybook build",
     "serve-static-storybook": "storybook build && serve storybook-static",
     "build-tokens": "style-dictionary build --config config/style-dictionary/config.js",
-    "lint": "tsc -p tsconfig.base.json && eslint . && stylelint src/**/*.css",
+    "lint": "tsc -p tsconfig.base.json && eslint . --fix && stylelint src/**/*.css --fix",
     "prepare": "husky install"
   },
   "dependencies": {
