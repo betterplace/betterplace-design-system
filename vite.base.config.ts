@@ -1,20 +1,11 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
 import path from 'node:path'
-import dts from 'vite-plugin-dts'
+import react from '@vitejs/plugin-react'
 import eslint from 'vite-plugin-eslint'
-import dynamicImport from 'vite-plugin-dynamic-import'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    eslint(),
-    react(),
-    dts({
-      insertTypesEntry: true,
-    }),
-    dynamicImport(),
-  ],
+  plugins: [eslint(), react()],
   build: {
     lib: {
       entry: path.resolve(__dirname, 'src/lib/index.ts'),

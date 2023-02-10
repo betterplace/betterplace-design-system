@@ -1,7 +1,6 @@
 .eslintrc.js
 .prettierrc.js
 .stylelintrc.js
-babel.config.js
 jest.config.js
 postcss.config.js
 tailwind.config.js
@@ -9,7 +8,6 @@ tailwind.config.js
 app/javascript/gql/generated.ts
 app/javascript/shared/i18n.ts
 config/**/*.js
-vite.config.ts
 node_modules
 style-dictionary/config.js
 storybook-static

@@ -1,13 +1,7 @@
-import { Options } from '@storybook/core-common'
-import { StorybookConfig } from '@storybook/react/types'
+import { StorybookConfig } from '@storybook/react-vite'
 
-import { UserConfig } from 'vite'
-
-interface ExtendedConfig extends StorybookConfig {
-  viteFinal?: (config: UserConfig, options: Options) => Promise<UserConfig>
-}
-const config: ExtendedConfig = {
-  stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+const config: StorybookConfig = {
+  stories: [{ directory: '../src', files: '**/*.stories.@(mdx|tsx|ts|jsx|js)' }],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
@@ -16,20 +10,16 @@ const config: ExtendedConfig = {
     '@storybook/addon-a11y',
     'storybook-addon-designs',
   ],
-  framework: '@storybook/react',
-  reactOptions: { strictMode: true },
-  core: {
-    builder: '@storybook/builder-vite',
+  framework: {
+    name: '@storybook/react-vite',
+    options: {
+      builder: {
+        viteConfigPath: 'vite.storybook.config.ts',
+      }
+    }
   },
-  typescript: {
-    reactDocgen: 'react-docgen-typescript',
-  },
-  async viteFinal(config) {
-    console.log('env', process.env.BASE_URL, process.env.STORYBOOK_FIGMA_ACCESS_TOKEN)
-    config.base = process.env.BASE_URL || config.base
-    // return the customized config
-    return config
+  docs: {
+    autodocs: true,
   },
 }
-
 export default config
