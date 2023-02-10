@@ -18,7 +18,7 @@ blocks:
             - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
             - cache clear
             - yarn
-            - cache store node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum yarn.lock) node_modules
+            - cache store
             - yarn build-tokens
             - cache store tokens-$SEMAPHORE_GIT_BRANCH build
       prologue:
@@ -36,7 +36,7 @@ blocks:
         - name: Jest
           commands:
             - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
-            - cache restore node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum yarn.lock)
+            - cache restore
             - cache restore tokens-$SEMAPHORE_GIT_BRANCH
             - yarn
             - yarn test
@@ -51,7 +51,7 @@ blocks:
         - name: ESlint & TSC
           commands:
             - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
-            - cache restore node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum yarn.lock)
+            - cache restore
             - cache restore tokens-$SEMAPHORE_GIT_BRANCH
             - yarn
             - yarn lint
@@ -69,7 +69,7 @@ blocks:
         - name: Build NPM Package
           commands:
             - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
-            - cache restore node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum yarn.lock)
+            - cache restore
             - cache restore tokens-$SEMAPHORE_GIT_BRANCH
             - yarn
             - yarn build
@@ -78,7 +78,7 @@ blocks:
         - name: Build Storybook
           commands:
             - "sem-version node $(awk '/^nodejs/ { print $2 }' .tool-versions)"
-            - cache restore node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum yarn.lock)
+            - cache restore
             - cache restore tokens-$SEMAPHORE_GIT_BRANCH
             - yarn
             - yarn build-storybook

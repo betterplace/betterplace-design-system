@@ -18,7 +18,7 @@ blocks:
             - ssh-keyscan -H github.com >> ~/.ssh/known_hosts
             - chmod 600 ~/.ssh/id_rsa_semaphore
             - ssh-add ~/.ssh/id_rsa_semaphore
-            - cache restore node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum yarn.lock)
+            - cache restore
             - npm i gh-pages -g
             - cache restore storybook-$SEMAPHORE_GIT_BRANCH
             - gh-pages --dist storybook-static --no-history --dotfiles --message "[skip ci] Updates"
