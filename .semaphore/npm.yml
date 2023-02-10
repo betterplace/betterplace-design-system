@@ -13,7 +13,7 @@ blocks:
       jobs:
         - name: Deploy to NPM
           commands:
-            - cache restore
+            - cache restore node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum yarn.lock)
             - cache restore npm-package-$SEMAPHORE_GIT_BRANCH
             - cache restore package-$SEMAPHORE_GIT_BRANCH
             - npm set-script prepare ""
