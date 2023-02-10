@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react'
 import { useForm } from './use_form'
 import { JSONPrettyPrint } from '../../components'
 type FormValues = { input2: string; input1: string }
@@ -43,14 +43,7 @@ const FormWithoutProvider = (_: {}) => {
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: 'Hooks/Form/Form without provider',
   component: FormWithoutProvider,
-  // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-} as ComponentMeta<typeof FormWithoutProvider>
+} as Meta<typeof FormWithoutProvider>
 
-// More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof FormWithoutProvider> = (args) => <FormWithoutProvider {...args} />
-
-export const Example = Template.bind({})
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
-Example.args = {}
+export const Example: StoryObj = {}

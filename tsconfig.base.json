@@ -24,7 +24,8 @@
   "include": [
     "src",
     "config",
-    "src/**/*.mdx"
+    "src/**/*.mdx",
+    "vite.*.config.ts"
   ],
   "exclude": [
     "node_modules"

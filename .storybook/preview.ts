@@ -1,8 +1,8 @@
 import { withDesign } from 'storybook-addon-designs'
 import { withThemeProvider } from '../src/helpers'
-import AvailableThemes from '../src/lib/shared/themes'
-import { Parameters } from '@storybook/addons'
-import order from './order.json'
+import AvailableThemes from '../src/lib/shared/themes.json'
+import { GlobalTypes, Parameters } from '@storybook/types'
+
 export const parameters: Parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
   controls: {
@@ -14,12 +14,23 @@ export const parameters: Parameters = {
   },
   options: {
     storySort: {
-      order,
+      // needs to be inline, see https://github.com/storybookjs/storybook/issues/20883
+      order: [
+        "Foundations",
+        ["About the Design System", "Design Principles", "Experience Values"],
+        "Guides",
+        ["Content guide", "Accessibility guide", "UX Design guide", "Development guide", "Testing guide"],
+        "Tokens",
+        ["Introduction", "Colors", "Typography", "Spacing", "Grid", "Breakpoints"],
+        "Elements",
+        "Components",
+        "Hooks"
+      ],
     },
   },
 }
 
-export const globalTypes = {
+export const globalTypes: GlobalTypes = {
   theme: {
     name: 'Theme',
     description: 'Switch theme for preview',

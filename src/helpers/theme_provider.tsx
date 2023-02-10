@@ -1,4 +1,4 @@
-import { ReactFramework, StoryContext } from '@storybook/react'
+import { ReactRenderer, StoryContext } from '@storybook/react'
 import React, { ReactNode, useEffect, useState } from 'react'
 import '../../build/css/globals.css'
 import tokens from '../../config/tokens.json'
@@ -8,7 +8,7 @@ const ThemeKeys = AVAILABLE_THEMES.map((theme) => theme.key) as Exclude<
   keyof typeof tokens,
   'global' | '$themes' | '$metadata'
 >[]
-type Theme = typeof ThemeKeys[number]
+type Theme = (typeof ThemeKeys)[number]
 
 type ThemeProviderProps = {
   theme: Theme
@@ -47,10 +47,8 @@ export const ThemeProvider = ({ theme, children }: ThemeProviderProps) => {
 }
 
 export const withThemeProvider = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  story: React.FunctionComponent<StoryContext<ReactFramework, any>>,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  context: StoryContext<ReactFramework, any>
+  story: React.FunctionComponent<StoryContext<ReactRenderer>>,
+  context: StoryContext<ReactRenderer>
 ) => {
   return <ThemeProvider theme={context.globals.theme}>{story(context)}</ThemeProvider>
 }
