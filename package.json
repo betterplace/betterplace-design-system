@@ -33,7 +33,7 @@
     "component::add::figma": "ts-node --project ./tsconfig.tsnode.json  node_modules/.bin/yo ./generator --figma --test --story --root src/lib",
     "component::add::lib": "ts-node --project ./tsconfig.tsnode.json  node_modules/.bin/yo ./generator --test --story --root src/lib",
     "component::add::local": "ts-node --project ./tsconfig.tsnode.json  node_modules/.bin/yo ./generator --root",
-    "build-storybook": "export BASE_URL='/betterplace-design-system/'; storybook build",
+    "build-storybook": "export BASE_URL='/betterplace-design-system/'; storybook build; touch storybook-static/.nojekyll",
     "serve-static-storybook": "storybook build && serve storybook-static",
     "build-tokens": "style-dictionary build --config config/style-dictionary/config.js",
     "lint": "tsc -p tsconfig.base.json && eslint . --fix && stylelint src/**/*.css --fix",
