@@ -16,15 +16,15 @@ export const parameters: Parameters = {
     storySort: {
       // needs to be inline, see https://github.com/storybookjs/storybook/issues/20883
       order: [
-        "Foundations",
-        ["About the Design System", "Design Principles", "Experience Values"],
-        "Guides",
-        ["Content guide", "Accessibility guide", "UX Design guide", "Development guide", "Testing guide"],
-        "Tokens",
-        ["Introduction", "Colors", "Typography", "Spacing", "Grid", "Breakpoints"],
-        "Elements",
-        "Components",
-        "Hooks"
+        'About the Design System',
+        'Guides',
+        ['UX Design guide', 'Content guide', 'Accessibility guide', 'Development guide', 'Testing guide'],
+        'Tokens',
+        ['Introduction', 'Colors', 'Typography', 'Spacing', 'Grid', 'Breakpoints'],
+        'Elements',
+        'Components',
+        'Hooks',
+        'Lib',
       ],
     },
   },

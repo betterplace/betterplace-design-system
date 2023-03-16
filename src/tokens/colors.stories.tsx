@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react'
-import themeTokens from '../../../build/json/themes/org.json'
-import globalTokens from '../../../build/json/globals.json'
+import themeTokens from '../../build/json/themes/org.json'
+import globalTokens from '../../build/json/globals.json'
 
 type ColorSwatchProps = {
   colors: string[]

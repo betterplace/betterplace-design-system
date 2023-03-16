@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { PropsWithChildren, useState } from 'react'
-import { JSONPrettyPrint } from '../lib/components/json_pretty_print'
+import { JSONPrettyPrint } from '../lib/json_pretty_print'
 
 export const HookRenderHelper = ({ children }: PropsWithChildren<Record<string, unknown>>) => {
   const [key, setKey] = useState(1)

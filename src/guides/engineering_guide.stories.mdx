@@ -1,0 +1,51 @@
+import { Meta } from '@storybook/addon-docs'
+
+<Meta title="Guides/Engineering guide" />
+
+# Engineering guide
+
+🚧 We have to discuss and improve this documentation.
+
+### What is a thing?
+
+Here, a “thing” is any*thing* that has _some meaning_ and needs _some consideration_ in the
+context of a design system.
+
+### Why call it “thing”?
+
+The main reason for talking of “things” rather than any less general term referring to a wide range of entities
+is that most common terms are already commonly used with specific meaning in the context of design systems,
+especially by stylesheet management methodologies, such as BEM, OOCSS, or ITCSS. We cannot use “block”, “element”, “object”, nor
+“component” because neither of these terms would describe all the entities we need to consider.
+
+Not everything is complex enough to be a _“component”_, or atomic enough to be an _“element”_.
+Some things are subatomic: _“tokens”_, and some are somewhere in between elements and components: _“objects”_.
+That's why we call everything a _thing_.
+
+## Classification guide
+
+The above taxonomy of _element_, _object_, _component_ etc. might sound familiar: For high-level categorization
+of things we borrow most of the wording from ITCSS as it is
+a really elaborate (while natural) and well-proven approach.
+
+### ITCSS
+
+The [Inverted Triangle CSS](https://www.creativebloq.com/web-design/manage-large-css-projects-itcss-101517528)
+approach suggests organizing styles in layers which build upon each other and reach from completely general to
+very specific scope. As [intended by its author](https://csswizardry.com/2018/11/itcss-and-skillshare/)
+_Harry Roberts_ there is no official documentation. However, the general idea is pretty clear, as it's more or
+less just a very thorough naming scheme for the most natural and sound way to organize (styling or any other)
+rules: [From general to specific](https://en.wikipedia.org/wiki/Hierarchy#Containment_hierarchy).
+
+We structure our code following our slightly adapted version of the ITCSS model:
+
+1. Tokens (originally Settings)
+2. Mixins (originally Tools)
+3. Generic
+4. Elements
+5. Components (originally Objects and Components where distinguished)
+6. Utilities
+
+> _Mixins_, _Generic_ und _Utilities_ are mostly relevant for Frontend Engineers. _Tokens_, _Elements_ and _Components_ are the parts where UX Design and Frontend Engineering work most overlaps.
+
+For more details see our [internal CSS Architecture documentation](https://github.com/betterplace/all_you_need_to_know/blob/main/conventions/frontend_coding_conventions.md#css-architecture-itcss).
