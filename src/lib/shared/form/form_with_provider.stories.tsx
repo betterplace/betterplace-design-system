@@ -2,7 +2,7 @@ import React, { ChangeEventHandler, useCallback, useState } from 'react'
 import { Meta, StoryObj } from '@storybook/react'
 import { useForm } from './use_form'
 import { Values, FieldValidatorFn, KeysMatching } from './types'
-import { JSONPrettyPrint } from '../../components'
+import { JSONPrettyPrint } from '../../../lib'
 import { FormProvider } from './form_context'
 import useFieldProps from './use_field_props/use_field_props'
 type FormValues = {

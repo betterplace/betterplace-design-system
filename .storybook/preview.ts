@@ -17,15 +17,14 @@ export const parameters: Parameters = {
       // needs to be inline, see https://github.com/storybookjs/storybook/issues/20883
       order: [
         'About the Design System',
-        'Foundations',
-        ['Design Principles', 'Experience Values'],
         'Guides',
-        ['Content guide', 'Accessibility guide', 'UX Design guide', 'Development guide', 'Testing guide'],
+        ['UX Design guide', 'Content guide', 'Accessibility guide', 'Development guide', 'Testing guide'],
         'Tokens',
         ['Introduction', 'Colors', 'Typography', 'Spacing', 'Grid', 'Breakpoints'],
         'Elements',
         'Components',
         'Hooks',
+        'Lib',
       ],
     },
   },

@@ -1,7 +1,7 @@
 import { ComponentStory } from '@storybook/react'
 import React from 'react'
 import { HookRenderHelper } from '../../../../helpers'
-import { JSONPrettyPrint } from '../../../components'
+import { JSONPrettyPrint } from '../../../../lib'
 import { UseFormProps, Values } from '../types'
 import { useForm } from './use_form'
 type Unhooked = <T extends Values>(props: UseFormProps<T>) => JSX.Element

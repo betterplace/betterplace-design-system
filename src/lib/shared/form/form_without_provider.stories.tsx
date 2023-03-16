@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { Meta, StoryObj } from '@storybook/react'
 import { useForm } from './use_form'
-import { JSONPrettyPrint } from '../../components'
+import { JSONPrettyPrint } from '../../../lib'
 type FormValues = { input2: string; input1: string }
 
 const FormWithoutProvider = (_: {}) => {
