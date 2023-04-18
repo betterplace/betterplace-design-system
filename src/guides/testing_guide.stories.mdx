@@ -11,41 +11,64 @@ import { Meta } from '@storybook/addon-docs'
 - Test with a **pointing device** (e.g. a computer mouse) and **touch device** to ensure interactive elements work.
 - Test responsiveness and touch usability on **mobile** devices.
 - **Zoom** in and out (ctrl +/-) and change the font size in your browser settings to ensure content is accessible outside your standard view.
-- Test with **only a keyboard** to ensure all content is accessible without using a pointing or touch device. ([Intro to keyboard testing](https://webaim.org/techniques/keyboard/))
-- Test with a **screen reader** (learn how below) to ensure all content is accessible and coherent when read aloud.
+- Test with **only a keyboard** (learn how below) to ensure all content is accessible without using a pointing or touch device.
+- Test with **screen readers** (learn how below) to ensure all content is accessible and coherent when read aloud.
 - If content changed / has been added: Read through the **content** to ensure everything is understandable.
 - If design changed / is new: Emulate **color vision deficiencies** (learn how below) to ensure content is distinguishable.
 
-### How to test with a screen reader
+### How to test with only a keyboard
 
-According to a [survey](https://webaim.org/projects/screenreadersurvey9/) conducted by WebAIM, more than 90% of screen reader users reported using a screen reader on Windows. The most popular screen readers are
+- Keyboard navigation has to be enabled manually on MacOS: https://support.apple.com/en-lb/guide/mac-help/mchlp1399/mac
+- [Intro to keyboard testing](https://webaim.org/techniques/keyboard/)
 
-- JAWS (Windows, can run in free demo mode for 40 minutes at a time)
-- NVDA (Windows, free) and
-- VoiceOver (Mac, free).
+### How to test with screen readers
 
-#### Basics
+#### Getting started
 
-- [Intro to using a screen reader](https://tetralogical.com/blog/2021/09/29/browsing-with-a-desktop-screen-reader/)
-- [Summary of screen reader testing on Android and iOS](https://developer.mozilla.org/en-US/docs/Learn/Accessibility/Mobile#summary_of_screen_reader_testing_on_android_and_ios)
+- [Browsing with a desktop screen reader](https://tetralogical.com/blog/2021/09/29/browsing-with-a-desktop-screen-reader/)
+- [Browsing with a mobile screen reader](https://tetralogical.com/blog/2021/10/05/browsing-with-a-mobile-screen-reader/)
+- [Introduction to screen reader usage](https://www.accessibility-developer-guide.com/knowledge/screen-readers/)
 
-#### How to test with JAWS (Windows)
+#### Which browser and screen reader pairings to test
 
-JAWS works best with Chrome and Firefox. When testing, pair it with Chrome.
+According to a [survey](https://webaim.org/projects/screenreadersurvey9/) conducted by WebAIM, more than 90% of screen reader users reported using a desktop screen reader on Windows.
 
-tbd
+The most popular **desktop screen readers** are
+
+- **JAWS** (Windows, can run in free demo mode for 40 minutes at a time)
+- **NVDA** (Windows, free) and
+- **VoiceOver** (MacOS, free).
+
+The by far most popular **mobile screen readers** is **VoiceOver on iOS/iPadOS**.
+
+Testing with screen readers work best when they are paired with the browsers they are the most compatible with.
+
+- JAWS works best with Chrome and Firefox. When testing, it should be paired with Chrome.
+- NVDA works best with and should be paired with Firefox.
+- VoiceOver (MacOS and iOS/iPadOS) works best with and should be paired with Safari.
+
+**At betterplace** we test with:
+
+- NVDA (Windows)
+- VoiceOver (iOS/iPadOS)
 
 #### How to test with NVDA (Windows)
 
-NVDA works best with (and should, therefore, be paired with) Firefox.
+As NVDA only runs on Windows, but we use Macs at betterplace, we have to either set up a virtual machine or use a service similar to BrowserStack or [AssistivLabs](https://assistivlabs.com/pricing).
 
-tbd
+- [NVDA Browse Mode](https://www.nvaccess.org/files/nvda/documentation/userGuide.html?#BrowseMode)
+- [NVDA Keyboard Shortcuts](https://dequeuniversity.com/screenreaders/nvda-keyboard-shortcuts)
 
-#### How to test with VoiceOver (Mac)
+#### How to test with VoiceOver (iOS/iPadOS)
 
-VoiceOver works best with (and should, therefore, be paired with) Safari.
+- [iPhone User Guide](https://support.apple.com/en-lb/guide/iphone/iph3e2e415f/ios)
+- [Summary of screen reader testing on iOS](https://developer.mozilla.org/en-US/docs/Learn/Accessibility/Mobile#ios_voiceover)
 
-tbd (No installation needed; some helpful settings can be made).
+#### How to test with other screen readers (optional)
+
+- [JAWS Keyboard Shortcuts](https://dequeuniversity.com/screenreaders/jaws-keyboard-shortcuts)
+- [VoiceOver (MacOS) User Guide](https://support.apple.com/en-lb/guide/voiceover/welcome/10/mac)
+- [VoiceOver (MacOS) Keyboard Shortcuts](https://dequeuniversity.com/screenreaders/voiceover-keyboard-shortcuts)
 
 ### How to test for color vision deficiencies
 
