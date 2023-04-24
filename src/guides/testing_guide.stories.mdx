@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/addon-docs'
 
-<Meta title="Guides/Testing guide" />
+<Meta title="Guides/Manual testing guide" />
 
 # Manual testing guide
 
@@ -9,9 +9,88 @@ import { Meta } from '@storybook/addon-docs'
 ## Testing accessibility
 
 - Test with a **pointing device** (e.g. a computer mouse) and **touch device** to ensure interactive elements work.
+- Test responsiveness and touch usability on **mobile** devices.
 - **Zoom** in and out (ctrl +/-) and change the font size in your browser settings to ensure content is accessible outside your standard view.
-- Test with **only a keyboard** to ensure all content is accessible without using a pointing or touch device. ([Intro to keyboard testing](https://webaim.org/techniques/keyboard/))
-- Test with a **screen reader** to ensure all content is accessible and coherent when read aloud. ([Intro to using a screen reader](https://tetralogical.com/blog/2021/09/29/browsing-with-a-desktop-screen-reader/))
+- Test with **only a keyboard** (learn how below) to ensure all content is accessible without using a pointing or touch device.
+- Test with **screen readers** (learn how below) to ensure all content is accessible and coherent when read aloud.
 - If content changed / has been added: Read through the **content** to ensure everything is understandable.
-- If design changed / new: Emulate **color vision deficiencies** to ensure content is distinguishable.
-- Test responsiveness and touch usability on **mobile** devices ([Intro to mobile accessibility](https://developer.mozilla.org/en-US/docs/Learn/Accessibility/Mobile)).
+- If design changed / is new: Emulate **color vision deficiencies** (learn how below) to ensure content is distinguishable.
+
+### How to test with only a keyboard
+
+- Browser keyboard navigation has to be enabled manually on MacOS: https://www.a11yproject.com/posts/macos-browser-keyboard-navigation/
+- [Intro to keyboard testing](https://webaim.org/techniques/keyboard/)
+- [Browsing with a keyboard](https://tetralogical.com/blog/2021/10/26/browsing-with-a-keyboard/)
+
+### How to test with screen readers
+
+#### Getting started
+
+- [Browsing with a desktop screen reader](https://tetralogical.com/blog/2021/09/29/browsing-with-a-desktop-screen-reader/)
+- [Browsing with a mobile screen reader](https://tetralogical.com/blog/2021/10/05/browsing-with-a-mobile-screen-reader/)
+- [Introduction to screen reader usage](https://www.accessibility-developer-guide.com/knowledge/screen-readers/)
+
+#### Which browser and screen reader pairings to test
+
+According to a [survey](https://webaim.org/projects/screenreadersurvey9/) conducted by WebAIM, more than 90% of screen reader users reported using a desktop screen reader on Windows.
+
+The most popular **desktop screen readers** are
+
+- **JAWS** (Windows, can run in free demo mode for 40 minutes at a time)
+- **NVDA** (Windows, free) and
+- **VoiceOver** (MacOS, free).
+
+The by far most popular **mobile screen readers** is **VoiceOver on iOS/iPadOS**.
+
+Testing with screen readers work best when they are paired with the browsers they are the most compatible with.
+
+- JAWS works best with Chrome and Firefox. When testing, it should be paired with Chrome.
+- NVDA works best with and should be paired with Firefox.
+- VoiceOver (MacOS and iOS/iPadOS) works best with and should be paired with Safari.
+
+**At betterplace** we test with:
+
+- NVDA (Windows)
+- VoiceOver (iOS/iPadOS)
+
+#### How to test with NVDA (Windows)
+
+As NVDA only runs on Windows, but we use Macs at betterplace, we have to either set up a [virtual machine](https://dequeuniversity.com/mac/windows-screen-readers) or use a service similar to BrowserStack or [AssistivLabs](https://assistivlabs.com/pricing).
+
+- [NVDA Browse Mode](https://www.nvaccess.org/files/nvda/documentation/userGuide.html?#BrowseMode)
+- [NVDA Keyboard Shortcuts](https://dequeuniversity.com/screenreaders/nvda-keyboard-shortcuts)
+
+#### How to test with VoiceOver (iOS/iPadOS)
+
+- [iPhone User Guide](https://support.apple.com/en-lb/guide/iphone/iph3e2e415f/ios)
+- [Summary of screen reader testing on iOS](https://developer.mozilla.org/en-US/docs/Learn/Accessibility/Mobile#ios_voiceover)
+
+#### How to test with other screen readers (optional)
+
+- [JAWS Keyboard Shortcuts](https://dequeuniversity.com/screenreaders/jaws-keyboard-shortcuts)
+- [VoiceOver (MacOS) User Guide](https://support.apple.com/en-lb/guide/voiceover/welcome/10/mac)
+- [VoiceOver (MacOS) Keyboard Shortcuts](https://dequeuniversity.com/screenreaders/voiceover-keyboard-shortcuts)
+
+### How to test for color vision deficiencies
+
+#### In Firefox
+
+- Open _Accessibility_ panel.
+- Choose from a selection of different color vision deficiencies in the _Simulate_ drop-down.
+
+<img
+  src="color_vision_deficiencies_settings_firefox.png"
+  alt="Color vision deficiencies settings in Firefox"
+  width="50%"
+/>
+
+#### In Chrome
+
+- Open the _Rendering_ panel (either use the command menu and type _rendering_ or use the three-dot menu in the top-right corner of the screen and go to _More Tools_ to find it).
+- Choose from a selection of different color vision deficiencies in the _Emulate vision deficiencies_ drop-down.
+
+<img
+  src="color_vision_deficiencies_settings_chrome.png"
+  alt="Color vision deficiencies settings in Chrome"
+  width="50%"
+/>
