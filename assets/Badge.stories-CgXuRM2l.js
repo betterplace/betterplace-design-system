@@ -1,0 +1,5 @@
+import{j as c}from"./jsx-runtime-BlAj40OV.js";import{c as i}from"./index-Bl6ORisp.js";import"./index-Cs7sjTYM.js";import"./_commonjsHelpers-BosuxZz1.js";const d="_container_n16ki_1",u="_neutral_n16ki_20",l="_success_n16ki_25",t={container:d,default:"_default_n16ki_14",neutral:u,success:l};function p({kind:a="default",children:o}){return c.jsx("div",{className:i(t.container,t[a]),children:o})}const x={title:"Components/Badge",component:p,argTypes:{kind:{options:["default","neutral","success"],control:{type:"radio"},description:"Applies specific design",table:{defaultValue:{summary:"default"},type:{summary:"BadgeKind | undefined"}}},children:{control:{type:"text"},description:"Text content to be rendered"}}},e={args:{children:"Badge content"}};var n,s,r;e.parameters={...e.parameters,docs:{...(n=e.parameters)==null?void 0:n.docs,source:{originalSource:`{
+  args: {
+    children: 'Badge content'
+  }
+}`,...(r=(s=e.parameters)==null?void 0:s.docs)==null?void 0:r.source}}};const y=["Default"];export{e as Default,y as __namedExportsOrder,x as default};

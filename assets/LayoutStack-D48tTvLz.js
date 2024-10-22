@@ -1,0 +1,1 @@
+import{j as r}from"./jsx-runtime-BlAj40OV.js";import{c as n}from"./index-Bl6ORisp.js";const o="_stack_1lqfh_1",i={stack:o};function k({as:t="div",className:a,style:c,space:e="200",...s}){return r.jsx(t,{...s,className:n(i.stack,a),style:{...c,"--space":`var(--betterplace-spacing-${e})`},children:s.children})}export{k as L};

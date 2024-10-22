@@ -1,0 +1,1 @@
+import{j as a}from"./jsx-runtime-BlAj40OV.js";import{c as r}from"./index-Bl6ORisp.js";const c="_link_1cpqf_1",e="_onColor_1cpqf_23",o={link:c,default:"_default_1cpqf_12",onColor:e};function _({kind:s="default",children:n,className:t,...l}){return a.jsx("a",{...l,className:r(o.link,o[`${s}`],t),children:n})}export{_ as T};

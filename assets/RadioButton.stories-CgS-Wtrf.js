@@ -1,0 +1,5 @@
+import{R as a}from"./ClientRadioButton-CkU7Vt6e.js";import"./jsx-runtime-BlAj40OV.js";import"./index-Cs7sjTYM.js";import"./_commonjsHelpers-BosuxZz1.js";import"./index-Bl6ORisp.js";import"./preventDefault-CIaEEaQs.js";const c={title:"Components/RadioButton",component:a,parameters:{docs:{description:{component:"Radiobutton component with custom betterplace styling. Radiobuttons should always be grouped within a `Fieldset` component."}}},argTypes:{children:{control:{type:"text"},description:"Label text for the radio button.",table:{type:{summary:"string"}}},disabled:{control:{type:"boolean"},description:"Whether or not the radio button is disabled.",table:{defaultValue:{summary:"false"}}}}},t={args:{children:"Radio label"}};var o,e,r;t.parameters={...t.parameters,docs:{...(o=t.parameters)==null?void 0:o.docs,source:{originalSource:`{
+  args: {
+    children: 'Radio label'
+  }
+}`,...(r=(e=t.parameters)==null?void 0:e.docs)==null?void 0:r.source}}};const m=["Default"];export{t as Default,m as __namedExportsOrder,c as default};

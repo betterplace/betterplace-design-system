@@ -1,0 +1,1 @@
+import{j as r}from"./jsx-runtime-BlAj40OV.js";const t=({token:e})=>r.jsx("div",{style:{background:"var(--betterplace-color-purple-400)",blockSize:"var(--betterplace-sizing-400)",inlineSize:`var(--${e.name})`}});export{t as D};

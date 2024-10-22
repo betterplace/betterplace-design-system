@@ -1,0 +1,1 @@
+import{j as o}from"./jsx-runtime-BlAj40OV.js";import{c as r}from"./index-Bl6ORisp.js";const c="_container_1yuy9_1",e={container:c},i=({as:s="div",className:t,children:a,...n})=>o.jsx(s,{...n,className:r(e.container,t),children:a}),x=i;export{x as C};

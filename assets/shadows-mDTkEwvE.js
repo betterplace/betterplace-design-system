@@ -1,0 +1,7 @@
+import{j as e}from"./jsx-runtime-BlAj40OV.js";import{useMDXComponents as a}from"./index-BI1Biiay.js";import{ae as m}from"./index-MGWx0JLu.js";import"./index-Cs7sjTYM.js";import{B as h}from"./BoxShadowPreview-Dn55OzGr.js";import{F as d}from"./FluidityHint-CaQrXXn1.js";import{T as n,g as r}from"./TokenTable-D3vO-9ze.js";import"./index-Bl6ORisp.js";import"./iframe-BvGR7V1Z.js";import"../sb-preview/runtime.js";import"./index-BU4L-DQy.js";import"./_commonjsHelpers-BosuxZz1.js";import"./index-D-8MO0q_.js";import"./index-nrpnv_Jx.js";import"./index-DrFu-skq.js";import"./core-Drm9bBME.js";import"./semantic-BrXw8HCe.js";const p=({token:t})=>e.jsx("div",{style:{fontSize:"var(--betterplace-font-size-0)",fontFamily:"var(--betterplace-font-families-fira-sans)",maxInlineSize:"30rem",lineHeight:"var(--betterplace-line-heights-base)",textShadow:`var(--${t.name})`},children:"Lorem"});function i(t){const o={h1:"h1",h2:"h2",...a(),...t.components};return e.jsxs(e.Fragment,{children:[e.jsx(m,{title:"Tokens/Shadows"}),`
+`,e.jsx(o.h1,{id:"shadows",children:"Shadows"}),`
+`,e.jsx(d,{}),`
+`,e.jsx(o.h2,{id:"box-shadows-drop-shadows",children:"Box shadows (Drop shadows)"}),`
+`,e.jsx(n,{tokens:r("betterplace-shadow","semantic","betterplace-shadow-[^text].*"),preview:s=>e.jsx(h,{token:s})}),`
+`,e.jsx(o.h2,{id:"text-shadows",children:"Text shadows"}),`
+`,e.jsx(n,{tokens:r("betterplace-shadow-text","semantic"),preview:s=>e.jsx(p,{token:s})})]})}function z(t={}){const{wrapper:o}={...a(),...t.components};return o?e.jsx(o,{...t,children:e.jsx(i,{...t})}):i(t)}export{z as default};
