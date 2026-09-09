@@ -1,0 +1,4 @@
+import{j as t}from"./jsx-runtime-u17CrQMm.js";import{useMDXComponents as i}from"./index-DHOJhGSV.js";import{M as s}from"./blocks-qD1qt790.js";import"./compiler-runtime-BztlXLJS.js";import"./iframe-K_OwPEhI.js";import{D as m}from"./DimensionPreview-DCSoMnNS.js";import{F as a}from"./FluidityHint-CeAmasZn.js";import{T as p,g as c}from"./TokenTable-DpU8IjSx.js";import"./index-CL1aUomK.js";import"./preload-helper-PPVm8Dsz.js";import"./index-CQksqrAn.js";import"./index-DxRQN4t8.js";import"./semantic-CNF0AfQW.js";function e(n){const o={h1:"h1",...i(),...n.components};return t.jsxs(t.Fragment,{children:[t.jsx(s,{title:"Tokens/Spacing"}),`
+`,t.jsx(o.h1,{id:"spacing",children:"Spacing"}),`
+`,t.jsx(a,{}),`
+`,t.jsx(p,{sorted:!0,tokens:c("betterplace-spacing","semantic"),preview:r=>t.jsx(m,{token:r})})]})}function C(n={}){const{wrapper:o}={...i(),...n.components};return o?t.jsx(o,{...n,children:t.jsx(e,{...n})}):e(n)}export{C as default};

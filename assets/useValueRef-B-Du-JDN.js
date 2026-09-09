@@ -1,0 +1,1 @@
+import{c}from"./compiler-runtime-BztlXLJS.js";import{r as f}from"./iframe-K_OwPEhI.js";const n=typeof window<"u"?f.useLayoutEffect:f.useEffect;function m(e){const t=c.c(3),s=f.useRef(e);let o,r;return t[0]!==e?(o=()=>{s.current=e},r=[e],t[0]=e,t[1]=o,t[2]=r):(o=t[1],r=t[2]),n(o,r),s}export{m as u};

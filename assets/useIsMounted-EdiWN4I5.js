@@ -1,0 +1,1 @@
+import{c as n}from"./compiler-runtime-BztlXLJS.js";import{r}from"./iframe-K_OwPEhI.js";function a(){const e=n.c(2),[s,c]=r.useState(!1);let t,o;return e[0]===Symbol.for("react.memo_cache_sentinel")?(t=()=>{c(!0)},o=[],e[0]=t,e[1]=o):(t=e[0],o=e[1]),r.useEffect(t,o),s}export{a as u};

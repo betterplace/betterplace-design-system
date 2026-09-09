@@ -1,0 +1,1 @@
+function o(t){return t.toUpperCase()}function r(){const t=new WeakSet;return(e,n)=>{if(!(typeof Node=="function"&&n instanceof Node)){if(typeof n=="object"&&n!==null){if(t.has(n))return;t.add(n)}return n}}}function i(t,e=2){return JSON.stringify(t,r(),e)}export{i as s,o as t};

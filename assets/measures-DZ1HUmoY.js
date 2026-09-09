@@ -1,0 +1,4 @@
+import{j as t}from"./jsx-runtime-u17CrQMm.js";import{useMDXComponents as r}from"./index-DHOJhGSV.js";import{M as i}from"./blocks-qD1qt790.js";import"./compiler-runtime-BztlXLJS.js";import"./iframe-K_OwPEhI.js";import{D as m}from"./DimensionPreview-DCSoMnNS.js";import{F as a}from"./FluidityHint-CeAmasZn.js";import{T as p,g as c}from"./TokenTable-DpU8IjSx.js";import"./index-CL1aUomK.js";import"./preload-helper-PPVm8Dsz.js";import"./index-CQksqrAn.js";import"./index-DxRQN4t8.js";import"./semantic-CNF0AfQW.js";function n(e){const o={h1:"h1",...r(),...e.components};return t.jsxs(t.Fragment,{children:[t.jsx(i,{title:"Tokens/Measures"}),`
+`,t.jsx(o.h1,{id:"measures",children:"Measures"}),`
+`,t.jsx(a,{}),`
+`,t.jsx(p,{tokens:c("betterplace-measure","semantic"),preview:s=>t.jsx(m,{token:s})})]})}function C(e={}){const{wrapper:o}={...r(),...e.components};return o?t.jsx(o,{...e,children:t.jsx(n,{...e})}):n(e)}export{C as default};

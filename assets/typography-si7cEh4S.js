@@ -1,0 +1,4 @@
+import{j as t}from"./jsx-runtime-u17CrQMm.js";import{useMDXComponents as n}from"./index-DHOJhGSV.js";import{M as m}from"./blocks-qD1qt790.js";import"./compiler-runtime-BztlXLJS.js";import"./iframe-K_OwPEhI.js";import{F as p}from"./FluidityHint-CeAmasZn.js";import{T as s,g as a}from"./TokenTable-DpU8IjSx.js";import"./index-CL1aUomK.js";import{T as c}from"./TypographyPreview-CcCLAFWl.js";import"./preload-helper-PPVm8Dsz.js";import"./index-CQksqrAn.js";import"./index-DxRQN4t8.js";import"./semantic-CNF0AfQW.js";function r(o){const e={h1:"h1",...n(),...o.components};return t.jsxs(t.Fragment,{children:[t.jsx(m,{title:"Tokens/Typography"}),`
+`,t.jsx(e.h1,{id:"typography",children:"Typography"}),`
+`,t.jsx(p,{}),`
+`,t.jsx(s,{sorted:!0,tokens:a("betterplace-typography","semantic"),preview:i=>t.jsx(c,{token:i})})]})}function w(o={}){const{wrapper:e}={...n(),...o.components};return e?t.jsx(e,{...o,children:t.jsx(r,{...o})}):r(o)}export{w as default};

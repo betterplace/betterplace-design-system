@@ -1,0 +1,1 @@
+import{s as c}from"./semantic-CNF0AfQW.js";const f=Object.keys({...c});function i(t){const o=`${t}-`,s=[];for(const e of f){if(!e.startsWith(t))continue;const n=e.replace(o,"");s.push(n)}return s}export{i as g};

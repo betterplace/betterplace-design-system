@@ -1,0 +1,1 @@
+import{j as c}from"./jsx-runtime-u17CrQMm.js";import{c as m}from"./index-CL1aUomK.js";const d="_skeleton_17wk3_1",i="_dark_17wk3_13",s={skeleton:d,dark:i};function x({as:e="div",width:t,height:o,borderRadius:a,style:n,className:r,dark:k,...l}){return c.jsx(e,{className:m(s.skeleton,r,{[s.dark]:k}),style:{width:t,height:o,borderRadius:a,...n},...l})}export{x as L};

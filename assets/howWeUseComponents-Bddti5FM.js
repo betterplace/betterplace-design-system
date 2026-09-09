@@ -1,0 +1,3 @@
+import{j as n}from"./jsx-runtime-u17CrQMm.js";import{useMDXComponents as s}from"./index-DHOJhGSV.js";import{M as r}from"./blocks-qD1qt790.js";import"./iframe-K_OwPEhI.js";import"./preload-helper-PPVm8Dsz.js";import"./index-CQksqrAn.js";import"./index-DxRQN4t8.js";function e(o){const t={h1:"h1",p:"p",...s(),...o.components};return n.jsxs(n.Fragment,{children:[n.jsx(r,{title:"Components/How we use components"}),`
+`,n.jsx(t.h1,{id:"how-we-use-components",children:"How we use components"}),`
+`,n.jsx(t.p,{children:"🚧"})]})}function h(o={}){const{wrapper:t}={...s(),...o.components};return t?n.jsx(t,{...o,children:n.jsx(e,{...o})}):e(o)}export{h as default};

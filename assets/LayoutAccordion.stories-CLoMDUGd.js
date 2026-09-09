@@ -1,0 +1,13 @@
+import{j as t}from"./jsx-runtime-u17CrQMm.js";import{c as u}from"./compiler-runtime-BztlXLJS.js";import{r as f}from"./iframe-K_OwPEhI.js";import{L as p,a as d}from"./LayoutAccordion-CRSR5tSK.js";import"./preload-helper-PPVm8Dsz.js";import"./index-CL1aUomK.js";import"./Icon-x1z4PGh0.js";import"./index-CQksqrAn.js";import"./index-DxRQN4t8.js";import"./PopupContext-Bx01joXm.js";import"./LayoutStack-qOFlLSRJ.js";const x={1:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",2:"Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",3:"Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."},m=o=>{const e=u.c(2),{id:r}=o,n=x[r];let i;return e[0]!==n?(i=t.jsx("div",{children:t.jsx("p",{children:n})}),e[0]=n,e[1]=i):i=e[1],i};function g(o){const e=u.c(6),[r,n]=f.useState(o.activeKey??o.defaultKey);let i;e[0]===Symbol.for("react.memo_cache_sentinel")?(i=t.jsx(d,{id:"1",label:"Section 1",onClick:n,children:t.jsx(m,{id:"1"},"1")}),e[0]=i):i=e[0];let s;e[1]===Symbol.for("react.memo_cache_sentinel")?(s=t.jsx(d,{id:"2",label:"Section 2",onClick:n,children:t.jsx(m,{id:"2"})},"2"),e[1]=s):s=e[1];let a;e[2]===Symbol.for("react.memo_cache_sentinel")?(a=t.jsx(d,{id:"3",label:"Section 3",onClick:n,children:t.jsx(m,{id:"3"})},"3"),e[2]=a):a=e[2];let c;return e[3]!==o||e[4]!==r?(c=t.jsxs(p,{...o,activeKey:r,children:[i,s,a]}),e[3]=o,e[4]=r,e[5]=c):c=e[5],c}const l={args:{activeKey:"2",defaultKey:"1",onTransitionFinished:(o,e)=>{console.log("Transition finished:",{next:o,previous:e})}},render:o=>t.jsx(g,{...o})},A={title:"Components/Layout components/LayoutAccordion",component:p,tags:["autodocs"],args:{activeKey:"2",defaultKey:"2",onTransitionEnd:console.log}};l.parameters={...l.parameters,docs:{...l.parameters?.docs,source:{originalSource:`{
+  args: {
+    activeKey: '2',
+    defaultKey: '1',
+    onTransitionFinished: (next: string, previous: string | undefined) => {
+      console.log('Transition finished:', {
+        next,
+        previous
+      });
+    }
+  },
+  render: args => <AccordionContentComponent {...args} />
+}`,...l.parameters?.docs?.source}}};const E=["Default"];export{l as Default,E as __namedExportsOrder,A as default};

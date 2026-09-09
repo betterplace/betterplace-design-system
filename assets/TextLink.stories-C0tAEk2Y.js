@@ -1,0 +1,6 @@
+import{j as a}from"./jsx-runtime-u17CrQMm.js";import{c as l}from"./compiler-runtime-BztlXLJS.js";import{T as c}from"./TextLink-Bnp40fj4.js";import"./iframe-K_OwPEhI.js";import"./preload-helper-PPVm8Dsz.js";import"./index-CL1aUomK.js";function p(o){const e=l.c(7),s=`${o.kind==="onColor"?"var(--betterplace-manage-color-bg-primary)":"var(--betterplace-color-bg-subtle)"} `;let t;e[0]!==s?(t={padding:"var(--betterplace-spacing-100)",background:s},e[0]=s,e[1]=t):t=e[1];let r;e[2]!==o?(r=a.jsx(c,{...o}),e[2]=o,e[3]=r):r=e[3];let n;return e[4]!==t||e[5]!==r?(n=a.jsx("div",{style:t,children:r}),e[4]=t,e[5]=r,e[6]=n):n=e[6],n}const b={title:"Components/TextLink",component:p,argTypes:{kind:{options:["default","onColor"],control:{type:"radio"},description:"Applies specific design",table:{defaultValue:{summary:"default"}}},href:{description:"Link target",table:{type:{summary:"string"}},control:!1},children:{control:!1,description:"Text content to be rendered"}}},i={args:{children:"Link text",href:"#"}};i.parameters={...i.parameters,docs:{...i.parameters?.docs,source:{originalSource:`{
+  args: {
+    children: 'Link text',
+    href: '#'
+  }
+}`,...i.parameters?.docs?.source}}};const k=["Default"];export{i as Default,k as __namedExportsOrder,b as default};

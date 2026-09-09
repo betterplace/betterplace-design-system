@@ -1,0 +1,1 @@
+import{j as s}from"./jsx-runtime-u17CrQMm.js";import{c as n}from"./compiler-runtime-BztlXLJS.js";const l=o=>{const e=n.c(2),{token:i}=o,r=`var(--${i.name})`;let t;return e[0]!==r?(t=s.jsx("div",{style:{background:r,blockSize:"var(--betterplace-sizing-800)",inlineSize:"var(--betterplace-sizing-800)"}}),e[0]=r,e[1]=t):t=e[1],t};export{l as C};
